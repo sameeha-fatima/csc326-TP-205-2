@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Inventory</title>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/app.css" />
+<style>
+input.ng-valid {
+	background-color: lightgreen;
+}
+
+input.ng-dirty.ng-invalid-required,input.ng-dirty.ng-invalid-number {
+	background-color: red;
+}
+
+input.ng-dirty.ng-invalid-min {
+	background-color: yellow;
+}
+
+
+</style>
+</head>
+
+<body>
+	<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+	
+	<script>
+		/*<![CDATA[*/
+		var app = angular.module('myApp', []);
+		app.controller('inventoryCtrl', function($scope, $http) {
+		
+			// get list of ingredients added so far
+			$scope.ingredients;
+	        function updateIngredients() {
+	          $http.get("/api/v1/ingredients").then(function (response) {
+	            $scope.ingredients = response.data;
+	             //console.log(response.data);
+	             //console.log($scope.ingredients.length);
+	             //console.log(Array.isArray($scope.ingredients));
+	          });
+	        }
+        
+        	updateIngredients();
+
+			// get list of ingredients currently in inventory
+			$scope.getInventory = function() {
+				$http.get("/api/v1/inventory").then(function(response) {
+					$scope.inventoryOriginal = response.data;
+					$scope.newInventory = response.data;
+				}, function(rejection) {
+					console.error("Error while getting Inventory");
+				})
+			}
+			
+			$scope.getInventory();
+			console.log($scope.ingredients);
+			//console.log($scope.originalInventory.ingredients);
+			//getIngredients();
+			//$scope.newInventory = {ingredients: []};
+			//$scope.newInventory.ingredients = $scope.inventoryOriginal.ingredients;
+			//console.log($scope.newIngredients);
+			
+			$scope.updateInventory = function() {
+				$scope.success = false;
+				$scope.failure = false;
+				//console.log($scope.inventoryOriginal.ingredients);
+				$scope.newInventory.ingredients = $scope.ingredients;
+				//console.log($scope.newInventory);
+				$http.put("/api/v1/inventory", $scope.newInventory).then(
+						function(response) {
+							$scope.getInventory();
+						}, function(rejection) {
+							$scope.failure = true;
+							$scope.success = false;
+							console.error("Error while updating Inventory!");
+						});
+				$scope.success = !($scope.failure);
+			}
+
+			$scope.submit = function() {
+				$scope.updateInventory();
+				$scope.reset();
+			}
+
+			
+			
+			$scope.reset = function() {
+				$scope.inventory = [];
+
+				if (undefined != $scope.addInventoryForm) {
+					$scope.addInventoryForm.$setPristine(); //reset Form
+				}
+			}
+
+			$scope.reset();
+
+		});
+		/*]]>*/
+	</script>
+
+
+	
+	<div class="generic-container ng-cloak" ng-app="myApp"
+		ng-controller="inventoryCtrl as ctrl" style="position: relative">
+		<nav
+          style="
+            background-color: #b9a184;
+            padding: 10px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+          "
+        >
+          <a href="/index"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="black"
+              class="bi bi-list"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+              /></svg
+          ></a>
+        </nav>
+        <!-- Heading to indicate the purpose / function of the page -->
+        <h1 style="margin: 50px 0 50px 15px">Update Inventory</h1>
+        
+		<div>
+			<h2 class="lead">View Inventory</h2>
+			
+			<div ng-repeat="ingredient in newInventory.ingredients track by $index" style="margin: 15px">
+				{{ingredient.name}}: <span id={{ingredient.name}} ng-bind={{ingredient.amount}}></span><br />
+			</div>
+			
+			<div>
+				<h2 class="lead">Update Inventory Form </h2>
+			</div>
+			<div>
+				<form ng-submit="submit()" name="addInventoryForm"
+					class>
+					
+					<div ng-repeat="ingredient in ingredients track by $index">
+						<div class="row">
+							<label class="col-md-2 control-lable" for="file" style="margin-left: 15px">{{ingredient.name}}</label>
+							<div class="col-md-7">
+								<input type="number" ng-model="ingredient.amount" name={{ingredient.name}}
+									class="form-control input-sm"
+									 required="0" min="0"/>
+								<!--  
+								<div class="has-error" ng-show="addInventoryForm.$dirty">
+									<span ng-show={"addInventoryForm." + {{ingredient.name}} + ".error.required"}>This
+										is a required field.</span> <span
+										ng-show={"addInventoryForm." + {{ingredient.name}} + ".error.,"}>Minimum
+										amount is 0.</span> <span ng-show="addInventoryForm.coffee.$invalid">This
+										field is invalid.</span>
+								</div>
+								-->
+							</div>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="form-actions floatRight">
+							<input type="submit" value="Submit"
+								class="btn btn-primary btn-sm"
+								ng-disabled="addInventoryForm.$invalid" />
+							<button type="button" ng-click="reset()"
+								class="btn btn-warning btn-sm"
+								ng-disabled="addInventoryForm.$pristine">Reset Form</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div ng-show="success">Inventory Successfully Updated</div>
+			<div ng-show="failure">Error while updating inventory.</div>
+		</div>
+		<!-- Link will allow users to transfer to Add Ingredients page (evmurphy) -->
+          <a
+            href="/addingredients"
+            class="btn btn-warning btn-sm"
+            style="
+              border-radius: 20px;
+              background: #d5c0a8;
+              border-color: transparent;
+              padding: 10px 25px 10px 25px;
+              box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+              color: black;
+              position: absolute;
+              right: 75px;
+              bottom: 325px;
+              width: 150px;
+            "
+          >
+            Add Ingredient
+          </a>
+		<a href="/index">Home</a>
+	</div>
+
+
+
+</body>
+</html>
