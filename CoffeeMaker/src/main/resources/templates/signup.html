@@ -1,10 +1,10 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Recipe</title>
+    <title>Login</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/app.css" />
   </head>
@@ -87,6 +87,119 @@
       ></a>
     </nav>
     <h1 style="margin: 50px 0 50px 15px">Signup</h1>
+    <span>
+        <!-- Form which handles the creation of an Ingredient object (evmurphy) -->
+        <form
+          style="margin: 10px 10px 10px 0px"
+          ng-submit="submit()"
+          name="addIngredientForm"
+          class="form-horizontal"
+        >
+          <label
+            for="ingredient_name"
+            style="
+              display: inline-block;
+              width: 150px;
+              margin-right: 30px;
+              margin-left: 15px;
+              text-align: left;
+            "
+            >Username:</label
+          >
+          <br />
+          <input
+            type="text"
+            id="ingredient_name"
+            ng-model="ingredient.name"
+            placeholder="Enter username"
+            style="
+              margin: 10px 10px 10px 0px;
+              display: inline;
+              vertical-align: middle;
+              border-radius: 5px;
+              border-width: 1px;
+            "
+            required="true"
+          />
+          <br />
+          <span>
+        <!-- Form which handles the creation of an Ingredient object (evmurphy) -->
+        <form
+          style="margin: 10px 10px 10px 0px"
+          ng-submit="submit()"
+          name="addIngredientForm"
+          class="form-horizontal"
+        >
+          <label
+            for="ingredient_name"
+            style="
+              display: inline-block;
+              width: 150px;
+              margin-right: 30px;
+              margin-left: 15px;
+              text-align: left;
+            "
+            >Password:</label
+          >
+          <br />
+          <input
+            type="text"
+            id="ingredient_name"
+            ng-model="ingredient.name"
+            placeholder="Enter password"
+            style="
+              margin: 10px 10px 10px 0px;
+              display: inline;
+              vertical-align: middle;
+              border-radius: 5px;
+              border-width: 1px;
+            "
+            required="true"
+          />
+          <br />
+          <label for="cars">Choose a role:</label>
+
+<select name="role" id="role">
+	<option value="">Select Role</option>
+  <option value="customer">Customer</option>
+  <option value="staff">Staff</option>
+</select>
+<br />
+   
+   				<button
+                  type="button"
+                  ng-click="reset()"
+                  class="btn btn-warning btn-sm"
+                  ng-disabled="addRecipeForm.$pristine"
+                  style="
+                    border-radius: 20px;
+                    background: #81d58a;
+                    border-color: transparent;
+                    padding: 10px 25px 10px 25px;
+                    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+                    color: black;
+                  "
+                >
+                  Sign Up
+                </button>
+                <br />
+                
+                <button
+                  type="button"
+                  ng-click="reset()"
+                  class="btn btn-warning btn-sm"
+                  ng-disabled="addRecipeForm.$pristine"
+                  style="
+                    border-radius: 20px;
+                    background: #81d58a;
+                    border-color: transparent;
+                    padding: 10px 25px 10px 25px;
+                    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+                    color: black;
+                  "
+                >
+                  Log In
+                </button>
     <div>
         <form ng-submit="submit()">
         
