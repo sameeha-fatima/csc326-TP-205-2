@@ -47,6 +47,19 @@ public class APIUserController extends APIController {
     }
 
     public ResponseEntity login ( final User user ) {
+        final User foundUser = userService.findByName( user.getUsername() );
+        if ( null == user ) {
+            new ResponseEntity( errorResponse( "No User found for username " + user.getUsername() ),
+                    HttpStatus.NOT_FOUND );
+        }
+        else {
+            final String inputPasswrd = user.getPassowrd();
+            if ( inputPasswrd.equals( foundUser.getPassowrd() ) ) {
+                return new ResponseEntity( user, HttpStatus.OK );
+            }
+            return new ResponseEntity( errorResponse( "Password is incorrect " + e.getMessage() ),
+                    HttpStatus.BAD_REQUEST );
+        }
 
     }
 
