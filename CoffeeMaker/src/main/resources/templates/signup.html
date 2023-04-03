@@ -17,33 +17,32 @@
         var app = angular.module("myApp", []);
         app.controller("signupCtrl", function ($scope, $http, $q) {
         $scope.reset = function () {
-            $scope.account = '';
-                if (undefined != $scope.addRecipeForm) {
-                    $scope.addRecipeForm.$setPristine(); // reset Form
+            $scope.user = '';
+                if (undefined != $scope.signUpForm) {
+                    $scope.signUpForm.$setPristine(); // reset Form
                 }
+        };
+        
+        $scope.user = {
+        	username: "",
+        	password: "",
+        	userrole: ""
         };
         
         function submit() {
             $scope.success = false;
             $scope.failure = false;
-            if($scope.account == null)
-                console.error("User is null");
-            else {
-                /*go back and update with whatever user object fields are in order*/
-                $scope.newAccount = {type: $scope.account.name, 
-                        username: $scope.username, 
-                        password: $scope.password};
-                $http.put("/api/v1/users", $scope.newAccount).then(
-                        function (success) {
-                            $scope.success = true;
-                            $scope.failure = false;
-                        },
-                        function (rejection) {
-                          console.error("Error while adding recipe");
-                        }
-                );
-            }
-        }
+            $http.put("/api/v1/users", $scope.newAccount).then(
+            	function (success) {
+                	$scope.success = true;
+                    $scope.failure = false;
+                },
+                function (rejection) {
+                    console.error("Error while adding recipe");
+                }
+            );
+            
+        };
         $scope.reset();
         });
         /*]]>*/
