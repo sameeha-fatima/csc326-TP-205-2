@@ -15,7 +15,7 @@
     <script>
     	/*<![CDATA[*/
         var app = angular.module("myApp", []);
-        
+        app.controller("signupCtrl", function ($scope, $http, $q) {
         $scope.reset = function () {
             $scope.account = '';
                 if (undefined != $scope.addRecipeForm) {
@@ -52,7 +52,7 @@
     
     class="generic-container ng-cloak"
     ng-app="myApp"
-    ng-controller="recipeCtrl as ctrl"
+    ng-controller="signupCtrl as ctrl"
     style="
       font-family: 'Times New Roman', Times, serif;
       font-size: 15px;
@@ -90,6 +90,7 @@
     <div>
         <form ng-submit="submit()">
         
-    
+        </form>
+    </div>
   </body>
 </html>
