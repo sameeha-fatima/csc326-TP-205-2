@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import edu.ncsu.csc.CoffeeMaker.models.User;
+import edu.ncsu.csc.CoffeeMaker.services.UserService;
+
 public class APIUserController extends APIController {
 
     @Autowired
@@ -19,7 +22,7 @@ public class APIUserController extends APIController {
     }
 
     @PostMapping ( BASE_PATH + "/users" )
-    public ResponseEntity createUser ( @RequestBody final UserForm userF ) {
+    public ResponseEntity createUser ( @RequestBody final User user ) {
 
     }
 
