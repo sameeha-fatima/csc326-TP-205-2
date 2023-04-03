@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -16,34 +16,35 @@
     	/*<![CDATA[*/
         var app = angular.module("myApp", []);
         app.controller("signupCtrl", function ($scope, $http, $q) {
+            $scope.user = {
+                userType = "",
+                username = "",
+                password = ""
+            };
         $scope.reset = function () {
-            $scope.account = '';
-                if (undefined != $scope.addRecipeForm) {
-                    $scope.addRecipeForm.$setPristine(); // reset Form
-                }
+            $scope.user.userType = "";
+            $scope.user.username = "";
+            $scope.user.password = "";
+            if (undefined != $scope.signUpForm) {
+                $scope.addRecipeForm.$setPristine(); // reset Form
+            }
         };
         
         function submit() {
             $scope.success = false;
             $scope.failure = false;
-            if($scope.account == null)
-                console.error("User is null");
-            else {
-                /*go back and update with whatever user object fields are in order*/
-                $scope.newAccount = {type: $scope.account.name, 
-                        username: $scope.username, 
-                        password: $scope.password};
-                $http.put("/api/v1/users", $scope.newAccount).then(
-                        function (success) {
-                            $scope.success = true;
-                            $scope.failure = false;
-                        },
-                        function (rejection) {
-                          console.error("Error while adding recipe");
-                        }
-                );
-            }
-        }
+
+            $http.put("/api/v1/users", $scope.user).then(
+                function (success) {
+                    $scope.success = true;
+                    $scope.failure = false;
+                },
+                function (rejection) {
+                    console.error("Error while adding recipe");
+                }
+            );
+        };
+
         $scope.reset();
         });
         /*]]>*/
@@ -87,10 +88,8 @@
       ></a>
     </nav>
     <h1 style="margin: 50px 0 50px 15px">Signup</h1>
-    <div>
         <form ng-submit="submit()">
         
         </form>
-    </div>
   </body>
 </html>
