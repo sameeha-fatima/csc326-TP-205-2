@@ -41,7 +41,7 @@ public class APIRecipeController extends APIController {
 	/**
 	 * REST API method to provide GET access to all recipes in the system
 	 *
-	 * @return JSON representation of all recipies
+	 * @return JSON representation of all recipes
 	 */
 	@GetMapping(BASE_PATH + "/recipes")
 	public List<Recipe> getRecipes() {
