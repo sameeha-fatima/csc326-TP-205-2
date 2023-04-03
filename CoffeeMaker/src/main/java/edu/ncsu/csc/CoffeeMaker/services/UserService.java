@@ -19,26 +19,25 @@ import edu.ncsu.csc.CoffeeMaker.repositories.UserRepository;
 @Transactional
 public class UserService extends Service<User, Long> {
 
-    /**
-     * UserRepository, to be autowired in by Spring and provide CRUD operations
-     * on User model.
-     */
-    @Autowired
-    private UserRepository userRepository;
+	/**
+	 * UserRepository, to be autowired in by Spring and provide CRUD operations on
+	 * User model.
+	 */
+	@Autowired
+	private UserRepository userRepository;
 
-    @Override
-    protected JpaRepository<User, Long> getRepository () {
-        return userRepository;
-    }
+	@Override
+	protected JpaRepository<User, Long> getRepository() {
+		return userRepository;
+	}
 
-    /**
-     * Find a user with the provided name
-     *
-     * @param name
-     *            Name of the user to find
-     * @return found user, null if none
-     */
-    public User findByName ( final String name ) {
-        return userRepository.findByName( name );
-    }
+	/**
+	 * Find a user with the provided name
+	 *
+	 * @param name Name of the user to find
+	 * @return found user, null if none
+	 */
+	public User findByName(final String name) {
+		return userRepository.findByName(name);
+	}
 }

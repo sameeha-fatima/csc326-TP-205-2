@@ -14,69 +14,63 @@ import edu.ncsu.csc.CoffeeMaker.models.User;
 import edu.ncsu.csc.CoffeeMaker.services.UserService;
 
 @RestController
-@SuppressWarnings ( { "rawtypes", "unchecked" } )
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class APIUserController extends APIController {
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @GetMapping ( BASE_PATH + "/users/{id}" )
-    public ResponseEntity getUser ( @PathVariable ( "id" ) final String id ) {
-        final User user = userService.findByName( id );
-        return null == user
-                ? new ResponseEntity( errorResponse( "No User found for username " + id ), HttpStatus.NOT_FOUND )
-                : new ResponseEntity( user, HttpStatus.OK );
-    }
+	@GetMapping(BASE_PATH + "/users/{id}")
+	public ResponseEntity getUser(@PathVariable("id") final String id) {
+		final User user = userService.findByName(id);
+		return null == user
+				? new ResponseEntity(errorResponse("No User found for username " + id), HttpStatus.NOT_FOUND)
+				: new ResponseEntity(user, HttpStatus.OK);
+	}
 
-    @PostMapping ( BASE_PATH + "/users" )
-    public ResponseEntity createUser ( @RequestBody final User user ) {
-        if ( null != userService.findByName( user.getUsername() ) ) {
-            return new ResponseEntity( errorResponse( "User with the id " + user.getUsername() + " already exists" ),
-                    HttpStatus.CONFLICT );
-        }
-        final User newUser = null;
-        try {
-            userService.save( user );
-            return new ResponseEntity( newUser, HttpStatus.OK );
-        }
-        catch ( final Exception e ) {
-            return new ResponseEntity(
-                    errorResponse( "Could not create " + user.getUsername() + " because of " + e.getMessage() ),
-                    HttpStatus.BAD_REQUEST );
-        }
-    }
+	@PostMapping(BASE_PATH + "/users")
+	public ResponseEntity createUser(@RequestBody final User user) {
+		if (null != userService.findByName(user.getUsername())) {
+			return new ResponseEntity(errorResponse("User with the id " + user.getUsername() + " already exists"),
+					HttpStatus.CONFLICT);
+		}
+		final User newUser = null;
+		try {
+			userService.save(user);
+			return new ResponseEntity(newUser, HttpStatus.OK);
+		} catch (final Exception e) {
+			return new ResponseEntity(
+					errorResponse("Could not create " + user.getUsername() + " because of " + e.getMessage()),
+					HttpStatus.BAD_REQUEST);
+		}
+	}
 
-    public ResponseEntity login ( final User user ) {
-        final User foundUser = userService.findByName( user.getUsername() );
-        if ( null == user ) {
-            new ResponseEntity( errorResponse( "No User found for username " + user.getUsername() ),
-                    HttpStatus.NOT_FOUND );
-        }
-        else {
-            final String inputPasswrd = user.getPassowrd();
-            if ( inputPasswrd.equals( foundUser.getPassowrd() ) ) {
-                return new ResponseEntity( user, HttpStatus.OK );
-            }
-            return new ResponseEntity( errorResponse( "Password is incorrect " + e.getMessage() ),
-                    HttpStatus.BAD_REQUEST );
-        }
+	public ResponseEntity login(final User user) {
+		final User foundUser = userService.findByName(user.getUsername());
+		if (null == foundUser) {
+			new ResponseEntity(errorResponse("No User found for username " + user.getUsername()), HttpStatus.NOT_FOUND);
+		}
+		final String inputPasswrd = user.getPassowrd();
+		if (inputPasswrd.equals(foundUser.getPassowrd())) {
+			return new ResponseEntity(user, HttpStatus.OK);
+		}
+		return new ResponseEntity(errorResponse("Password is incorrect"), HttpStatus.BAD_REQUEST);
 
-    }
+	}
 
-    @DeleteMapping ( BASE_PATH + "/users/{id}" )
-    public ResponseEntity deleteUser ( @PathVariable final String id ) {
-        final User user = userService.findByName( id );
-        try {
-            if ( null == user ) {
-                return new ResponseEntity( errorResponse( "No user found for id " + id ), HttpStatus.NOT_FOUND );
-            }
-            userService.delete( user );
-            return new ResponseEntity( id, HttpStatus.OK );
-        }
-        catch ( final Exception e ) {
-            return new ResponseEntity( errorResponse( "Could not delete " + id + " because of " + e.getMessage() ),
-                    HttpStatus.BAD_REQUEST );
-        }
+	@DeleteMapping(BASE_PATH + "/users/{id}")
+	public ResponseEntity deleteUser(@PathVariable final String id) {
+		final User user = userService.findByName(id);
+		try {
+			if (null == user) {
+				return new ResponseEntity(errorResponse("No user found for id " + id), HttpStatus.NOT_FOUND);
+			}
+			userService.delete(user);
+			return new ResponseEntity(id, HttpStatus.OK);
+		} catch (final Exception e) {
+			return new ResponseEntity(errorResponse("Could not delete " + id + " because of " + e.getMessage()),
+					HttpStatus.BAD_REQUEST);
+		}
 
-    }
+	}
 }

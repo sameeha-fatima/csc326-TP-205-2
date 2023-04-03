@@ -12,13 +12,12 @@ import edu.ncsu.csc.CoffeeMaker.models.User;
  *
  */
 public interface UserRepository extends JpaRepository<User, Long> {
-    /**
-     * Finds a Recipe object with the provided name. Spring will generate code
-     * to make this happen.
-     *
-     * @param name
-     *            Name of the user
-     * @return Found user, null if none.
-     */
-    User findByName ( String name );
+	/**
+	 * Finds a User object with the provided username. Spring will generate code to
+	 * make this happen.
+	 *
+	 * @param username Username of the User
+	 * @return Found User, null if none.
+	 */
+	User findByName(String username);
 }
