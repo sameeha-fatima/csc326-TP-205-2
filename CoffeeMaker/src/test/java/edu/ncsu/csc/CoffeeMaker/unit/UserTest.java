@@ -27,9 +27,15 @@ import edu.ncsu.csc.CoffeeMaker.services.UserService;
 @SpringBootTest(classes = TestConfig.class)
 public class UserTest {
 
+<<<<<<< HEAD
 	@Autowired
 	private UserService service;
+=======
+    @Autowired
+    private UserService service;
+>>>>>>> branch 'team/uc8-login-backend' of git@github.ncsu.edu:engr-csc326-spring2023/csc326-TP-205-2.git
 
+<<<<<<< HEAD
 	// private static final String USER1 = "user1";
 	//
 	// private static final String USER2 = "user2";
@@ -59,3 +65,34 @@ public class UserTest {
 	}
 
 }
+=======
+    // private static final String USER1 = "user1";
+    //
+    // private static final String USER2 = "user2";
+    //
+    // private static final String USER3 = "user3";
+    //
+    // private static final String PW = "abc123";
+
+    /**
+     * Set up
+     */
+    @BeforeEach
+    public void setup () {
+        service.deleteAll();
+    }
+
+    /**
+     * Tests user objects
+     */
+    @Test
+    @Transactional
+    public void testUser () {
+        assertEquals( 0, service.count() );
+        final User c1 = new Customer( "user1", "1111" );
+        assertEquals( c1.getPassowrd(), "1111" );
+
+    }
+
+}
+>>>>>>> branch 'team/uc8-login-backend' of git@github.ncsu.edu:engr-csc326-spring2023/csc326-TP-205-2.git
