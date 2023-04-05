@@ -10,7 +10,6 @@ public class Customer extends User {
 
 	@Override
 	public Serializable getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
