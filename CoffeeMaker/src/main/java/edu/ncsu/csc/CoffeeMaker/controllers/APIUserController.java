@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.ncsu.csc.CoffeeMaker.models.Customer;
+import edu.ncsu.csc.CoffeeMaker.models.Staff;
 import edu.ncsu.csc.CoffeeMaker.models.User;
-import edu.ncsu.csc.CoffeeMaker.services.UserService;
+import edu.ncsu.csc.CoffeeMaker.services.CustomerService;
+import edu.ncsu.csc.CoffeeMaker.services.StaffService;
 
 /**
  * Class to handle Rest API calls dealing with the User class. To be used by the
@@ -27,12 +30,13 @@ import edu.ncsu.csc.CoffeeMaker.services.UserService;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class APIUserController extends APIController {
 
-	/**
-	 * UserService object, to be autowired in by Spring to allow for manipulating
-	 * the User model
-	 */
+	/** Represents the service class used to access User database */
 	@Autowired
-	private UserService userService;
+	private StaffService sService;
+
+	/** Represents the service class used to access User database */
+	@Autowired
+	private CustomerService cService;
 
 	/**
 	 * REST API method to provide GET access to all users in the system
@@ -44,7 +48,10 @@ public class APIUserController extends APIController {
 	 */
 	@GetMapping(BASE_PATH + "/users/{id}")
 	public ResponseEntity getUser(@PathVariable("id") final String id) {
-		final User user = userService.findByName(id);
+		final User user = sService.findByName(id);
+		if (user == null) {
+			cService.findByName(id);
+		}
 		return null == user
 				? new ResponseEntity(errorResponse("No User found for username " + id), HttpStatus.NOT_FOUND)
 				: new ResponseEntity(user, HttpStatus.OK);
@@ -61,14 +68,25 @@ public class APIUserController extends APIController {
 	 */
 	@PostMapping(BASE_PATH + "/users")
 	public ResponseEntity createUser(@RequestBody final User user) {
-		if (null != userService.findByName(user.getUsername())) {
+		User found = sService.findByName(user.getUsername());
+		if (found == null) {
+			found = cService.findByName(user.getUsername());
+		}
+		if (null != found) {
 			return new ResponseEntity(errorResponse("User with the id " + user.getUsername() + " already exists"),
 					HttpStatus.CONFLICT);
 		}
-		final User newUser = null;
+//		final User newUser = null;
 		try {
-			userService.save(user);
-			return new ResponseEntity(newUser, HttpStatus.OK);
+			if (user instanceof Customer) {
+				final Customer newUser = (Customer) user;
+				cService.save(newUser);
+				return new ResponseEntity(newUser, HttpStatus.OK);
+			} else {
+				final Staff newUser = (Staff) user;
+				sService.save(newUser);
+				return new ResponseEntity(newUser, HttpStatus.OK);
+			}
 		} catch (final Exception e) {
 			return new ResponseEntity(
 					errorResponse("Could not create " + user.getUsername() + " because of " + e.getMessage()),
@@ -85,12 +103,15 @@ public class APIUserController extends APIController {
 	 *         (400) if not
 	 */
 	public ResponseEntity login(final User user) {
-		final User foundUser = userService.findByName(user.getUsername());
-		if (null == foundUser) {
+		User found = sService.findByName(user.getUsername());
+		if (found == null) {
+			found = cService.findByName(user.getUsername());
+		}
+		if (null == found) {
 			new ResponseEntity(errorResponse("No User found for username " + user.getUsername()), HttpStatus.NOT_FOUND);
 		}
 		final String inputPasswrd = user.getPassword();
-		if (inputPasswrd.equals(foundUser.getPassword())) {
+		if (inputPasswrd.equals(found.getPassword())) {
 			return new ResponseEntity(user, HttpStatus.OK);
 		}
 		return new ResponseEntity(errorResponse("Password is incorrect"), HttpStatus.BAD_REQUEST);
@@ -108,12 +129,23 @@ public class APIUserController extends APIController {
 	 */
 	@DeleteMapping(BASE_PATH + "/users/{id}")
 	public ResponseEntity deleteUser(@PathVariable final String id) {
-		final User user = userService.findByName(id);
+		boolean isStaff = false;
+		User found = sService.findByName(id);
+
+		if (found == null) {
+			found = cService.findByName(id);
+		} else {
+			isStaff = true;
+		}
 		try {
-			if (null == user) {
+			if (null == found) {
 				return new ResponseEntity(errorResponse("No user found for id " + id), HttpStatus.NOT_FOUND);
 			}
-			userService.delete(user);
+			if (isStaff) {
+				sService.delete((Staff) found);
+			} else {
+				cService.delete((Customer) found);
+			}
 			return new ResponseEntity(id, HttpStatus.OK);
 		} catch (final Exception e) {
 			return new ResponseEntity(errorResponse("Could not delete " + id + " because of " + e.getMessage()),

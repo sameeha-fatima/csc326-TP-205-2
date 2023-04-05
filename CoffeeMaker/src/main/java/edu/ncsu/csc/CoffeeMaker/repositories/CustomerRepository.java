@@ -2,7 +2,7 @@ package edu.ncsu.csc.CoffeeMaker.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import edu.ncsu.csc.CoffeeMaker.models.User;
+import edu.ncsu.csc.CoffeeMaker.models.Customer;
 
 /**
  * UserRepository is used to provide CRUD operations for the User model. Spring
@@ -11,7 +11,7 @@ import edu.ncsu.csc.CoffeeMaker.models.User;
  * @author Cathy Sun (cqsun)
  *
  */
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	/**
 	 * Finds a User object with the provided username. Spring will generate code to
 	 * make this happen.
@@ -19,5 +19,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	 * @param username Username of the User
 	 * @return Found User, null if none.
 	 */
-	User findByName(String username);
+	Customer findByName(String username);
 }
