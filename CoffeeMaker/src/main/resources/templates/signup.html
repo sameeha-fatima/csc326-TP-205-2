@@ -32,7 +32,10 @@
             }
         };
         
-        function submit() {
+        $scope.submit = function () {
+            console.log($scope.user.username);
+            console.log($scope.user.password);
+            console.log($scope.user.userrole);
             $scope.success = false;
             $scope.failure = false;
             $http.put("/api/v1/users", $scope.user).then(
@@ -87,7 +90,7 @@
     </nav>
     <h1 style="margin: 50px 0 50px 15px">Signup</h1>
     <span>
-        <!-- Form which handles the creation of an Ingredient object (evmurphy) -->
+        <!-- Form which handles the creation of an User object (sfatima3) -->
         <form
           style="margin: 10px 10px 10px 0px"
           ng-submit="submit()"
@@ -121,16 +124,8 @@
             required="true"
           />
           <br />
-          <span>
-        <!-- Form which handles the creation of an Ingredient object (evmurphy) -->
-        <form
-          style="margin: 10px 10px 10px 0px"
-          ng-submit="submit()"
-          name="signUpForm"
-          class="form-horizontal"
-        >
           <label
-            for="ingredient_name"
+            for="password"
             style="
               display: inline-block;
               width: 150px;
@@ -143,8 +138,8 @@
           <br />
           <input
             type="text"
-            id="ingredient_name"
-            ng-model="ingredient.name"
+            id="password"
+            ng-model="user.password"
             placeholder="Enter password"
             style="
               margin: 10px 10px 10px 0px;
@@ -157,17 +152,16 @@
           />
           <br />
           <label for="roles">Choose a role:</label>
-
-<select name="role" id="role">
-	<option value="">Select Role</option>
-  <option value="customer">Customer</option>
-  <option value="staff">Staff</option>
-</select>
-<br />
+            <select ng-model="user.userrole">
+	          <option value="">Select Role</option>
+              <option value="customer">Customer</option>
+              <option value="staff">Staff</option>
+           </select>
+         <br />
    
    				<button
                   type="button"
-                  ng-click="reset()"
+                  ng-click="submit()"
                   class="btn btn-warning btn-sm"
                   ng-disabled="signUpForm.$pristine"
                   style="
@@ -178,9 +172,7 @@
                     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
                     color: black;
                   "
-                >
-                  Sign Up
-                </button>
+                >Sign Up</button>
                 <br />
                 
                 <button
@@ -196,14 +188,9 @@
                     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
                     color: black;
                   "
-                >
-                  Log In
-                </button>
-    <div>
-        <form ng-submit="submit()">
-        
-        </form>
-    </div>
+                >Log In</button>
+        </form>          
+      </span>
     </div>
   </body>
 </html>
