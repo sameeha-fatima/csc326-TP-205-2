@@ -1,8 +1,11 @@
 package edu.ncsu.csc.CoffeeMaker.models;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 import org.hibernate.validator.constraints.Length;
@@ -19,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @JsonIgnoreProperties ( value = { "password" } )
-public abstract class User extends DomainObject {
+public class User extends DomainObject {
 
     /**
      * Represents the username identifier for a User object, must be between 6
@@ -27,13 +30,16 @@ public abstract class User extends DomainObject {
      */
     @Id
     @Length ( min = 6, max = 20 )
-    private String name;
+    private String   name;
 
     /**
      * Represents the password for a User, must be between 6 an 20 characters
      */
     @Length ( min = 6, max = 20 )
-    private String password;
+    private String   password;
+
+    @Enumerated ( EnumType.STRING )
+    private UserEnum userType;
 
     /**
      * All-argument constructor for User
@@ -43,9 +49,10 @@ public abstract class User extends DomainObject {
      * @param password
      *            represents password of User object
      */
-    public User ( final String username, final String password ) {
+    public User ( final String username, final String password, final UserEnum userType ) {
         setUsername( username );
         setPassword( password );
+        setUserType( userType );
     }
 
     /**
@@ -126,6 +133,26 @@ public abstract class User extends DomainObject {
         this.password = password;
     }
 
+    /**
+     * Returns userType of current user
+     *
+     * @return userTypeof current user
+     */
+    public UserEnum getUserType () {
+        return userType;
+    }
+
+    /**
+     * Returns password for current user
+     *
+     * @return password for current user
+     */
+
+    public String setUserType ( final UserEnum userType ) {
+        return userType == UserEnum.CUSTOMER ? "Customer" : "Staff";
+
+    }
+
     @Override
     public int hashCode () {
         return Objects.hash( password, name );
@@ -144,5 +171,11 @@ public abstract class User extends DomainObject {
         }
         final User other = (User) obj;
         return Objects.equals( password, other.password ) && Objects.equals( name, other.name );
+    }
+
+    @Override
+    public Serializable getId () {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
