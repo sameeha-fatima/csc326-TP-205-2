@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Welcome to the CSC326 CoffeeMaker</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+
+  <link rel="stylesheet" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <body>
+    <div
+      layout:fragment="content"
+      class="generic-container ng-cloak"
+      style="
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 15px;
+        position: relative;
+        padding-bottom: 150px;
+      "
+    >
+      <!-- Header bar for home page, main purpose is aesthetics (evmurphy) -->
+      <nav
+        style="
+          background-color: #b9a184;
+          padding: 25px;
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+        "
+      ></nav>
+      <!-- Headings with title of application and prompt to select and an action (evmurphy) -->
+      <h1 style="margin: 50px 0 50px 15px">Coffee Maker</h1>
+      <h2 style="margin: 30px 0 30px 0; text-align: center; font-size: 25px">
+        Select An Action:
+      </h2>
+      <!-- Grid which contains all the possible actions in Coffee Maker (evmurphy) -->
+      <div class="gridContainer" style="position: relative; left: 13%">
+        <!-- First row containing Order Beverage actions (evmurphy) -->
+        <div class="row" style="margin-bottom: 10px">  
+          <div class="col-md-3">
+          </div>
+          <div class="col-md-3">
+            <span style="background-color: #d5c0a8" >
+              <a
+                href="makecoffee.html"
+                style="
+                  color: black;
+                  background-color: #d5c0a8;
+                  display: block;
+                  padding: 15px 20px;
+                  text-align: center;
+                "
+                >Order Beverage</a
+              ></span
+            >
+          </div>       
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
