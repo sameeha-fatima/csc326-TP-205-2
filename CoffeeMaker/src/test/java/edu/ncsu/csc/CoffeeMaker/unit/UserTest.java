@@ -2,6 +2,7 @@ package edu.ncsu.csc.CoffeeMaker.unit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +21,7 @@ import edu.ncsu.csc.CoffeeMaker.models.User;
 import edu.ncsu.csc.CoffeeMaker.services.UserService;
 
 /**
- * Tests the User class
+ * Tests the User class with its child classes customer and staff
  *
  * @author Cathy Sun
  *
@@ -43,11 +44,11 @@ public class UserTest {
     }
 
     /**
-     * Tests valid user objects of both customer and staff
+     * Tests creating user objects of both customer and staff
      */
     @Test
     @Transactional
-    public void testUserValid () {
+    public void testUser () {
 
         // testing creating a customer object
         assertEquals( 0, service.count() );
@@ -61,6 +62,12 @@ public class UserTest {
         // service.save( c1 );
         assertEquals( c2.getUsername(), "customer2" );
         assertEquals( c2.getPassword(), "iamapassword" );
+
+        // testing creating a customer object invalid
+        Exception e = assertThrows( IllegalArgumentException.class, () -> c1.setUsername( null ) );
+        assertEquals( "User needs a username.", e.getMessage() );
+        e = assertThrows( IllegalArgumentException.class, () -> c1.setUsername( "" ) );
+        assertEquals( "User needs a username.", e.getMessage() );
 
         // testing creating a staff object
         final User s1 = new Staff( "staff1", "iamapassword" );
@@ -79,10 +86,14 @@ public class UserTest {
         assertEquals( s3.getUsername(), "staff2" );
         assertEquals( s3.getPassword(), "iamapassword!" );
 
+        // testing creating a customer object invalid
+        final Exception e2 = assertThrows( IllegalArgumentException.class, () -> c1.setPassword( null ) );
+        assertEquals( "User needs a password.", e2.getMessage() );
+
     }
 
     /**
-     * Tests valid user objects of both customer and staff
+     * Tests user invalid username and passwords for both customer and staff
      */
     @Test
     @Transactional
@@ -127,33 +138,33 @@ public class UserTest {
     }
 
     /**
-     * Tests user invalid username and passwords
+     * Tests user invalid username and passwords for both customer and staff
      */
     @Test
     @Transactional
     public void testInvalidLength2 () {
 
-        final User c1 = new Customer( "customer1", "111111" );
+        final User s1 = new Staff( "customer1", "111111" );
 
         // invalid customer username length
-        Exception e = assertThrows( IllegalArgumentException.class, () -> c1.setUsername( "c" ) );
+        Exception e = assertThrows( IllegalArgumentException.class, () -> s1.setUsername( "c" ) );
         assertEquals( "Invalid username length.", e.getMessage() );
-        e = assertThrows( IllegalArgumentException.class, () -> c1.setUsername( "custo" ) );
+        e = assertThrows( IllegalArgumentException.class, () -> s1.setUsername( "custo" ) );
         assertEquals( "Invalid username length.", e.getMessage() );
-        e = assertThrows( IllegalArgumentException.class, () -> c1.setUsername( "customer1111111111111111111" ) );
+        e = assertThrows( IllegalArgumentException.class, () -> s1.setUsername( "customer1111111111111111111" ) );
         assertEquals( "Invalid username length.", e.getMessage() );
 
         // invalid customer password length
-        e = assertThrows( IllegalArgumentException.class, () -> c1.setPassword( "1" ) );
+        e = assertThrows( IllegalArgumentException.class, () -> s1.setPassword( "1" ) );
         assertEquals( "Invalid password length.", e.getMessage() );
-        e = assertThrows( IllegalArgumentException.class, () -> c1.setPassword( "11111" ) );
+        e = assertThrows( IllegalArgumentException.class, () -> s1.setPassword( "11111" ) );
         assertEquals( "Invalid password length.", e.getMessage() );
-        e = assertThrows( IllegalArgumentException.class, () -> c1.setPassword( "111111111111111111111111" ) );
+        e = assertThrows( IllegalArgumentException.class, () -> s1.setPassword( "111111111111111111111111" ) );
         assertEquals( "Invalid password length.", e.getMessage() );
     }
 
     /**
-     * Tests user invalid username and passwords
+     * Tests user username and passwords for different characters
      */
     @Test
     @Transactional
@@ -161,6 +172,7 @@ public class UserTest {
 
         // valid customer username
         final User c1 = new Customer( "customer1", "111111" );
+
         c1.setUsername( "customer" );
         assertEquals( c1.getUsername(), "customer" );
         c1.setUsername( "111111" );
@@ -213,6 +225,50 @@ public class UserTest {
         assertEquals( "Invalid characters in password.", e2.getMessage() );
         e2 = assertThrows( IllegalArgumentException.class, () -> c2.setPassword( "(=^W^=)(*o*)" ) );
         assertEquals( "Invalid characters in password.", e2.getMessage() );
+
+        // valid staff username
+        final User s1 = new Staff( "staff1", "111111" );
+
+        s1.setUsername( "staffffff" );
+        assertEquals( s1.getUsername(), "staffffff" );
+        s1.setUsername( "111111" );
+        assertEquals( s1.getUsername(), "111111" );
+        s1.setUsername( "STAFF1" );
+        assertEquals( s1.getUsername(), "STAFF1" );
+        s1.setUsername( "StAfF1" );
+        assertEquals( s1.getUsername(), "StAfF1" );
+
+        // valid staff password
+        final User s2 = new Customer( "staff2", "111111" );
+        s2.setPassword( "cathyisawesome" );
+        assertEquals( s2.getPassword(), "cathyisawesome" );
+        s2.setPassword( "$un$un!" );
+        assertEquals( s2.getPassword(), "$un$un!" );
+        s2.setPassword( "LL@o@!" );
+        assertEquals( s2.getPassword(), "LL@o@!" );
+
+        // invalid staff password
+        Exception e3 = assertThrows( IllegalArgumentException.class, () -> s2.setPassword( "^-^ *x* P_P" ) );
+        assertEquals( "Invalid characters in password.", e3.getMessage() );
+        e3 = assertThrows( IllegalArgumentException.class, () -> c2.setPassword( "******" ) );
+        assertEquals( "Invalid characters in password.", e3.getMessage() );
+        e3 = assertThrows( IllegalArgumentException.class, () -> c2.setPassword( " o o o o o" ) );
+        assertEquals( "Invalid characters in password.", e3.getMessage() );
+        e3 = assertThrows( IllegalArgumentException.class, () -> c2.setPassword( "---------" ) );
+        assertEquals( "Invalid characters in password.", e3.getMessage() );
+    }
+
+    /**
+     * Tests if two objects are equal
+     */
+    @Test
+    @Transactional
+    public void testEquals () {
+        final User c1 = new Customer( "customer1", "111111" );
+        final User c2 = new Customer( "customer1", "111111" );
+        final User c3 = new Customer( "customer1", "555555" );
+        assertTrue( c1.equals( c2 ) );
+
     }
 
 }
