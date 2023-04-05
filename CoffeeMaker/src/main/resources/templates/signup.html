@@ -108,7 +108,7 @@
             "
             >Username:</label
           >
-          <br />
+
           <input
             type="text"
             id="user_name"
@@ -135,7 +135,7 @@
             "
             >Password:</label
           >
-          <br />
+
           <input
             type="text"
             id="password"
@@ -151,14 +151,28 @@
             required="true"
           />
           <br />
-          <label for="roles">Choose a role:</label>
-            <select ng-model="user.userrole">
+          <label 
+            for="roles"
+            style="
+              display: inline-block;
+              width: 150px;
+              margin-right: 30px;
+              margin-left: 15px;
+              text-align: left;
+            "
+            >Choose a role:</label>
+            <select ng-model="user.userrole" style="
+                    margin: 10px 10px 10px 0px;
+                    display: inline;
+                    vertical-align: middle;
+                    border-radius: 5px;
+                    border-width: 1px;
+                  ">
 	          <option value="">Select Role</option>
               <option value="customer">Customer</option>
               <option value="staff">Staff</option>
            </select>
          <br />
-   
    				<button
                   type="button"
                   ng-click="submit()"
@@ -171,10 +185,12 @@
                     padding: 10px 25px 10px 25px;
                     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
                     color: black;
+                    position: absolute;
+                    right: 200px;
+                    bottom: 25px;
                   "
                 >Sign Up</button>
                 <br />
-                
                 <button
                   type="button"
                   ng-click="reset()"
@@ -186,9 +202,11 @@
                     border-color: transparent;
                     padding: 10px 25px 10px 25px;
                     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
-                    color: black;
+                    position: absolute;
+                    right: 80px;
+                    bottom: 25px;
                   "
-                >Log In</button>
+                >Login Page</button>
         </form>          
       </span>
     </div>
