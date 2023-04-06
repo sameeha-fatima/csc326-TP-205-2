@@ -38,14 +38,33 @@
             console.log($scope.user.userrole);
             $scope.success = false;
             $scope.failure = false;
-            $http.put("/api/v1/users", $scope.user).then(
-            	function (success) {
-                	$scope.success = true;
-                    $scope.failure = false;
-                },
-                function (rejection) {
-                    console.error("Error while adding recipe");
-                }
+            $http.get("/api/v1/users/" + $scope.user.username).then( function (response) {
+            	$scope.databaseUser = response.data; 
+            	if ($scope.databaseUser.name.equals($scope.user.username)) {
+            		if ($scope.databaseUser.password.equals($scope.user.password)) {
+            			$scope.success = true;
+            		}
+            		else {
+            			$scope.success = false;
+                		$scope.failure = true;	
+            		}	
+            	}
+            	else {
+            		$scope.success = false;
+            		$scope.failure = true;
+            	}
+            	
+            	 $scope.url = "";
+            	
+            	if ($scope.userrole.equals("staff")) {
+            		$scope.url = "/staffview.html";
+            	}
+            	else {
+            		$scope.url = "/customerview.html";
+            	}
+            	
+            }
+            	
             );
             
         };
@@ -155,6 +174,7 @@
    				<button
                   type="button"
                   ng-click="submit()"
+               	  
                   class="btn btn-warning btn-sm"
                   ng-disabled="loginForm.$pristine"
                   style="
