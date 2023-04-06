@@ -43,7 +43,7 @@
             	if ($scope.databaseUser.name == $scope.user.name) {
             		if ($scope.databaseUser.password == $scope.user.password) {
             			$scope.success = true;
-            			alert("Signed in for user: " + $scope.user.name);
+            			//alert("Signed in for user: " + $scope.user.name);
             		}
             		else {
             			$scope.success = false;
@@ -175,7 +175,6 @@
    				<button
                   type="button"
                   ng-click="submit()"
-               	  
                   class="btn btn-warning btn-sm"
                   ng-disabled="loginForm.$pristine"
                   style="
@@ -209,6 +208,16 @@
                 >Sign Up Page</button>
         </form>          
       </span>
+      <div ng-show="success" style="
+                    border-radius: 20px;
+                    background: #81d58a;
+                    border-color: transparent;
+                    padding: 10px 25px 10px 25px;
+                    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+                    position: absolute;
+                    left: 80px;
+                    bottom: 25px;
+                  "><a href="/index">Continue</a></div>
     </div>
   </body>
 </html>
