@@ -18,7 +18,6 @@ import edu.ncsu.csc.CoffeeMaker.TestConfig;
 // import edu.ncsu.csc.CoffeeMaker.models.Customer;
 // import edu.ncsu.csc.CoffeeMaker.models.Staff;
 import edu.ncsu.csc.CoffeeMaker.models.User;
-import edu.ncsu.csc.CoffeeMaker.models.UserEnum;
 import edu.ncsu.csc.CoffeeMaker.services.UserService;
 
 /**
@@ -53,13 +52,13 @@ public class UserTest {
 
 		// testing creating a customer object
 		assertEquals(0, service.count());
-		final User c1 = new User("customer1", "iamapassword", UserEnum.CUSTOMER);
+		final User c1 = new User("customer1", "iamapassword", "Customer");
 		service.save(c1);
 		assertEquals(c1.getName(), "customer1");
 		assertEquals(c1.getPassword(), "iamapassword");
 		assertEquals(1, service.count());
 
-		final User c2 = new User("customer2", "iamapassword", UserEnum.CUSTOMER);
+		final User c2 = new User("customer2", "iamapassword", "Customer");
 		service.save(c2);
 		assertEquals(c2.getName(), "customer2");
 		assertEquals(c2.getPassword(), "iamapassword");
@@ -72,19 +71,19 @@ public class UserTest {
 		assertEquals("User needs a username.", e.getMessage());
 
 		// testing creating a staff object
-		final User s1 = new User("staff1", "iamapassword", UserEnum.STAFF);
+		final User s1 = new User("staff1", "iamapassword", "Staff");
 		service.save(s1);
 		assertEquals(s1.getName(), "staff1");
 		assertEquals(s1.getPassword(), "iamapassword");
 		assertEquals(3, service.count());
 
-		final User s2 = new User("staff2", "iamapassword", UserEnum.STAFF);
+		final User s2 = new User("staff2", "iamapassword", "Staff");
 		service.save(s2);
 		assertEquals(s2.getName(), "staff2");
 		assertEquals(s2.getPassword(), "iamapassword");
 		assertEquals(4, service.count());
 
-		final User s3 = new User("staff3", "iamapassword!", UserEnum.STAFF);
+		final User s3 = new User("staff3", "iamapassword!", "Staff");
 		service.save(s3);
 		assertEquals(s3.getName(), "staff3");
 		assertEquals(s3.getPassword(), "iamapassword!");
@@ -104,32 +103,32 @@ public class UserTest {
 	public void testInvalidLength() {
 		// invalid customer password length
 		try {
-			new User("customer1", "1", UserEnum.CUSTOMER);
+			new User("customer1", "1", "Customer");
 			fail("Should have thrown exception");
 		} catch (final IllegalArgumentException e) {
 			assertEquals("Incorrect IAE thrown", "Invalid password length.", e.getMessage());
 		}
 		try {
-			new User("customer1", "iamapasswordandiamgreat", UserEnum.CUSTOMER);
+			new User("customer1", "iamapasswordandiamgreat", "Customer");
 			fail("Should have thrown exception");
 		} catch (final IllegalArgumentException e) {
 			assertEquals("Incorrect IAE thrown", "Invalid password length.", e.getMessage());
 		}
 		try {
-			new User("customer1", "iamapassword:", UserEnum.CUSTOMER);
+			new User("customer1", "iamapassword:", "Customer");
 			fail("Should have thrown exception");
 		} catch (final IllegalArgumentException e) {
 			assertEquals("Incorrect IAE thrown", "Invalid characters in password.", e.getMessage());
 		}
 		// invalid customer username length
 		try {
-			new User("user", "iamapassword", UserEnum.CUSTOMER);
+			new User("user", "iamapassword", "Customer");
 			fail("Should have thrown exception");
 		} catch (final IllegalArgumentException e) {
 			assertEquals("Incorrect IAE thrown", "Invalid username length.", e.getMessage());
 		}
 		try {
-			new User("customer!", "iamapassword", UserEnum.CUSTOMER);
+			new User("customer!", "iamapassword", "Customer");
 			fail("Should have thrown exception");
 		} catch (final IllegalArgumentException e) {
 			assertEquals("Incorrect IAE thrown", "Invalid characters in username.", e.getMessage());
@@ -143,7 +142,7 @@ public class UserTest {
 	@Transactional
 	public void testInvalidLength2() {
 
-		final User s1 = new User("customer1", "111111", UserEnum.STAFF);
+		final User s1 = new User("customer1", "111111", "Staff");
 
 		// invalid customer username length
 		Exception e = assertThrows(IllegalArgumentException.class, () -> s1.setName("c"));
@@ -170,7 +169,7 @@ public class UserTest {
 	public void testCharacters() {
 
 		// valid customer username
-		final User c1 = new User("customer1", "111111", UserEnum.CUSTOMER);
+		final User c1 = new User("customer1", "111111", "Customer");
 
 		c1.setName("customer");
 		assertEquals(c1.getName(), "customer");
@@ -190,7 +189,7 @@ public class UserTest {
 		assertEquals("Invalid characters in username.", e.getMessage());
 
 		// valid customer password
-		final User c2 = new User("customer2", "111111", UserEnum.CUSTOMER);
+		final User c2 = new User("customer2", "111111", "Customer");
 		c2.setPassword("aaaaaaaah");
 		assertEquals(c2.getPassword(), "aaaaaaaah");
 		c2.setPassword("AAAAAAh");
@@ -226,7 +225,7 @@ public class UserTest {
 		assertEquals("Invalid characters in password.", e2.getMessage());
 
 		// valid staff username
-		final User s1 = new User("staff1", "111111", UserEnum.STAFF);
+		final User s1 = new User("staff1", "111111", "Staff");
 
 		s1.setName("staffffff");
 		assertEquals(s1.getName(), "staffffff");
@@ -238,7 +237,7 @@ public class UserTest {
 		assertEquals(s1.getName(), "StAfF1");
 
 		// valid staff password
-		final User s2 = new User("staff2", "111111", UserEnum.CUSTOMER);
+		final User s2 = new User("staff2", "111111", "Customer");
 		s2.setPassword("cathyisawesome");
 		assertEquals(s2.getPassword(), "cathyisawesome");
 		s2.setPassword("$un$un!");
@@ -263,8 +262,8 @@ public class UserTest {
 	@Test
 	@Transactional
 	public void testEquals() {
-		final User c1 = new User("customer1", "111111", UserEnum.CUSTOMER);
-		final User c2 = new User("customer1", "111111", UserEnum.CUSTOMER);
+		final User c1 = new User("customer1", "111111", "Customer");
+		final User c2 = new User("customer1", "111111", "Customer");
 		// final User c3 = new User( "customer1", "555555" , UserEnum.CUSTOMER
 		// );
 

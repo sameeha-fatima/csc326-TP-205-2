@@ -24,7 +24,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import edu.ncsu.csc.CoffeeMaker.common.TestUtils;
 import edu.ncsu.csc.CoffeeMaker.models.User;
-import edu.ncsu.csc.CoffeeMaker.models.UserEnum;
 import edu.ncsu.csc.CoffeeMaker.services.UserService;
 
 /**
@@ -71,19 +70,19 @@ class APIUserTest {
 	public void testCreateUser() throws Exception {
 		service.deleteAll();
 
-		final User customer = new User("customer1", "thisisagoodpw", UserEnum.CUSTOMER);
+		final User customer = new User("customer1", "thisisagoodpw", "Customer");
 		mvc.perform(
 				post("/api/v1/users").contentType(MediaType.APPLICATION_JSON).content(TestUtils.asJsonString(customer)))
 				.andExpect(status().isOk());
 		assertEquals(1, (int) service.count());
 
-		final User staff = new User("staff1", "thisisagoodpw", UserEnum.STAFF);
+		final User staff = new User("staff1", "thisisagoodpw", "Staff");
 		mvc.perform(
 				post("/api/v1/users").contentType(MediaType.APPLICATION_JSON).content(TestUtils.asJsonString(staff)))
 				.andExpect(status().isOk());
 		assertEquals(2, (int) service.count());
 
-		final User duplicate = new User("staff1", "thisisagoodpw", UserEnum.STAFF);
+		final User duplicate = new User("staff1", "thisisagoodpw", "Staff");
 		mvc.perform(post("/api/v1/users").contentType(MediaType.APPLICATION_JSON)
 				.content(TestUtils.asJsonString(duplicate))).andExpect(status().isConflict());
 	}
@@ -99,7 +98,7 @@ class APIUserTest {
 		assertEquals(0, service.findAll().size(), "There should be no Ingredients in the CoffeeMaker");
 		assertEquals(null, service.findById(null));
 
-		final User customer = new User("customer1", "thisisagoodpw", UserEnum.CUSTOMER);
+		final User customer = new User("customer1", "thisisagoodpw", "Customer");
 		mvc.perform(
 				post("/api/v1/users").contentType(MediaType.APPLICATION_JSON).content(TestUtils.asJsonString(customer)))
 				.andExpect(status().isOk());
@@ -121,12 +120,12 @@ class APIUserTest {
 	public void testDeleteUser() throws Exception {
 		service.deleteAll();
 
-		final User customer = new User("customer1", "thisisagoodpw", UserEnum.CUSTOMER);
+		final User customer = new User("customer1", "thisisagoodpw", "Customer");
 		mvc.perform(
 				post("/api/v1/users").contentType(MediaType.APPLICATION_JSON).content(TestUtils.asJsonString(customer)))
 				.andExpect(status().isOk());
 
-		final User staff = new User("staff1", "thisisagoodpw", UserEnum.STAFF);
+		final User staff = new User("staff1", "thisisagoodpw", "Staff");
 		mvc.perform(
 				post("/api/v1/users").contentType(MediaType.APPLICATION_JSON).content(TestUtils.asJsonString(staff)))
 				.andExpect(status().isOk());
@@ -148,12 +147,12 @@ class APIUserTest {
 	@Test
 	@Transactional
 	public void testLogin() throws Exception {
-		final User customer = new User("customer1", "thisisagoodpw", UserEnum.CUSTOMER);
+		final User customer = new User("customer1", "thisisagoodpw", "Customer");
 		mvc.perform(
 				post("/api/v1/users").contentType(MediaType.APPLICATION_JSON).content(TestUtils.asJsonString(customer)))
 				.andExpect(status().isOk());
 
-		final User staff = new User("staff1", "thisisagoodpw", UserEnum.STAFF);
+		final User staff = new User("staff1", "thisisagoodpw", "Staff");
 		mvc.perform(
 				post("/api/v1/users").contentType(MediaType.APPLICATION_JSON).content(TestUtils.asJsonString(staff)))
 				.andExpect(status().isOk());
