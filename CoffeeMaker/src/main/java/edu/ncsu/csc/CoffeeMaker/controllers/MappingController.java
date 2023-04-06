@@ -108,7 +108,45 @@ public class MappingController {
     }
 
     /**
-     * On a GET request to /login, the loginController will return
+     * On a GET request to /signup, the SignUpController will return
+     * /src/main/resources/templates/signup.html.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/signup", "/signup.html" } )
+    public String signUpForm ( final Model model ) {
+        return "signup";
+    }
+
+    /**
+     * On a GET request to /customerview, the IndexController will return
+     * /src/main/resources/templates/customerview.html.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/customerview", "/customerview.html" } )
+    public String customerViewForm ( final Model model ) {
+        return "customerview";
+    }
+
+    /**
+     * On a GET request to /staffview, the IndexController will return
+     * /src/main/resources/templates/staffview.html.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/staffview", "/staffview.html" } )
+    public String staffViewForm ( final Model model ) {
+        return "staffview";
+        
+    /**
+     * On a GET request to /login, the LoginController will return
      * /src/main/resources/templates/login.html.
      *
      * @param model
