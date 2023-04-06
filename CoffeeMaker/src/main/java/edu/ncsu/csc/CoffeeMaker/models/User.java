@@ -6,11 +6,10 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.validator.constraints.Length;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Abstract class representing a User in the CoffeeMaker system. This class is a
@@ -21,161 +20,180 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *
  */
 @Entity
-@JsonIgnoreProperties ( value = { "password" } )
+//@JsonIgnoreProperties(value = { "password" })
 public class User extends DomainObject {
 
-    /**
-     * Represents the username identifier for a User object, must be between 6
-     * and 20 characters
-     */
-    @Id
-    @Length ( min = 6, max = 20 )
-    private String   name;
+	/** Recipe id */
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    /**
-     * Represents the password for a User, must be between 6 an 20 characters
-     */
-    @Length ( min = 6, max = 20 )
-    private String   password;
+	/**
+	 * Represents the username identifier for a User object, must be between 6 and
+	 * 20 characters
+	 */
+	@Length(min = 6, max = 20)
+	private String name;
 
-    @Enumerated ( EnumType.STRING )
-    private UserEnum userType;
+	/**
+	 * Represents the password for a User, must be between 6 an 20 characters
+	 */
+	@Length(min = 6, max = 20)
+	private String password;
 
-    /**
-     * All-argument constructor for User
-     *
-     * @param username
-     *            represents username of User object
-     * @param password
-     *            represents password of User object
-     */
-    public User ( final String username, final String password, final UserEnum userType ) {
-        setUsername( username );
-        setPassword( password );
-        setUserType( userType );
-    }
+	/**
+	 * Represents type of user account
+	 */
+	@Enumerated(EnumType.STRING)
+	private UserEnum userType;
 
-    /**
-     * Returns username of current user
-     *
-     * @return username of current user
-     */
-    public String getUsername () {
-        return name;
-    }
+	/**
+	 * Creates a default user for the CoffeeMaker system. Used by Hibernate
+	 */
+	public User() {
+		super();
+	}
 
-    /**
-     * Returns password for current user
-     *
-     * @return password for current user
-     */
-    public String getPassword () {
-        return password;
-    }
+	/**
+	 * All-argument constructor for User
+	 *
+	 * @param name     represents username of User object
+	 * @param password represents password of User object
+	 * @param userType Enumeration representing type of user account
+	 */
+	public User(final String name, final String password, final UserEnum userType) {
+		this();
+		setPassword(password);
+		setUserType(userType);
+		setName(name);
+	}
 
-    /**
-     * Sets the username for the current user. Throw an IllegalArgument
-     * exception if provided String is null, empty, is not between 6-20
-     * characters, or contains characters other than the permitted alphanumeric
-     * set of characters
-     *
-     * @param username
-     *            represents the username to set the current user's username to
-     * @throws IllegalArgumentException
-     *             if provided username is a null or empty String
-     * @throws IllegalArgumentException
-     *             if the username is not of the required length
-     * @throws IllegalArgumentException
-     *             if provided username contains a character other than the
-     *             permitted alphanumeric symbols
-     */
-    public void setUsername ( final String username ) {
-        if ( username == null || "".equals( username ) ) {
-            throw new IllegalArgumentException( "User needs a username." );
-        }
-        if ( username.length() < 6 || username.length() > 20 ) {
-            throw new IllegalArgumentException( "Invalid username length." );
-        }
-        if ( !username.matches( "^[a-zA-Z0-9]*$" ) ) {
-            throw new IllegalArgumentException( "Invalid characters in username." );
-        }
+	/**
+	 * Returns username of current user
+	 *
+	 * @return username of current user
+	 */
+	public String getName() {
+		return name;
+	}
 
-        this.name = username;
-    }
+	/**
+	 * Returns password for current user
+	 *
+	 * @return password for current user
+	 */
+	public String getPassword() {
+		return password;
+	}
 
-    /**
-     * Sets the password for the current user. Throw an IllegalArgument
-     * exception if provided String is null, empty, is not between 6-20
-     * characters, or contains characters other than the permitted alphanumeric,
-     * '?', '!', '$', '@' set of characters
-     *
-     * @param password
-     *            represents the password to set the current user's password to
-     * @throws IllegalArgumentException
-     *             if provided password is a null or empty
-     * @throws IllegalArgumentException
-     *             if the username is not of the required length String
-     * @throws IllegalArgumentException
-     *             if provided password contains a character other than the
-     *             permitted alphanumeric symbols
-     */
-    public void setPassword ( final String password ) {
-        if ( password == null ) {
-            throw new IllegalArgumentException( "User needs a password." );
-        }
-        if ( password.length() < 6 || password.length() > 20 ) {
-            throw new IllegalArgumentException( "Invalid password length." );
-        }
-        if ( !password.matches( "^[a-zA-Z0-9!?$@]*$" ) ) {
-            throw new IllegalArgumentException( "Invalid characters in password." );
-        }
+	/**
+	 * Sets the username for the current user. Throw an IllegalArgument exception if
+	 * provided String is null, empty, is not between 6-20 characters, or contains
+	 * characters other than the permitted alphanumeric set of characters
+	 *
+	 * @param username represents the username to set the current user's username to
+	 * @throws IllegalArgumentException if provided username is a null or empty
+	 *                                  String
+	 * @throws IllegalArgumentException if the username is not of the required
+	 *                                  length
+	 * @throws IllegalArgumentException if provided username contains a character
+	 *                                  other than the permitted alphanumeric
+	 *                                  symbols
+	 */
+	public void setName(final String username) {
+		if (username == null || "".equals(username)) {
+			throw new IllegalArgumentException("User needs a username.");
+		}
+		if (username.length() < 6 || username.length() > 20) {
+			throw new IllegalArgumentException("Invalid username length.");
+		}
+		if (!username.matches("^[a-zA-Z0-9]*$")) {
+			throw new IllegalArgumentException("Invalid characters in username.");
+		}
 
-        this.password = password;
-    }
+		this.name = username;
+	}
 
-    /**
-     * Returns userType of current user
-     *
-     * @return userTypeof current user
-     */
-    public UserEnum getUserType () {
-        return userType;
-    }
+	/**
+	 * Sets the password for the current user. Throw an IllegalArgument exception if
+	 * provided String is null, empty, is not between 6-20 characters, or contains
+	 * characters other than the permitted alphanumeric, '?', '!', '$', '@' set of
+	 * characters
+	 *
+	 * @param password represents the password to set the current user's password to
+	 * @throws IllegalArgumentException if provided password is a null or empty
+	 * @throws IllegalArgumentException if the username is not of the required
+	 *                                  length String
+	 * @throws IllegalArgumentException if provided password contains a character
+	 *                                  other than the permitted alphanumeric
+	 *                                  symbols
+	 */
+	public void setPassword(final String password) {
+		if (password == null) {
+			throw new IllegalArgumentException("User needs a password.");
+		}
+		if (password.length() < 6 || password.length() > 20) {
+			throw new IllegalArgumentException("Invalid password length.");
+		}
+		if (!password.matches("^[a-zA-Z0-9!?$@]*$")) {
+			throw new IllegalArgumentException("Invalid characters in password.");
+		}
 
-    /**
-     * Returns password for current user
-     *
-     * @return password for current user
-     */
+		this.password = password;
+	}
 
-    public String setUserType ( final UserEnum userType ) {
-        return userType == UserEnum.CUSTOMER ? "Customer" : "Staff";
+	@Override
+	public Serializable getId() {
+		return this.id;
+	}
 
-    }
+	/**
+	 * Set the ID of the Recipe (Used by Hibernate)
+	 *
+	 * @param id the ID
+	 */
+	@SuppressWarnings("unused")
+	private void setId(final Long id) {
+		this.id = id;
+	}
 
-    @Override
-    public int hashCode () {
-        return Objects.hash( password, name );
-    }
+	/**
+	 * Returns userType of current user
+	 *
+	 * @return userTypeof current user
+	 */
+	public UserEnum getUserType() {
+		return userType;
+	}
 
-    @Override
-    public boolean equals ( final Object obj ) {
-        if ( this == obj ) {
-            return true;
-        }
-        if ( obj == null ) {
-            return false;
-        }
-        if ( getClass() != obj.getClass() ) {
-            return false;
-        }
-        final User other = (User) obj;
-        return Objects.equals( password, other.password ) && Objects.equals( name, other.name );
-    }
+	/**
+	 * Returns password for current user
+	 *
+	 * @param userType Enumeration representing type of user account
+	 */
 
-    @Override
-    public Serializable getId () {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	public void setUserType(final UserEnum userType) {
+		this.userType = userType;
+
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(password, name);
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final User other = (User) obj;
+		return Objects.equals(password, other.password) && Objects.equals(name, other.name);
+	}
 }
