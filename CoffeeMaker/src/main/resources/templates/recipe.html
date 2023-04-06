@@ -36,23 +36,33 @@
              //console.log(Array.isArray($scope.ingredients));
           });
         }
-        
+        $scope.recipe = {
+          name: "",
+          price: "",
+          ingredients: []
+        };
         updateIngredients();
+        
         // console.log($scope.ingredients);
         $scope.reset = function () {
           $scope.recipe = {
-            name: "",
-            price: "",
-            ingredients: []
+        	  name: "",
+        	  price: "",
+          	  ingredients: []
           };
+          
           if (undefined != $scope.addRecipeForm) {
             $scope.addRecipeForm.$setPristine(); // reset Form
           }
         };
 
         $scope.submit = function () {
+          console.log($scope.recipe);
           $scope.recipe.ingredients = [...$scope.selectedIngredients];
-          console.log($scope.recipe.ingredients);
+          $scope.recipe.name = $scope.recipename;
+          $scope.recipe.price = $scope.recipeprice;
+          //console.log($scope.recipe.ingredients);
+          console.log($scope.recipe);
           $scope.addRecipe();
 		  //console.log($scope.recipe);
           $scope.reset();
@@ -138,7 +148,7 @@
                 <div class="col-md-7">
                   <input
                     type="text"
-                    ng-model="recipe.name"
+                    ng-model="recipename"
                     name="name"
                     class="name form-control input-sm"
                     placeholder="Enter recipe name"
@@ -162,7 +172,7 @@
                 <div class="col-md-7">
                   <input
                     type="number"
-                    ng-model="recipe.price"
+                    ng-model="recipeprice"
                     name="price"
                     class="price form-control input-sm"
                     placeholder="Enter recipe price"

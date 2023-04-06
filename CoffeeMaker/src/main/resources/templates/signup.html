@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+  <div layout:fragment="content">
+  	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+
+    <script>
+    	/*<![CDATA[*/
+        var app = angular.module("myApp", []);
+        app.controller("signupCtrl", function ($scope, $http, $q) {
+
+        $scope.user = {
+        	name: "",
+        	password: "",
+        	userType: "",
+        };
+        
+        $scope.reset = function () {
+            $scope.user.name = "";
+            $scope.user.password = "";
+            $scope.user.userType = "";
+            if (undefined != $scope.signUpForm) {
+              $scope.signUpForm.$setPristine(); // reset Form
+            }
+        };
+        
+        $scope.submit = function () {
+            console.log($scope.user);
+            $scope.success = false;
+            $scope.failure = false;
+            $http.post("/api/v1/users", $scope.user).then(
+               	function (success) {
+                	$scope.success = true;
+                    $scope.failure = false;
+                },
+                function (rejection) {
+                    console.error("Error while adding user");
+                }
+            );
+            
+        };
+        });
+        /*]]>*/
+    </script>
+    <div class="generic-container ng-cloak"
+        ng-app="myApp"
+        ng-controller="signupCtrl as ctrl"
+        style="
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 15px;
+            position: relative;
+            padding-bottom: 150px;
+        "
+    >
+  
+    <nav
+      style="
+        background-color: #b9a184;
+        padding: 10px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+      "
+    >
+      <a href="/index"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          fill="black"
+          class="bi bi-list"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+          /></svg
+      ></a>
+    </nav>
+    <h1 style="margin: 50px 0 50px 15px">Signup</h1>
+    <span>
+        <!-- Form which handles the creation of an User object (sfatima3) -->
+        <form
+          style="margin: 10px 10px 10px 0px"
+          ng-submit="submit()"
+          name="signUpForm"
+          class="form-horizontal"
+        >
+          <label
+            for="user_name"
+            style="
+              display: inline-block;
+              width: 150px;
+              margin-right: 30px;
+              margin-left: 15px;
+              text-align: left;
+            "
+            >Username:</label
+          >
+
+          <input
+            type="text"
+            id="user_name"
+            ng-model="user.name"
+            placeholder="Enter username"
+            style="
+              margin: 10px 10px 10px 0px;
+              display: inline;
+              vertical-align: middle;
+              border-radius: 5px;
+              border-width: 1px;
+            "
+            required="true"
+          />
+          <br />
+          <label
+            for="password"
+            style="
+              display: inline-block;
+              width: 150px;
+              margin-right: 30px;
+              margin-left: 15px;
+              text-align: left;
+            "
+            >Password:</label
+          >
+
+          <input
+            type="text"
+            id="password"
+            ng-model="user.password"
+            placeholder="Enter password"
+            style="
+              margin: 10px 10px 10px 0px;
+              display: inline;
+              vertical-align: middle;
+              border-radius: 5px;
+              border-width: 1px;
+            "
+            required="true"
+          />
+          <br />
+          <label 
+            for="roles"
+            style="
+              display: inline-block;
+              width: 150px;
+              margin-right: 30px;
+              margin-left: 15px;
+              text-align: left;
+            "
+            >Choose a role:</label>
+            <select ng-model="user.userType" style="
+                    margin: 10px 10px 10px 0px;
+                    display: inline;
+                    vertical-align: middle;
+                    border-radius: 5px;
+                    border-width: 1px;
+                  ">
+	          <option value="">Select Role</option>
+              <option value="customer">Customer</option>
+              <option value="staff">Staff</option>
+           </select>
+         <br />
+   				<button
+                  type="button"
+                  ng-click="submit()"
+                  class="btn btn-warning btn-sm"
+                  ng-disabled="signUpForm.$pristine"
+                  style="
+                    border-radius: 20px;
+                    background: #81d58a;
+                    border-color: transparent;
+                    padding: 10px 25px 10px 25px;
+                    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+                    color: black;
+                    position: absolute;
+                    right: 200px;
+                    bottom: 25px;
+                  "
+                >Sign Up</button>
+                <br />
+                <button
+                  type="button"
+                  ng-click="reset()"
+                  class="btn btn-warning btn-sm"
+                  ng-disabled="signUpForm.$pristine"
+                  style="
+                    border-radius: 20px;
+                    background: #81d58a;
+                    border-color: transparent;
+                    padding: 10px 25px 10px 25px;
+                    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+                    position: absolute;
+                    right: 80px;
+                    bottom: 25px;
+                  "
+                >Login Page</button>
+        </form>          
+      </span>
+    </div>
+  </body>
+</html>

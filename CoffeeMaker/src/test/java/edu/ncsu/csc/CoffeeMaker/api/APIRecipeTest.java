@@ -35,7 +35,7 @@ import edu.ncsu.csc.CoffeeMaker.services.RecipeService;
 /**
  * Tests class for APIRecipe
  *
- * @author ellvm
+ * @author Ellie Murphy
  *
  */
 @SpringBootTest
