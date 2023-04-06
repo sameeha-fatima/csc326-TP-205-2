@@ -144,7 +144,8 @@ public class MappingController {
     @GetMapping ( { "/staffview", "/staffview.html" } )
     public String staffViewForm ( final Model model ) {
         return "staffview";
-        
+    }
+
     /**
      * On a GET request to /login, the LoginController will return
      * /src/main/resources/templates/login.html.
