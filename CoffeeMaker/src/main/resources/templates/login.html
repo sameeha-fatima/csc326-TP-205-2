@@ -18,31 +18,32 @@
         app.controller("loginCtrl", function ($scope, $http, $q) {
 
         $scope.user = {
-        	username: "",
+        	name: "",
         	password: "",
-        	userrole: "",
+        	userType: "",
         };
         
         $scope.reset = function () {
-            $scope.user.username = "";
+            $scope.user.name = "";
             $scope.user.password = "";
-            $scope.user.userrole = "";
+            $scope.user.userType = "";
             if (undefined != $scope.loginForm) {
               $scope.loginForm.$setPristine(); // reset Form
             }
         };
         
         $scope.submit = function () {
-            console.log($scope.user.username);
+            console.log($scope.user.name);
             console.log($scope.user.password);
-            console.log($scope.user.userrole);
+            console.log($scope.user.userType);
             $scope.success = false;
             $scope.failure = false;
-            $http.get("/api/v1/users/" + $scope.user.username).then( function (response) {
+            $http.get("/api/v1/users/" + $scope.user.name).then( function (response) {
             	$scope.databaseUser = response.data; 
-            	if ($scope.databaseUser.name.equals($scope.user.username)) {
-            		if ($scope.databaseUser.password.equals($scope.user.password)) {
+            	if ($scope.databaseUser.name == $scope.user.name) {
+            		if ($scope.databaseUser.password == $scope.user.password) {
             			$scope.success = true;
+            			alert("Signed in for user: " + $scope.user.name);
             		}
             		else {
             			$scope.success = false;
@@ -56,7 +57,7 @@
             	
             	 $scope.url = "";
             	
-            	if ($scope.userrole.equals("staff")) {
+            	if ($scope.userType == "staff") {
             		$scope.url = "/staffview.html";
             	}
             	else {
@@ -131,7 +132,7 @@
           <input
             type="text"
             id="user_name"
-            ng-model="user.username"
+            ng-model="user.name"
             placeholder="Enter username"
             style="
               margin: 10px 10px 10px 0px;

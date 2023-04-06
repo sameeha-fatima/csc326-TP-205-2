@@ -61,12 +61,26 @@ public class User extends DomainObject {
 	 * @param password represents password of User object
 	 * @param userType Enumeration representing type of user account
 	 */
-	public User(final String name, final String password, final UserEnum userType) {
+	public User(final String name, final String password, final String userType) {
 		this();
 		setPassword(password);
 		setUserType(userType);
 		setName(name);
 	}
+
+//	/**
+//	 * All-argument constructor for User
+//	 *
+//	 * @param name     represents username of User object
+//	 * @param password represents password of User object
+//	 * @param userType String representing type of user account
+//	 */
+//	public User(final String name, final String password, final String userType) {
+//		this();
+//		setPassword(password);
+//		this.userType = "customer".equalsIgnoreCase(userType) ? UserEnum.CUSTOMER : UserEnum.STAFF;
+//		setName(name);
+//	}
 
 	/**
 	 * Returns username of current user
@@ -172,8 +186,8 @@ public class User extends DomainObject {
 	 * @param userType Enumeration representing type of user account
 	 */
 
-	public void setUserType(final UserEnum userType) {
-		this.userType = userType;
+	public void setUserType(final String userType) {
+		this.userType = "customer".equalsIgnoreCase(userType) ? UserEnum.CUSTOMER : UserEnum.STAFF;
 
 	}
 

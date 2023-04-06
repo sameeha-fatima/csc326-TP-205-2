@@ -18,33 +18,31 @@
         app.controller("signupCtrl", function ($scope, $http, $q) {
 
         $scope.user = {
-        	username: "",
+        	name: "",
         	password: "",
-        	userrole: "",
+        	userType: "",
         };
         
         $scope.reset = function () {
-            $scope.user.username = "";
+            $scope.user.name = "";
             $scope.user.password = "";
-            $scope.user.userrole = "";
+            $scope.user.userType = "";
             if (undefined != $scope.signUpForm) {
               $scope.signUpForm.$setPristine(); // reset Form
             }
         };
         
         $scope.submit = function () {
-            console.log($scope.user.username);
-            console.log($scope.user.password);
-            console.log($scope.user.userrole);
+            console.log($scope.user);
             $scope.success = false;
             $scope.failure = false;
-            $http.put("/api/v1/users", $scope.user).then(
-            	function (success) {
+            $http.post("/api/v1/users", $scope.user).then(
+               	function (success) {
                 	$scope.success = true;
                     $scope.failure = false;
                 },
                 function (rejection) {
-                    console.error("Error while adding recipe");
+                    console.error("Error while adding user");
                 }
             );
             
@@ -112,7 +110,7 @@
           <input
             type="text"
             id="user_name"
-            ng-model="user.username"
+            ng-model="user.name"
             placeholder="Enter username"
             style="
               margin: 10px 10px 10px 0px;
@@ -161,7 +159,7 @@
               text-align: left;
             "
             >Choose a role:</label>
-            <select ng-model="user.userrole" style="
+            <select ng-model="user.userType" style="
                     margin: 10px 10px 10px 0px;
                     display: inline;
                     vertical-align: middle;
