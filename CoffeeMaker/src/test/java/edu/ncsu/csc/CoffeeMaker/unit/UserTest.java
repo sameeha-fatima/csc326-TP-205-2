@@ -55,38 +55,38 @@ public class UserTest {
 		assertEquals(0, service.count());
 		final User c1 = new User("customer1", "iamapassword", UserEnum.CUSTOMER);
 		service.save(c1);
-		assertEquals(c1.getUsername(), "customer1");
+		assertEquals(c1.getName(), "customer1");
 		assertEquals(c1.getPassword(), "iamapassword");
 		assertEquals(1, service.count());
 
 		final User c2 = new User("customer2", "iamapassword", UserEnum.CUSTOMER);
 		service.save(c2);
-		assertEquals(c2.getUsername(), "customer2");
+		assertEquals(c2.getName(), "customer2");
 		assertEquals(c2.getPassword(), "iamapassword");
 		assertEquals(2, service.count());
 
 		// testing creating a customer object invalid
-		Exception e = assertThrows(IllegalArgumentException.class, () -> c1.setUsername(null));
+		Exception e = assertThrows(IllegalArgumentException.class, () -> c1.setName(null));
 		assertEquals("User needs a username.", e.getMessage());
-		e = assertThrows(IllegalArgumentException.class, () -> c1.setUsername(""));
+		e = assertThrows(IllegalArgumentException.class, () -> c1.setName(""));
 		assertEquals("User needs a username.", e.getMessage());
 
 		// testing creating a staff object
 		final User s1 = new User("staff1", "iamapassword", UserEnum.STAFF);
 		service.save(s1);
-		assertEquals(s1.getUsername(), "staff1");
+		assertEquals(s1.getName(), "staff1");
 		assertEquals(s1.getPassword(), "iamapassword");
 		assertEquals(3, service.count());
 
 		final User s2 = new User("staff2", "iamapassword", UserEnum.STAFF);
 		service.save(s2);
-		assertEquals(s2.getUsername(), "staff2");
+		assertEquals(s2.getName(), "staff2");
 		assertEquals(s2.getPassword(), "iamapassword");
 		assertEquals(4, service.count());
 
 		final User s3 = new User("staff3", "iamapassword!", UserEnum.STAFF);
 		service.save(s3);
-		assertEquals(s3.getUsername(), "staff3");
+		assertEquals(s3.getName(), "staff3");
 		assertEquals(s3.getPassword(), "iamapassword!");
 		assertEquals(5, service.count());
 
@@ -146,11 +146,11 @@ public class UserTest {
 		final User s1 = new User("customer1", "111111", UserEnum.STAFF);
 
 		// invalid customer username length
-		Exception e = assertThrows(IllegalArgumentException.class, () -> s1.setUsername("c"));
+		Exception e = assertThrows(IllegalArgumentException.class, () -> s1.setName("c"));
 		assertEquals("Invalid username length.", e.getMessage());
-		e = assertThrows(IllegalArgumentException.class, () -> s1.setUsername("custo"));
+		e = assertThrows(IllegalArgumentException.class, () -> s1.setName("custo"));
 		assertEquals("Invalid username length.", e.getMessage());
-		e = assertThrows(IllegalArgumentException.class, () -> s1.setUsername("customer1111111111111111111"));
+		e = assertThrows(IllegalArgumentException.class, () -> s1.setName("customer1111111111111111111"));
 		assertEquals("Invalid username length.", e.getMessage());
 
 		// invalid customer password length
@@ -172,21 +172,21 @@ public class UserTest {
 		// valid customer username
 		final User c1 = new User("customer1", "111111", UserEnum.CUSTOMER);
 
-		c1.setUsername("customer");
-		assertEquals(c1.getUsername(), "customer");
-		c1.setUsername("111111");
-		assertEquals(c1.getUsername(), "111111");
-		c1.setUsername("CUSTOMER1");
-		assertEquals(c1.getUsername(), "CUSTOMER1");
-		c1.setUsername("CuStOmEr1");
-		assertEquals(c1.getUsername(), "CuStOmEr1");
+		c1.setName("customer");
+		assertEquals(c1.getName(), "customer");
+		c1.setName("111111");
+		assertEquals(c1.getName(), "111111");
+		c1.setName("CUSTOMER1");
+		assertEquals(c1.getName(), "CUSTOMER1");
+		c1.setName("CuStOmEr1");
+		assertEquals(c1.getName(), "CuStOmEr1");
 
 		// invalid customer username
-		Exception e = assertThrows(IllegalArgumentException.class, () -> c1.setUsername("username!!"));
+		Exception e = assertThrows(IllegalArgumentException.class, () -> c1.setName("username!!"));
 		assertEquals("Invalid characters in username.", e.getMessage());
-		e = assertThrows(IllegalArgumentException.class, () -> c1.setUsername("@_@?????"));
+		e = assertThrows(IllegalArgumentException.class, () -> c1.setName("@_@?????"));
 		assertEquals("Invalid characters in username.", e.getMessage());
-		e = assertThrows(IllegalArgumentException.class, () -> c1.setUsername("$!@*??"));
+		e = assertThrows(IllegalArgumentException.class, () -> c1.setName("$!@*??"));
 		assertEquals("Invalid characters in username.", e.getMessage());
 
 		// valid customer password
@@ -228,14 +228,14 @@ public class UserTest {
 		// valid staff username
 		final User s1 = new User("staff1", "111111", UserEnum.STAFF);
 
-		s1.setUsername("staffffff");
-		assertEquals(s1.getUsername(), "staffffff");
-		s1.setUsername("111111");
-		assertEquals(s1.getUsername(), "111111");
-		s1.setUsername("STAFF1");
-		assertEquals(s1.getUsername(), "STAFF1");
-		s1.setUsername("StAfF1");
-		assertEquals(s1.getUsername(), "StAfF1");
+		s1.setName("staffffff");
+		assertEquals(s1.getName(), "staffffff");
+		s1.setName("111111");
+		assertEquals(s1.getName(), "111111");
+		s1.setName("STAFF1");
+		assertEquals(s1.getName(), "STAFF1");
+		s1.setName("StAfF1");
+		assertEquals(s1.getName(), "StAfF1");
 
 		// valid staff password
 		final User s2 = new User("staff2", "111111", UserEnum.CUSTOMER);
