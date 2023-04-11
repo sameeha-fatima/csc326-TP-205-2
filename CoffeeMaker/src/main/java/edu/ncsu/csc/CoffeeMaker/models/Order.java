@@ -1,5 +1,7 @@
 package edu.ncsu.csc.CoffeeMaker.models;
 
+import java.util.Objects;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -21,14 +23,20 @@ public class Order extends DomainObject {
     private Long    id;
 
     /**
-     * Represents the username identifier for a User object, must be between 6
+     * Represents the username identifier for a Order object, must be between 6
      * and 20 characters
      */
     @Length ( min = 6, max = 20 )
     private String  customerUsername;
-
+    
+    /**
+     * Represents the recipe identifier for an Order object.
+     */
     private Recipe  recipe;
-
+    
+    /**
+     * Represents the isFulfilled identifier for an Order object.
+     */
     private boolean isFulfilled;
 
     /**
@@ -91,6 +99,41 @@ public class Order extends DomainObject {
 
     public void fulfillOrder () {
         setFulfilled( true );
+    }
+    
+    /**
+     * Returns the customerUsername and recipe name of the order.
+     *
+     * @return String
+     */
+    @Override
+    public String toString() {
+        String orderString = customerUsername + ", " + recipe.getName() + ", "
+                + isFulfilled;
+        
+        return orderString;
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerUsername, recipe, isFulfilled);
+    }
+    
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Order other = (Order) obj;
+        return Objects.equals(customerUsername, other.customerUsername) && 
+                Objects.equals(recipe, other.recipe) && 
+                Objects.equals( isFulfilled, other.isFulfilled );
     }
 
 }
