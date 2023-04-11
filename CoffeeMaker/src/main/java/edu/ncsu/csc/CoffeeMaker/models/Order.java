@@ -47,9 +47,9 @@ public class Order extends DomainObject {
      */
     public Order ( final String customerUsername, final Recipe recipe, final boolean isFulfilled ) {
         this();
-        // setPassword(password);
-        // setUserType(userType);
-        // setName(name);
+        setCustomerUsername( customerUsername );
+        setRecipe( recipe );
+        setFulfilled( isFulfilled );
     }
 
     @Override
@@ -84,6 +84,10 @@ public class Order extends DomainObject {
 
     public void setFulfilled ( final boolean isFulfilled ) {
         this.isFulfilled = isFulfilled;
+    }
+
+    public void fulfillOrder () {
+        setFulfilled( true );
     }
 
 }
