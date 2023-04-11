@@ -6,6 +6,9 @@ import javax.persistence.Id;
 import org.hibernate.validator.constraints.Length;
 
 /**
+ * Order for the coffee maker. Order is tied to the database using Hibernate
+ * libraries. See OrderRepository and OrderService for the other two pieces
+ * used for database support.
  *
  * @author cbdocke2
  *
@@ -36,14 +39,14 @@ public class Order extends DomainObject {
     }
 
     /**
-     * All-argument constructor for User
+     * All-argument constructor for Order
      *
-     * @param name
-     *            represents username of User object
-     * @param password
-     *            represents password of User object
-     * @param userType
-     *            Enumeration representing type of user account
+     * @param customerUsername
+     *            represents username of Order object
+     * @param recipe
+     *            represents recipe of Order object
+     * @param isFulfilled
+     *            boolean representing whether order has been fulfilled
      */
     public Order ( final String customerUsername, final Recipe recipe, final boolean isFulfilled ) {
         this();
