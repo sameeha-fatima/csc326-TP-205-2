@@ -19,16 +19,16 @@
       "
     >
       <!-- Header bar for home page, main purpose is aesthetics (evmurphy) -->
-     <nav
+      <nav
         style="
           background-color: #b9a184;
-          padding: 20px;
+          padding: 25px;
           position: absolute;
           left: 0;
           right: 0;
           top: 0;
         "
-      ><a href="/index" style="color: black; padding: 5px;">Logout</a></nav>
+      ></nav>
       <!-- Headings with title of application and prompt to select and an action (evmurphy) -->
       <h1 style="margin: 50px 0 50px 15px">Coffee Maker</h1>
       <h2 style="margin: 30px 0 30px 0; text-align: center; font-size: 25px">
@@ -36,7 +36,7 @@
       </h2>
       <!-- Grid which contains all the possible actions in Coffee Maker (evmurphy) -->
       <div class="gridContainer" style="position: relative; left: 13%">
-        <!-- First row containing Add Recipe, Edit Recipe, and Delete Recipe actions (evmurphy) -->
+        <!-- First row containing Add Recipe, Edit Recipe, and Order Beverage actions (evmurphy) -->
         <div class="row" style="margin-bottom: 10px">
           <div class="col-md-3">
             <span style="background-color: #d5c0a8">
@@ -69,23 +69,38 @@
             >
           </div>
           <div class="col-md-3">
-          <span class="labelIndicators" style="background-color: #b9a184">
-            <a
-              href="deleterecipe.html"
-              style="
-                color: black;
-                background-color: #b9a184;
-                padding: 15px 20px;
-                display: block;
-                text-align: center;
-              "
-              >Delete Recipe</a
+            <span style="background-color: #d5c0a8">
+              <a
+                href="makecoffee.html"
+                style="
+                  color: black;
+                  background-color: #d5c0a8;
+                  display: block;
+                  padding: 15px 20px;
+                  text-align: center;
+                "
+                >Order Beverage</a
+              ></span
             >
-          </span>
-        </div>
+          </div>
         </div>
         <!-- Second row containing Delete Recipe, Update Inventory, and Add Ingredients actions (evmurphy) -->
         <div class="row" style="margin-top: 20px">
+          <div class="col-md-3">
+            <span class="labelIndicators" style="background-color: #b9a184">
+              <a
+                href="deleterecipe.html"
+                style="
+                  color: black;
+                  background-color: #b9a184;
+                  padding: 15px 20px;
+                  display: block;
+                  text-align: center;
+                "
+                >Delete Recipe</a
+              >
+            </span>
+          </div>
           <div class="col-md-3">
             <span class="labelIndicators" style="background-color: #d5c0a8">
               <a
@@ -116,7 +131,41 @@
               ></span
             >
           </div>
+        </div>
+        <!-- Third row containing Signup (temporary) -->
+        <div class="row" style="margin-top: 20px">
           <div class="col-md-3">
+            <span class="labelIndicators" style="background-color: #d5c0a8"
+              ><a
+                href="login.html"
+                style="
+                  color: black;
+                  background-color: #d5c0a8;
+                  padding: 15px 20px;
+                  display: block;
+                  text-align: center;
+                "
+                >Login</a
+              ></span
+            >
+          </div>
+        </div>
+        <!-- Third row containing Signup (temporary) -->
+        <div class="row" style="margin-top: 20px">
+          <div class="col-md-3">
+            <span class="labelIndicators" style="background-color: #d5c0a8"
+              ><a
+                href="signup.html"
+                style="
+                  color: black;
+                  background-color: #d5c0a8;
+                  padding: 15px 20px;
+                  display: block;
+                  text-align: center;
+                "
+                >Sign Up</a
+              ></span
+            >
           </div>
         </div>
       </div>
