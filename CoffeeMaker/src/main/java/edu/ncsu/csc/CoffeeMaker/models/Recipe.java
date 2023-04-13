@@ -34,7 +34,7 @@ public class Recipe extends DomainObject {
 	private Integer price;
 
 	/** Represents the list of ingredients in a recipe */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private final List<Ingredient> ingredients;
 
 	/**

@@ -16,7 +16,9 @@
     	/*<![CDATA[*/
         var app = angular.module("myApp", []);
         app.controller("loginCtrl", function ($scope, $http, $q) {
-
+		// represents the menu that should display when you login
+        $scope.userMenu = "index.html";
+		// represents the user object that will be used in call to GET on submit
         $scope.user = {
         	name: "",
         	password: "",
@@ -35,7 +37,7 @@
         $scope.submit = function () {
             console.log($scope.user.name);
             console.log($scope.user.password);
-            console.log($scope.user.userType);
+            //console.log($scope.user.userType);
             $scope.success = false;
             $scope.failure = false;
             $http.get("/api/v1/users/" + $scope.user.name).then( function (response) {
@@ -43,7 +45,12 @@
             	if ($scope.databaseUser.name == $scope.user.name) {
             		if ($scope.databaseUser.password == $scope.user.password) {
             			$scope.success = true;
-            			//alert("Signed in for user: " + $scope.user.name);
+            			console.log($scope.databaseUser);
+            			// set userType of our local user to the one from the database
+            			$scope.user.userType = $scope.databaseUser.userType;
+            			console.log($scope.user.userType);
+            			// then, update the href we'll re-route to after pressing continue
+            			$scope.userMenu = $scope.user.userType == "CUSTOMER" ? "customerview.html" : "staffview.html";
             		}
             		else {
             			$scope.success = false;
@@ -221,7 +228,7 @@
                     position: absolute;
                     left: 80px;
                     bottom: 25px;
-                  "><a href="/index">Continue</a></div>
+                  "><a href="{{userMenu}}">Continue</a></div>
     </div>
   </body>
 </html>
