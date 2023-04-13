@@ -1,9 +1,13 @@
 package edu.ncsu.csc.CoffeeMaker.models;
 
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -36,7 +40,8 @@ public class Order extends DomainObject {
     /**
      * Represents the recipe identifier for an Order object.
      */
-    private Recipe  recipe;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Recipe>  beverages;
 
     /**
      * Represents the isFulfilled identifier for an Order object.
@@ -53,6 +58,8 @@ public class Order extends DomainObject {
     /**
      * All-argument constructor for Order
      *
+     * @param orderId
+     *            represents orderId of Order object
      * @param customerUsername
      *            represents username of Order object
      * @param recipe
@@ -60,12 +67,12 @@ public class Order extends DomainObject {
      * @param isFulfilled
      *            boolean representing whether order has been fulfilled
      */
-    public Order ( final String orderId, final String customerUsername, final Recipe recipe,
+    public Order ( final String orderId, final String customerUsername, final List<Recipe> beverages,
             final boolean isFulfilled ) {
         this();
         setOrderId( orderId );
         setCustomerUsername( customerUsername );
-        setRecipe( recipe );
+        setBeverages( beverages );
         setFulfilled( isFulfilled );
     }
 
@@ -95,12 +102,12 @@ public class Order extends DomainObject {
         this.customerUsername = customerUsername;
     }
 
-    public Recipe getRecipe () {
-        return recipe;
+    public List<Recipe> getBeverages () {
+        return beverages;
     }
 
-    public void setRecipe ( final Recipe recipe ) {
-        this.recipe = recipe;
+    public void setBeverages ( final List<Recipe> beverages ) {
+        this.beverages = beverages;
     }
 
     public boolean isFulfilled () {
@@ -122,14 +129,20 @@ public class Order extends DomainObject {
      */
     @Override
     public String toString () {
-        final String orderString = customerUsername + ", " + recipe.getName() + ", " + isFulfilled;
+        String orderString = customerUsername + ", ";
+        
+        for(int i = 0; i < beverages.size(); i++) {
+            orderString += beverages.get( i ).getName() + ", ";
+        }
+        
+        orderString += isFulfilled;
 
         return orderString;
     }
 
     @Override
     public int hashCode () {
-        return Objects.hash( customerUsername, recipe, isFulfilled );
+        return Objects.hash( customerUsername, beverages, isFulfilled );
     }
 
     @Override
@@ -144,7 +157,7 @@ public class Order extends DomainObject {
             return false;
         }
         final Order other = (Order) obj;
-        return Objects.equals( customerUsername, other.customerUsername ) && Objects.equals( recipe, other.recipe )
+        return Objects.equals( customerUsername, other.customerUsername ) && Objects.equals( beverages, other.beverages )
                 && Objects.equals( isFulfilled, other.isFulfilled );
     }
 
