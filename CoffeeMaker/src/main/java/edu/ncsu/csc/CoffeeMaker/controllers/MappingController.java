@@ -158,4 +158,17 @@ public class MappingController {
     public String loginForm ( final Model model ) {
         return "login";
     }
+
+    /**
+     * On a GET request to /orderpickup, the OrderPickupController will return
+     * /src/main/resources/templates/orderpickup.html.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/orderpickup", "/orderpickup.html" } )
+    public String orderPickupForm ( final Model model ) {
+        return "orderpickup";
+    }
 }
