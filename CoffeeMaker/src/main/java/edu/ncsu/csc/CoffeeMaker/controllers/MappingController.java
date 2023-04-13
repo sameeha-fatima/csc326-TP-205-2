@@ -14,161 +14,160 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MappingController {
 
-    /**
-     * On a GET request to /index, the IndexController will return
-     * /src/main/resources/templates/index.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/index", "/" } )
-    public String index ( final Model model ) {
-        return "index";
-    }
+	/**
+	 * On a GET request to /index, the IndexController will return
+	 * /src/main/resources/templates/index.html.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/index", "/" })
+	public String index(final Model model) {
+		return "index";
+	}
 
-    /**
-     * On a GET request to /recipe, the RecipeController will return
-     * /src/main/resources/templates/recipe.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/recipe", "/recipe.html" } )
-    public String addRecipePage ( final Model model ) {
-        return "recipe";
-    }
+	/**
+	 * On a GET request to /recipe, the RecipeController will return
+	 * /src/main/resources/templates/recipe.html.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/recipe", "/recipe.html" })
+	public String addRecipePage(final Model model) {
+		return "recipe";
+	}
 
-    /**
-     * On a GET request to /deleterecipe, the DeleteRecipeController will return
-     * /src/main/resources/templates/deleterecipe.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/deleterecipe", "/deleterecipe.html" } )
-    public String deleteRecipeForm ( final Model model ) {
-        return "deleterecipe";
-    }
+	/**
+	 * On a GET request to /deleterecipe, the DeleteRecipeController will return
+	 * /src/main/resources/templates/deleterecipe.html.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/deleterecipe", "/deleterecipe.html" })
+	public String deleteRecipeForm(final Model model) {
+		return "deleterecipe";
+	}
 
-    /**
-     * On a GET request to /editrecipe, the EditRecipeController will return
-     * /src/main/resources/templates/editrecipe.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/editrecipe", "/editrecipe.html" } )
-    public String editRecipeForm ( final Model model ) {
-        return "editrecipe";
-    }
+	/**
+	 * On a GET request to /editrecipe, the EditRecipeController will return
+	 * /src/main/resources/templates/editrecipe.html.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/editrecipe", "/editrecipe.html" })
+	public String editRecipeForm(final Model model) {
+		return "editrecipe";
+	}
 
-    /**
-     * Handles a GET request for inventory. The GET request provides a view to
-     * the client that includes the list of the current ingredients in the
-     * inventory and a form where the client can enter more ingredients to add
-     * to the inventory.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/inventory", "/inventory.html" } )
-    public String inventoryForm ( final Model model ) {
-        return "inventory";
-    }
+	/**
+	 * Handles a GET request for inventory. The GET request provides a view to the
+	 * client that includes the list of the current ingredients in the inventory and
+	 * a form where the client can enter more ingredients to add to the inventory.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/inventory", "/inventory.html" })
+	public String inventoryForm(final Model model) {
+		return "inventory";
+	}
 
-    /**
-     * On a GET request to /makecoffee, the MakeCoffeeController will return
-     * /src/main/resources/templates/makecoffee.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/makecoffee", "/makecoffee.html" } )
-    public String makeCoffeeForm ( final Model model ) {
-        return "makecoffee";
-    }
+	/**
+	 * On a GET request to /makecoffee, the MakeCoffeeController will return
+	 * /src/main/resources/templates/makecoffee.html.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/makecoffee", "/makecoffee.html" })
+	public String makeCoffeeForm(final Model model) {
+		return "makecoffee";
+	}
 
-    /**
-     * On a GET request to /editrecipe, the EditRecipeController will return
-     * /src/main/resources/templates/editrecipe.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/addingredients", "/addingredients.html" } )
-    public String addIngredientsForm ( final Model model ) {
-        return "addingredients";
-    }
+	/**
+	 * On a GET request to /editrecipe, the EditRecipeController will return
+	 * /src/main/resources/templates/editrecipe.html.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/addingredients", "/addingredients.html" })
+	public String addIngredientsForm(final Model model) {
+		return "addingredients";
+	}
 
-    /**
-     * On a GET request to /signup, the SignUpController will return
-     * /src/main/resources/templates/signup.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/signup", "/signup.html" } )
-    public String signUpForm ( final Model model ) {
-        return "signup";
-    }
+	/**
+	 * On a GET request to /signup, the SignUpController will return
+	 * /src/main/resources/templates/signup.html.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/signup", "/signup.html" })
+	public String signUpForm(final Model model) {
+		return "signup";
+	}
 
-    /**
-     * On a GET request to /customerview, the IndexController will return
-     * /src/main/resources/templates/customerview.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/customerview", "/customerview.html" } )
-    public String customerViewForm ( final Model model ) {
-        return "customerview";
-    }
+	/**
+	 * On a GET request to /customerview, the IndexController will return
+	 * /src/main/resources/templates/customerview.html.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/customerview", "/customerview.html" })
+	public String customerViewForm(final Model model) {
+		return "customerview";
+	}
 
-    /**
-     * On a GET request to /staffview, the IndexController will return
-     * /src/main/resources/templates/staffview.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/staffview", "/staffview.html" } )
-    public String staffViewForm ( final Model model ) {
-        return "staffview";
-    }
+	/**
+	 * On a GET request to /staffview, the IndexController will return
+	 * /src/main/resources/templates/staffview.html.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/staffview", "/staffview.html" })
+	public String staffViewForm(final Model model) {
+		return "staffview";
+	}
 
-    /**
-     * On a GET request to /login, the LoginController will return
-     * /src/main/resources/templates/login.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/login", "/login.html" } )
-    public String loginForm ( final Model model ) {
-        return "login";
-    }
+	/**
+	 * On a GET request to /login, the LoginController will return
+	 * /src/main/resources/templates/login.html.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/login", "/login.html" })
+	public String loginForm(final Model model) {
+		return "login";
+	}
 
-    /**
-     * On a GET request to /orderpickup, the OrderPickupController will return
-     * /src/main/resources/templates/orderpickup.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/orderpickup", "/orderpickup.html" } )
-    public String orderPickupForm ( final Model model ) {
-        return "orderpickup";
-    }
+	/**
+	 * On a GET request to /orderpickup, the OrderPickupController will return
+	 * /src/main/resources/templates/orderpickup.html.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/orderpickup", "/orderpickup.html" })
+	public String orderPickupForm(final Model model) {
+		return "orderpickup";
+	}
+
+	/**
+	 * On a GET request to /vieworders, the Controller will return
+	 * /src/main/resources/templates/vieworders.html.
+	 *
+	 * @param model underlying UI model
+	 * @return contents of the page
+	 */
+	@GetMapping({ "/vieworders", "/vieworders.html" })
+	public String viewOrdersForm(final Model model) {
+		return "vieworders";
+	}
 }
