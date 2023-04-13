@@ -9,8 +9,8 @@ import org.hibernate.validator.constraints.Length;
 
 /**
  * Order for the coffee maker. Order is tied to the database using Hibernate
- * libraries. See OrderRepository and OrderService for the other two pieces
- * used for database support.
+ * libraries. See OrderRepository and OrderService for the other two pieces used
+ * for database support.
  *
  * @author cbdocke2
  *
@@ -22,18 +22,22 @@ public class Order extends DomainObject {
     @GeneratedValue
     private Long    id;
 
+    /** Order's Unique ID */
+    @Id
+    private String  orderId;
+
     /**
      * Represents the username identifier for a Order object, must be between 6
      * and 20 characters
      */
     @Length ( min = 6, max = 20 )
     private String  customerUsername;
-    
+
     /**
      * Represents the recipe identifier for an Order object.
      */
     private Recipe  recipe;
-    
+
     /**
      * Represents the isFulfilled identifier for an Order object.
      */
@@ -56,8 +60,10 @@ public class Order extends DomainObject {
      * @param isFulfilled
      *            boolean representing whether order has been fulfilled
      */
-    public Order ( final String customerUsername, final Recipe recipe, final boolean isFulfilled ) {
+    public Order ( final String orderId, final String customerUsername, final Recipe recipe,
+            final boolean isFulfilled ) {
         this();
+        setOrderId( orderId );
         setCustomerUsername( customerUsername );
         setRecipe( recipe );
         setFulfilled( isFulfilled );
@@ -71,6 +77,14 @@ public class Order extends DomainObject {
     @SuppressWarnings ( "unused" )
     private void setId ( final Long id ) {
         this.id = id;
+    }
+
+    public String getOrderId () {
+        return orderId;
+    }
+
+    public void setOrderId ( final String orderId ) {
+        this.orderId = orderId;
     }
 
     public String getCustomerUsername () {
@@ -100,40 +114,38 @@ public class Order extends DomainObject {
     public void fulfillOrder () {
         setFulfilled( true );
     }
-    
+
     /**
      * Returns the customerUsername and recipe name of the order.
      *
      * @return String
      */
     @Override
-    public String toString() {
-        String orderString = customerUsername + ", " + recipe.getName() + ", "
-                + isFulfilled;
-        
+    public String toString () {
+        final String orderString = customerUsername + ", " + recipe.getName() + ", " + isFulfilled;
+
         return orderString;
     }
-    
+
     @Override
-    public int hashCode() {
-        return Objects.hash(customerUsername, recipe, isFulfilled);
+    public int hashCode () {
+        return Objects.hash( customerUsername, recipe, isFulfilled );
     }
-    
+
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
+    public boolean equals ( final Object obj ) {
+        if ( this == obj ) {
             return true;
         }
-        if (obj == null) {
+        if ( obj == null ) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if ( getClass() != obj.getClass() ) {
             return false;
         }
         final Order other = (Order) obj;
-        return Objects.equals(customerUsername, other.customerUsername) && 
-                Objects.equals(recipe, other.recipe) && 
-                Objects.equals( isFulfilled, other.isFulfilled );
+        return Objects.equals( customerUsername, other.customerUsername ) && Objects.equals( recipe, other.recipe )
+                && Objects.equals( isFulfilled, other.isFulfilled );
     }
 
 }

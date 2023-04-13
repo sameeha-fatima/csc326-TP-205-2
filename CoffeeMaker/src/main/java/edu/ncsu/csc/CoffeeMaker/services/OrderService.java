@@ -34,14 +34,14 @@ public class OrderService extends Service<Order, Long> {
     }
 
     /**
-     * Find a order with the provided name
+     * Find a order with the provided Order ID
      *
-     * @param name
-     *            Name of the order to find
+     * @param orderId
+     *            unique order identifier of the order to find
      * @return found order, null if none
      */
-    public Order findByName ( final String name ) {
-        return orderRepository.findByName( name );
+    public Order findByName ( final String orderId ) {
+        return orderRepository.findByName( orderId );
     }
 
 }

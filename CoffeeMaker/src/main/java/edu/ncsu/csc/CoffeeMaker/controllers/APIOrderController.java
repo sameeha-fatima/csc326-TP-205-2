@@ -75,7 +75,7 @@ public class APIOrderController extends APIController {
      * @return response to the request
      */
     @PutMapping ( BASE_PATH + "/orders" )
-    public ResponseEntity editRecipe ( @RequestBody final Order o ) {
+    public ResponseEntity editOrder ( @RequestBody final Order o ) {
         if ( o == null || o.getCustomerUsername() == null ) {
             return new ResponseEntity( errorResponse( "Order name is null" ), HttpStatus.BAD_REQUEST );
         }
