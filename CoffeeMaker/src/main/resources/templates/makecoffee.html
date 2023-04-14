@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>View Recipes</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="css/bootstrap.css" />
-<link rel="stylesheet" href="css/app.css" />
-</head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <title>Place Order</title>
+    <style>
+      input.ng-valid {
+        background-color: lightgreen;
+      }
+
+      input.ng-dirty.ng-invalid-required,
+      input.ng-dirty.ng-invalid-number {
+        background-color: red;
+      }
+
+      input.ng-dirty.ng-invalid-min {
+        background-color: yellow;
+      }
+    </style>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
 <body>
+	<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 
@@ -41,8 +54,37 @@
 
 	<div layout:fragment="content" class="generic-container ng-cloak"
 		ng-app="myApp" ng-controller="recipesCtrl">
-		<h1>Coffee Recipes</h1>
-		<div>
+		<!-- Navigation header which contains the menu button to return to home page (evmurphy) -->
+        <nav
+          style="
+            background-color: #b9a184;
+            padding: 10px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+          "
+        >
+          <a href="customerview.html"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="black"
+              class="bi bi-list"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+              /></svg
+          ></a>
+        </nav>
+		<h1>Place Order</h1>
+		
+		<h3>Menu Items</h3>
+		<div style="width: 25%; float:left">
+		<h4>Name</h4>
 			<ul>
 				<li ng-repeat="recipe in recipes"><label>{{recipe.name}}
 						<input type="radio" ng-model="$parent.name" name="name"
@@ -60,6 +102,14 @@
 			<div ng-show="submissionFailure">An error occurred: {{error}}</div>
 
 			<br /> <a href="staffview.html">Home</a>
+		</div>
+		<div style="width: 75%; float:right">
+			<h4>Price</h4>
+			
+			<ul style="list-style-type:none">
+				<li ng-repeat="recipe in recipes"><label>${{recipe.price}}
+				</label></li>
+			</ul>
 		</div>
 
 	</div>
