@@ -1,27 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Place Order</title>
-    <style>
-      input.ng-valid {
-        background-color: lightgreen;
-      }
+<title>Place Order</title>
+<style>
+input.ng-valid {
+	background-color: lightgreen;
+}
 
-      input.ng-dirty.ng-invalid-required,
-      input.ng-dirty.ng-invalid-number {
-        background-color: red;
-      }
+input.ng-dirty.ng-invalid-required, input.ng-dirty.ng-invalid-number {
+	background-color: red;
+}
 
-      input.ng-dirty.ng-invalid-min {
-        background-color: yellow;
-      }
-    </style>
-    <link rel="stylesheet" href="css/bootstrap.css" />
-    <link rel="stylesheet" href="css/app.css" />
-  </head>
+input.ng-dirty.ng-invalid-min {
+	background-color: yellow;
+}
+</style>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/app.css" />
+</head>
 <body>
 	<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 
@@ -47,6 +46,18 @@
 						});
 
 			}
+			
+			$scope.order = [];
+			  $scope.addToOrder = function addToOrder(recipe) {
+				  var idx = $scope.order.indexOf(recipe);
+				  if(idx > -1){
+					  $scope.order.splice(idx,1);
+				  }else{
+					  $scope.order.push(recipe);
+				  }
+				  console.log($scope.order);
+			  }
+
 		});
 
 		/*]]>*/
@@ -55,63 +66,54 @@
 	<div layout:fragment="content" class="generic-container ng-cloak"
 		ng-app="myApp" ng-controller="recipesCtrl">
 		<!-- Navigation header which contains the menu button to return to home page (evmurphy) -->
-        <nav
-          style="
-            background-color: #b9a184;
-            padding: 10px;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-          "
-        >
-          <a href="customerview.html"
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
-              fill="black"
-              class="bi bi-list"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
-              /></svg
-          ></a>
-        </nav>
+		<nav
+			style="background-color: #b9a184; padding: 10px; position: absolute; left: 0; right: 0; top: 0;">
+			<a href="customerview.html"><svg
+					xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+					fill="black" class="bi bi-list" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+						d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" /></svg></a>
+		</nav>
 		<h1>Place Order</h1>
-		
+
 		<h3>Menu Items</h3>
-		<div style="width: 25%; float:left">
-		<h4>Name</h4>
-			<ul>
-				<li ng-repeat="recipe in recipes"><label>{{recipe.name}}
-						<input type="radio" ng-model="$parent.name" name="name"
-						value="{{recipe.name}}" required="true" />
-				</label></li>
-			</ul>
-			<br /> <label for="amtPaid">Enter payment</label> <input type="text"
-				ng-model="amtPaid" name="amtPaid" required="true" /> <br /> <input
-				type="submit" ng-click="make()" value="Make Coffee"
-				class="btn btn-primary btn-sm" /> <br />
-
-			<div ng-show="submissionSuccess" class="success">Coffee was
-				made. Your change is {{change}}.</div>
-
-			<div ng-show="submissionFailure">An error occurred: {{error}}</div>
-
-			<br /> <a href="staffview.html">Home</a>
-		</div>
-		<div style="width: 75%; float:right">
-			<h4>Price</h4>
+		<div style="width: 25%; float: left">
+			<h4>Name</h4>
+			<div ng-repeat="recipe in recipes track by $index">
+			<input type="checkbox"
+				ng-click="addToOrder(recipe)">
+			<tt> {{recipe.name}}</tt>  <!-- remove the extra spaces -->
+			</div>
 			
-			<ul style="list-style-type:none">
+		</div>
+		<div style="width: 75%; float: right">
+			<h4>Price</h4>
+
+			<ul style="list-style-type: none">
 				<li ng-repeat="recipe in recipes"><label>${{recipe.price}}
 				</label></li>
 			</ul>
 		</div>
-
+		<div id="orderDetails">
+			<h3>Order</h3>
+			<div style="width: 25%; float: left">
+				<h4>Name</h4>
+				<div ng-repeat="recipe in order track by $index">
+				<label for="beverage"> {{recipe.name}}</label>
+				<input
+					id="beverage"
+                    type="text"
+                    name="units"
+                    value="{{recipe.name}}"
+                    ng-model="recipe.amount"
+                  />
+				</div>
+			</div>
+			
+			<div style="width: 75%; float: right">
+				<h4>Quantity</h4>
+				</div>
+		</div>
 	</div>
 
 </body>
