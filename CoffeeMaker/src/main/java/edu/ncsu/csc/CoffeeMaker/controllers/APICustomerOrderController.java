@@ -11,25 +11,27 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.ncsu.csc.CoffeeMaker.models.CustomerOrder;
 import edu.ncsu.csc.CoffeeMaker.models.Inventory;
-import edu.ncsu.csc.CoffeeMaker.models.Order;
-import edu.ncsu.csc.CoffeeMaker.services.OrderService;
+import edu.ncsu.csc.CoffeeMaker.services.CustomerOrderService;
 
 /**
+ * Class that handles API CRUM operations related to CustomerOrders
  *
  * @author cbdocke2
+ * @author sfatima3
  *
  */
 @SuppressWarnings ( { "unchecked", "rawtypes" } )
 @RestController
-public class APIOrderController extends APIController {
+public class APICustomerOrderController extends APIController {
 
     /**
      * OrderService object, to be autowired in by Spring to allow for
      * manipulating the Order model
      */
     @Autowired
-    private OrderService service;
+    private CustomerOrderService service;
 
     /**
      * REST API method to provide GET access to all orders in the system
@@ -37,7 +39,7 @@ public class APIOrderController extends APIController {
      * @return JSON representation of all recipes
      */
     @GetMapping ( BASE_PATH + "/orders" )
-    public List<Order> getOrders () {
+    public List<CustomerOrder> getOrders () {
         return service.findAll();
     }
 
@@ -52,7 +54,7 @@ public class APIOrderController extends APIController {
      *         the inventory, or an error if it could not be
      */
     @PostMapping ( BASE_PATH + "/orders" )
-    public ResponseEntity createOrder ( @RequestBody final Order order ) {
+    public ResponseEntity createOrder ( @RequestBody final CustomerOrder order ) {
         if ( null != service.findByName( order.getCustomerUsername() ) ) {
             return new ResponseEntity(
                     errorResponse( "Order with the name " + order.getCustomerUsername() + " already exists" ),
@@ -79,11 +81,11 @@ public class APIOrderController extends APIController {
      * @return response to the request
      */
     @PutMapping ( BASE_PATH + "/orders" )
-    public ResponseEntity editOrder ( @RequestBody final Order o, final Inventory inv ) {
+    public ResponseEntity editOrder ( @RequestBody final CustomerOrder o, final Inventory inv ) {
         if ( o == null || o.getName() == null ) {
             return new ResponseEntity( errorResponse( "Order name is null" ), HttpStatus.BAD_REQUEST );
         }
-        final Order order = service.findByName( o.getName() );
+        final CustomerOrder order = service.findByName( o.getName() );
         if ( null == order ) {
             return new ResponseEntity( errorResponse( "No order found with name " + o.getCustomerUsername() ),
                     HttpStatus.NOT_FOUND );

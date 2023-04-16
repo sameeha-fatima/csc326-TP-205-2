@@ -2,7 +2,7 @@ package edu.ncsu.csc.CoffeeMaker.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import edu.ncsu.csc.CoffeeMaker.models.Order;
+import edu.ncsu.csc.CoffeeMaker.models.CustomerOrder;
 
 /**
  * OrderRepository is used to provide CRUD operations for the Order model.
@@ -11,7 +11,7 @@ import edu.ncsu.csc.CoffeeMaker.models.Order;
  * @author cbdocke2
  *
  */
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface CustomerOrderRepository extends JpaRepository<CustomerOrder, Long> {
 
     /**
      * Finds a Order object with the provided name. Spring will generate code to
@@ -21,6 +21,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
      *            Name of the order
      * @return Found Order, null if none.
      */
-    Order findByName ( String name );
+    CustomerOrder findByName ( String name );
 
 }

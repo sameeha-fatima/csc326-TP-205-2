@@ -1,6 +1,6 @@
 package edu.ncsu.csc.CoffeeMaker.models;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,39 +22,40 @@ import org.hibernate.validator.constraints.Length;
  *
  */
 @Entity
-public class Order extends DomainObject {
+public class CustomerOrder extends DomainObject {
 
     /** Order id */
     @Id
     @GeneratedValue
-    private Long         id;
+    private Long               id;
 
-    /** Order's Unique ID */
-    private String       name;
+    /** Order name */
+    private String             name;
 
     /**
      * Represents the username identifier for a Order object, must be between 6
      * and 20 characters
      */
     @Length ( min = 6, max = 20 )
-    private String       customerUsername;
+    private String             customer;
 
     /**
      * Represents the recipe identifier for an Order object.
      */
     @OneToMany ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
-    private List<Recipe> beverages;
+    private final List<Recipe> beverages;
 
     /**
      * Represents the isFulfilled identifier for an Order object.
      */
-    private boolean      isFulfilled;
+    private boolean            isFulfilled;
 
     /**
      * Creates a default user for the CoffeeMaker system. Used by Hibernate
      */
-    public Order () {
-        super();
+    public CustomerOrder () {
+        this.name = "";
+        beverages = new ArrayList<Recipe>();
     }
 
     /**
@@ -62,24 +63,24 @@ public class Order extends DomainObject {
      *
      * @param name
      *            represents orderId of Order object
-     * @param customerUsername
+     * @param customer
      *            represents username of Order object
      * @param beverages
      *            represents the list of recipe objects
      */
-    public Order ( final String name, final String customerUsername, final List<Recipe> beverages ) {
+    public CustomerOrder ( final String name, final String customer, final List<Recipe> beverages ) {
         this();
         for ( final Recipe r : beverages ) {
             this.beverages.add( r );
         }
-        setName( name );
-        setCustomerUsername( customerUsername );
+        // setName( name );
+        setCustomerUsername( customer );
         isFulfilled = false;
     }
 
     @Override
-    public Serializable getId () {
-        return this.id;
+    public Long getId () {
+        return id;
     }
 
     @SuppressWarnings ( "unused" )
@@ -112,7 +113,7 @@ public class Order extends DomainObject {
      * @return customer's username associated with the order
      */
     public String getCustomerUsername () {
-        return customerUsername;
+        return customer;
     }
 
     /**
@@ -122,7 +123,7 @@ public class Order extends DomainObject {
      *            customer's username associated with the order
      */
     public void setCustomerUsername ( final String customerUsername ) {
-        this.customerUsername = customerUsername;
+        this.customer = customerUsername;
     }
 
     /**
@@ -155,6 +156,9 @@ public class Order extends DomainObject {
             if ( !inv.enoughIngredients( beverages.get( i ) ) ) {
                 checkClear = false;
             }
+            else {
+                inv.useIngredients( beverages.get( i ) );
+            }
         }
         if ( checkClear ) {
             isFulfilled = true;
@@ -168,7 +172,7 @@ public class Order extends DomainObject {
      */
     @Override
     public String toString () {
-        String orderString = customerUsername + ", ";
+        String orderString = customer + ", ";
 
         for ( int i = 0; i < beverages.size(); i++ ) {
             orderString += beverages.get( i ).getName() + ", ";
@@ -181,7 +185,7 @@ public class Order extends DomainObject {
 
     @Override
     public int hashCode () {
-        return Objects.hash( customerUsername, beverages, isFulfilled );
+        return Objects.hash( customer, beverages, isFulfilled );
     }
 
     @Override
@@ -195,9 +199,9 @@ public class Order extends DomainObject {
         if ( getClass() != obj.getClass() ) {
             return false;
         }
-        final Order other = (Order) obj;
-        return Objects.equals( customerUsername, other.customerUsername )
-                && Objects.equals( beverages, other.beverages ) && Objects.equals( isFulfilled, other.isFulfilled );
+        final CustomerOrder other = (CustomerOrder) obj;
+        return Objects.equals( customer, other.customer ) && Objects.equals( beverages, other.beverages )
+                && Objects.equals( isFulfilled, other.isFulfilled );
     }
 
 }
