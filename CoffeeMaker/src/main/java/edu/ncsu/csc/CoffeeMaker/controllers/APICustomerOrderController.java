@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +42,24 @@ public class APICustomerOrderController extends APIController {
     @GetMapping ( BASE_PATH + "/orders" )
     public List<CustomerOrder> getOrders () {
         return service.findAll();
+    }
+
+    /**
+     * Creates a REST API method for returning a specific customer order from
+     * customer orders in CoffeeMaker given the name
+     *
+     * @param name
+     *            represents the name of the ingredient to return
+     *
+     * @return ingredient in CoffeeMaker
+     */
+    @GetMapping ( BASE_PATH + "/orders/{name}" )
+    public ResponseEntity getOrder ( @PathVariable ( "name" ) final String name ) {
+        final CustomerOrder o = service.findByName( name );
+        return null == o
+                ? new ResponseEntity( errorResponse( "No CustomerOrder found with name " + name ),
+                        HttpStatus.NOT_FOUND )
+                : new ResponseEntity( o, HttpStatus.OK );
     }
 
     /**
