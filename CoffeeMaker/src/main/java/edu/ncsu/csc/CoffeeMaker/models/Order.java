@@ -60,22 +60,21 @@ public class Order extends DomainObject {
     /**
      * All-argument constructor for Order
      *
-     * @param orderId
+     * @param name
      *            represents orderId of Order object
      * @param customerUsername
      *            represents username of Order object
-     * @param recipe
-     *            represents recipe of Order object
-     * @param isFulfilled
-     *            boolean representing whether order has been fulfilled
+     * @param beverages
+     *            represents the list of recipe objects
      */
-    public Order ( final String name, final String customerUsername, final List<Recipe> beverages,
-            final boolean isFulfilled ) {
+    public Order ( final String name, final String customerUsername, final List<Recipe> beverages ) {
         this();
+        for ( final Recipe r : beverages ) {
+            this.beverages.add( r );
+        }
         setName( name );
         setCustomerUsername( customerUsername );
-        setBeverages( beverages );
-        setFulfilled( isFulfilled );
+        isFulfilled = false;
     }
 
     @Override
@@ -88,40 +87,78 @@ public class Order extends DomainObject {
         this.id = id;
     }
 
+    /**
+     * Returns order ID of order
+     *
+     * @return order ID of order
+     */
     public String getName () {
         return name;
     }
 
+    /**
+     * Set name of order
+     *
+     * @param name
+     *            order ID of order
+     */
     public void setName ( final String name ) {
         this.name = name;
     }
 
+    /**
+     * Returns customer's username associated with the order
+     *
+     * @return customer's username associated with the order
+     */
     public String getCustomerUsername () {
         return customerUsername;
     }
 
+    /**
+     * Sets customer's username associated with the order
+     *
+     * @param customerUsername
+     *            customer's username associated with the order
+     */
     public void setCustomerUsername ( final String customerUsername ) {
         this.customerUsername = customerUsername;
     }
 
+    /**
+     * Returns a list of beverages in the order
+     *
+     * @return a list of beverages in the order
+     */
     public List<Recipe> getBeverages () {
         return beverages;
     }
 
-    public void setBeverages ( final List<Recipe> beverages ) {
-        this.beverages = beverages;
-    }
-
+    /**
+     * Returns whether the order is fulfilled or not
+     *
+     * @return whether the order is fulfilled or not
+     */
     public boolean isFulfilled () {
         return isFulfilled;
     }
 
-    public void setFulfilled ( final boolean isFulfilled ) {
-        this.isFulfilled = isFulfilled;
-    }
-
-    public void fulfillOrder () {
-        setFulfilled( true );
+    /**
+     * Sets the order to be fulfilled
+     *
+     * @param inv
+     *            Inventory to be looked at
+     */
+    public void fulfillOrder ( final Inventory inv ) {
+        boolean checkClear = true;
+        for ( int i = 0; i < beverages.size(); i++ ) {
+            if ( !inv.enoughIngredients( beverages.get( i ) ) ) {
+                checkClear = false;
+            }
+        }
+        if ( checkClear ) {
+            isFulfilled = true;
+        }
     }
 
     /**

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.ncsu.csc.CoffeeMaker.models.Inventory;
 import edu.ncsu.csc.CoffeeMaker.models.Order;
 import edu.ncsu.csc.CoffeeMaker.services.OrderService;
 
@@ -72,20 +73,23 @@ public class APIOrderController extends APIController {
      * @param o
      *            represents o object with updated price and ingredients should
      *            have
+     * @param inv
+     *            Inventory that will be looked at to make sure the recipes can
+     *            be fulfilled with the amount of ingredients in Inventory
      * @return response to the request
      */
     @PutMapping ( BASE_PATH + "/orders" )
-    public ResponseEntity editOrder ( @RequestBody final Order o ) {
-        if ( o == null || o.getCustomerUsername() == null ) {
+    public ResponseEntity editOrder ( @RequestBody final Order o, final Inventory inv ) {
+        if ( o == null || o.getName() == null ) {
             return new ResponseEntity( errorResponse( "Order name is null" ), HttpStatus.BAD_REQUEST );
         }
-        final Order order = service.findByName( o.getCustomerUsername() );
+        final Order order = service.findByName( o.getName() );
         if ( null == order ) {
             return new ResponseEntity( errorResponse( "No order found with name " + o.getCustomerUsername() ),
                     HttpStatus.NOT_FOUND );
         }
         try {
-            order.setFulfilled( o.isFulfilled() );
+            order.fulfillOrder( inv );
             service.save( order );
         }
         catch ( final IllegalArgumentException e ) {
