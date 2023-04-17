@@ -62,36 +62,89 @@
 	/*]]>*/
 	</script>
 
-	<div layout:fragment="content" class="generic-container ng-cloak"
-		ng-app="myApp" ng-controller="recipesCtrl as ctrl">
+	<div
+		class="generic-container ng-cloak"
+      	ng-app="myApp"
+      	ng-controller="recipesCtrl as ctrl"
+      	style="
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 15px;
+        position: relative;
+        padding-bottom: 150px;
+      ">
+		
+		<nav
+        style="
+          background-color: #b9a184;
+          padding: 10px;
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+        "
+      >
+        <a href="staffview.html"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="black"
+            class="bi bi-list"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+            /></svg
+        ></a>
+      </nav>
 
-		<h1>Coffee Recipes</h1>
+		<h1 style="margin: 50px 0 50px 15px">Coffee Recipes</h1>
 
 		<div>
-			<ul>
-				<li ng-repeat="recipe in recipes"><label>{{recipe.name}}
-						<input type="radio" ng-model="$parent.name" name="name"
-						value="{{recipe.name}}" required="true" />
-				</label></li>
-			</ul>
+			<div ng-repeat="recipe in recipes track by $index">
+			<input
+                    type="radio"
+                    name="name"
+                    value="{{recipe.name}}"
+                  />
+            <tt> {{recipe.name}}</tt>
+			</div>
 			<br />
 
 
 			<div ng-if="recipes.length > 0">
-				<input type="checkbox" name="all" class="checkbox"
-					ng-model="$parent.deleteAll"> Delete all recipes? </input> <br />
-				<input type="submit" value="Delete" ng-click="del()"
-					class="btn btn-warning btn-sm" />
+			<input type="checkbox" ng-model="$parent.deleteAll">
+			<tt>Delete all recipes?</tt>  <!-- remove the extra spaces -->
 			</div>
 
-
+			<br>		
+			
 			<div ng-if="0 >= recipes.length">There are no recipes in the
 				Coffee Maker.</div>
 			<div ng-if="submissionSuccess">Recipe deleted successfully</div>
+			
+			<br>
+			<div class="row">
+              <button
+                  type="button"
+                  ng-click="del()"
+                  class="btn btn-warning btn-sm"
+                  style="
+                    border-radius: 20px;
+                    background: #81d58a;
+                    border-color: transparent;
+                    padding: 10px 25px 10px 25px;
+                    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+                    color: black;
+                  "
+                >
+                  Delete
+                </button>
+            </div>
 
 
 		</div>
-		<a href="staffview.html">Home</a>
 	</div>
 
 
