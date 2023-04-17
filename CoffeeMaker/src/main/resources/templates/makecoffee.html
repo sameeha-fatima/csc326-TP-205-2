@@ -47,37 +47,82 @@ input.ng-dirty.ng-invalid-min {
 
 			}
 			
+			$scope.quantities = [];
+			$scope.total = 0;
+			
+			function changeTotal() {
+				$scope.total++;
+				console.log($scope.total);
+			}
+			
 			$scope.order = [];
 			  $scope.addToOrder = function addToOrder(recipe) {
 				  var idx = $scope.order.indexOf(recipe);
 				  if(idx > -1){
 					  $scope.order.splice(idx,1);
+					  $scope.quantities.splice(idx,1, 0);
 				  }else{
 					  $scope.order.push(recipe);
+					  $scope.quantities.push(0);
 				  }
 				  console.log($scope.order);
+				  console.log($scope.quantities);
 			  }
-			  
+
+		      $scope.calculateTotal = function() {
+		    	  var total = 0;
+					for(let i = 0; i < $scope.quantities.length; i++){
+						total = total + $scope.quantities[i];
+						console.log($scope.quantities[i]);
+					}
+					console.log(total);
+					$scope.total = total;
+		      };
 
 		});
 
 		/*]]>*/
 	</script>
 
-	<div layout:fragment="content" class="generic-container ng-cloak"
-		ng-app="myApp" ng-controller="recipesCtrl">
+	<div
+		class="generic-container ng-cloak"
+      	ng-app="myApp"
+      	ng-controller="recipesCtrl as ctrl"
+      	style="
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 15px;
+        position: relative;
+        padding-bottom: 150px;
+      ">
 		<!-- Navigation header which contains the menu button to return to home page (evmurphy) -->
 		<nav
-			style="background-color: #b9a184; padding: 10px; position: absolute; left: 0; right: 0; top: 0;">
-			<a href="customerview.html"><svg
-					xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-					fill="black" class="bi bi-list" viewBox="0 0 16 16">
-              <path fill-rule="evenodd"
-						d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" /></svg></a>
-		</nav>
-		<h1>Place Order</h1>
+        style="
+          background-color: #b9a184;
+          padding: 10px;
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+        "
+      >
+        <a href="customerview.html"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="black"
+            class="bi bi-list"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+            /></svg
+        ></a>
+      </nav>
+		<h1 style="margin: 50px 0 50px 15px">Place Order</h1>
 
-		<h3>Menu Items</h3>
+		<h3 style="margin: 0 0 0 15px">Menu Items</h3>
 		<div style="width: 25%; float: left">
 			<h4>Name</h4>
 			<div ng-repeat="recipe in recipes track by $index">
@@ -96,24 +141,26 @@ input.ng-dirty.ng-invalid-min {
 			</ul>
 		</div>
 		<div id="orderDetails">
-			<h3>Order</h3>
+			<h3 style="margin: 0 0 0 15px">Order</h3>
 			<div style="width: 25%; float: left">
 				<h4>Name</h4>
 				<div ng-repeat="recipe in order track by $index">
-				<label for="beverage"> {{recipe.name}}</label>
-				<input
-					id="beverage"
-                    type="text"
-                    name="units"
-                    value="{{recipe.name}}"
-                    ng-model="recipe.amount"
-                  />
+					<label for="beverage"> {{recipe.name}}</label>             		
+               		<input 
+               			id="beverage"
+               			type="text" 
+               			ng-change="calculateTotal()" 
+               			ng-model="quantities[order.indexOf(recipe)]" />
 				</div>
 			</div>
 			
 			<div style="width: 75%; float: right">
 				<h4>Quantity</h4>
 				</div>
+		</div>
+		<br>
+		<div style="width: 25%; float: left">
+		<h3 style="margin: 0 0 0 15px">Total: {{total}}</h3>
 		</div>
 
 </body>
