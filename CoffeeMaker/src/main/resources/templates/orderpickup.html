@@ -16,10 +16,12 @@
     	/*<![CDATA[*/
         var app = angular.module("myApp", []);
         app.controller("orderPickupCtrl", function ($scope, $http, $q) {
-
-        
-    
-        
+        	$http.get("/api/v1/orders").then(function(response) {
+				$scope.orders = response.data;
+				console.log(response.data);
+	            console.log($scope.orders.length);
+	            //console.log(Array.isArray($scope.orders));
+			}); 
    
         });
         /*]]>*/
@@ -65,11 +67,10 @@
        <h2 style="margin: 0 0 20px 15px">My Orders</h2>
 		<div style="width: 25%; float: left">
 			<h3 style="margin: 0 0 0 15px">Name</h3>
-			<div ng-repeat="recipe in recipes track by $index">
-			<input type="checkbox"
-				ng-click="addToOrder(recipe)">
-			<tt> {{recipe.name}}</tt>  <!-- remove the extra spaces -->
-			</div>
+			<option  ng-repeat="order in orders" 
+			value="{{order.name}}" 
+			ng-click="displayInfo(order)">{{order.name}}
+			</option>
 			
 		</div>
 		<div style="width: 75%; float: right">
