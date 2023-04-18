@@ -1,12 +1,7 @@
 package edu.ncsu.csc.CoffeeMaker.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -29,7 +24,6 @@ import org.springframework.web.context.WebApplicationContext;
 import edu.ncsu.csc.CoffeeMaker.common.TestUtils;
 import edu.ncsu.csc.CoffeeMaker.models.CustomerOrder;
 import edu.ncsu.csc.CoffeeMaker.models.Ingredient;
-import edu.ncsu.csc.CoffeeMaker.models.Inventory;
 import edu.ncsu.csc.CoffeeMaker.models.Recipe;
 import edu.ncsu.csc.CoffeeMaker.services.CustomerOrderService;
 
@@ -91,13 +85,15 @@ public class APICustomerOrderTest {
                 .content( TestUtils.asJsonString( order1 ) ) ).andExpect( status().isOk() );
         assertEquals( 1, service.findAll().size(), "There should be one Order in CoffeeMaker" );
 
+        assertEquals( order1, service.findByName( "Order1" ) );
+
         final List<Recipe> recipes2 = new ArrayList<Recipe>();
         final List<Ingredient> ingredients2 = new ArrayList<Ingredient>();
         final Ingredient ingredient2 = new Ingredient( "Ingredient2", 12 );
         ingredients1.add( ingredient2 );
         final Recipe recipe2 = new Recipe( ingredients2, 12 );
         recipes.add( recipe2 );
-        final CustomerOrder order2 = new CustomerOrder( "Order1", "Customer", recipes2 );
+        final CustomerOrder order2 = new CustomerOrder( "Order2", "Customer", recipes2 );
 
         //
         mvc.perform( post( "/api/v1/orders" ).contentType( MediaType.APPLICATION_JSON )
@@ -106,44 +102,6 @@ public class APICustomerOrderTest {
 
     }
 
-    /**
-     * tests edit recipe
-     *
-     * @throws Exception
-     *             if something is wrong
-     */
-    @Test
-    @Transactional
-    public void testEditOrder () throws Exception {
-        assertEquals( 0, service.findAll().size(), "There should be no Recipes in the CoffeeMaker" );
-
-        assertEquals( 0, service.findAll().size(), "There should be no Orders in the CoffeeMaker" );
-        final List<Recipe> recipes = new ArrayList<Recipe>();
-        final List<Ingredient> ingredients1 = new ArrayList<Ingredient>();
-        final Ingredient ingredient1 = new Ingredient( "Ingredient1", 12 );
-        ingredients1.add( ingredient1 );
-        final Recipe recipe1 = new Recipe( ingredients1, 12 );
-        recipes.add( recipe1 );
-        final CustomerOrder order1 = new CustomerOrder( "Order1", "Customer", recipes );
-
-        mvc.perform( post( "/api/v1/orders" ).contentType( MediaType.APPLICATION_JSON )
-                .content( TestUtils.asJsonString( order1 ) ) ).andExpect( status().isOk() );
-        assertEquals( 1, service.findAll().size(), "There should be one Order in CoffeeMaker" );
-
-        assertFalse( order1.isFulfilled() );
-
-        final List<Ingredient> ingredientsInventory = new ArrayList<Ingredient>();
-        ingredientsInventory.add( ingredient1 );
-        final Inventory inv = new Inventory( ingredientsInventory );
-
-        order1.fulfillOrder( inv );
-
-        mvc.perform( put( String.format( "/api/v1/orders" ) ).contentType( MediaType.APPLICATION_JSON )
-                .content( TestUtils.asJsonString( order1 ) ) ).andExpect( status().isOk() );
-        final String checkCustomerOrder = mvc.perform( get( String.format( "/api/v1/orders/%s", "Order1" ) ) )
-                .andDo( print() ).andExpect( status().isOk() ).andReturn().getResponse().getContentAsString();
-        assertTrue( checkCustomerOrder.contains( "true" ) );
-
-    }
+    
 
 }

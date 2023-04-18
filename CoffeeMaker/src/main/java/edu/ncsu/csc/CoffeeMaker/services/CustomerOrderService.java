@@ -34,14 +34,14 @@ public class CustomerOrderService extends Service<CustomerOrder, Long> {
     }
 
     /**
-     * Find a order with the provided Order ID
+     * Find a order with the provided CustomerOrder ID
      *
-     * @param orderId
-     *            unique order identifier of the order to find
-     * @return found order, null if none
+     * @param name
+     *            name identifier of the customerorder to find
+     * @return found customerorder, null if none
      */
-    public CustomerOrder findByName ( final String orderId ) {
-        return orderRepository.findByName( orderId );
+    public CustomerOrder findByName ( final String name ) {
+        return orderRepository.findByName( name );
     }
 
 }

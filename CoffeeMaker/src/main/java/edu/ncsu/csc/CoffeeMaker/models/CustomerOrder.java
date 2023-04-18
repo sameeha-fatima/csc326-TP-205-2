@@ -37,7 +37,7 @@ public class CustomerOrder extends DomainObject {
      * and 20 characters
      */
     @Length ( min = 6, max = 20 )
-    private String             customer;
+    private String             customerUsername;
 
     /**
      * Represents the recipe identifier for an Order object.
@@ -50,31 +50,64 @@ public class CustomerOrder extends DomainObject {
      */
     private boolean            isFulfilled;
 
+    // /**
+    // * Creates a default user for the CoffeeMaker system. Used by Hibernate
+    // */
+    // public CustomerOrder () {
+    // this.name = "";
+    // beverages = new ArrayList<Recipe>();
+    // }
+    //
+    // /**
+    // * All-argument constructor for Order
+    // *
+    // * @param name
+    // * represents orderId of Order object
+    // * @param customer
+    // * represents username of Order object
+    // * @param beverages
+    // * represents the list of recipe objects
+    // */
+    // public CustomerOrder ( final String name, final String customer, final
+    // List<Recipe> beverages ) {
+    // this();
+    // for ( final Recipe r : beverages ) {
+    // this.beverages.add( r );
+    // }
+    // // setName( name );
+    // setCustomerUsername( customer );
+    // isFulfilled = false;
+    // }
+
     /**
-     * Creates a default user for the CoffeeMaker system. Used by Hibernate
+     * Creates a default customerorder for the CoffeeMaker system. Used by
+     * Hibernate
      */
     public CustomerOrder () {
-        this.name = "";
-        beverages = new ArrayList<Recipe>();
+        super();
+        this.beverages = new ArrayList<Recipe>();
+
     }
 
     /**
-     * All-argument constructor for Order
+     * All-argument constructor for CustomerOrder
      *
      * @param name
-     *            represents orderId of Order object
-     * @param customer
-     *            represents username of Order object
+     *            represents name of CustomerOrder object
+     * @param customerUsername
+     *            username of customer for CustomerOrder object
      * @param beverages
-     *            represents the list of recipe objects
+     *            list of recipes in CustomerOrder object
      */
-    public CustomerOrder ( final String name, final String customer, final List<Recipe> beverages ) {
+    public CustomerOrder ( final String name, final String customerUsername, final List<Recipe> beverages ) {
         this();
+        setCustomerUsername( customerUsername );
+        setName( name );
+
         for ( final Recipe r : beverages ) {
             this.beverages.add( r );
         }
-        // setName( name );
-        setCustomerUsername( customer );
+
         isFulfilled = false;
     }
 
@@ -113,7 +146,7 @@ public class CustomerOrder extends DomainObject {
      * @return customer's username associated with the order
      */
     public String getCustomerUsername () {
-        return customer;
+        return customerUsername;
     }
 
     /**
@@ -123,7 +156,7 @@ public class CustomerOrder extends DomainObject {
      *            customer's username associated with the order
      */
     public void setCustomerUsername ( final String customerUsername ) {
-        this.customer = customerUsername;
+        this.customerUsername = customerUsername;
     }
 
     /**
@@ -172,7 +205,7 @@ public class CustomerOrder extends DomainObject {
      */
     @Override
     public String toString () {
-        String orderString = customer + ", ";
+        String orderString = customerUsername + ", ";
 
         for ( int i = 0; i < beverages.size(); i++ ) {
             orderString += beverages.get( i ).getName() + ", ";
@@ -185,7 +218,7 @@ public class CustomerOrder extends DomainObject {
 
     @Override
     public int hashCode () {
-        return Objects.hash( customer, beverages, isFulfilled );
+        return Objects.hash( customerUsername, beverages, isFulfilled );
     }
 
     @Override
@@ -200,8 +233,8 @@ public class CustomerOrder extends DomainObject {
             return false;
         }
         final CustomerOrder other = (CustomerOrder) obj;
-        return Objects.equals( customer, other.customer ) && Objects.equals( beverages, other.beverages )
-                && Objects.equals( isFulfilled, other.isFulfilled );
+        return Objects.equals( customerUsername, other.customerUsername )
+                && Objects.equals( beverages, other.beverages ) && Objects.equals( isFulfilled, other.isFulfilled );
     }
 
 }
