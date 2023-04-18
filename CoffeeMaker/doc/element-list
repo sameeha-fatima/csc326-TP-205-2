@@ -1,0 +1,9 @@
+edu.ncsu.csc.CoffeeMaker
+edu.ncsu.csc.CoffeeMaker.api
+edu.ncsu.csc.CoffeeMaker.common
+edu.ncsu.csc.CoffeeMaker.controllers
+edu.ncsu.csc.CoffeeMaker.generator
+edu.ncsu.csc.CoffeeMaker.models
+edu.ncsu.csc.CoffeeMaker.repositories
+edu.ncsu.csc.CoffeeMaker.services
+edu.ncsu.csc.CoffeeMaker.unit
