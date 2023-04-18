@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.ncsu.csc.CoffeeMaker.models.CustomerOrder;
-import edu.ncsu.csc.CoffeeMaker.models.Inventory;
 import edu.ncsu.csc.CoffeeMaker.services.CustomerOrderService;
+import edu.ncsu.csc.CoffeeMaker.services.InventoryService;
 
 /**
  * Class that handles API CRUM operations related to CustomerOrders
@@ -26,13 +26,18 @@ import edu.ncsu.csc.CoffeeMaker.services.CustomerOrderService;
 @SuppressWarnings ( { "unchecked", "rawtypes" } )
 @RestController
 public class APICustomerOrderController extends APIController {
-
     /**
      * OrderService object, to be autowired in by Spring to allow for
      * manipulating the Order model
      */
     @Autowired
     private CustomerOrderService service;
+    /**
+     * InventoryService object, to be autowired in by Spring to allow for
+     * retrieving data from the Inventory model
+     */
+    @Autowired
+    private InventoryService     inventoryService;
 
     /**
      * REST API method to provide GET access to all orders in the system
@@ -79,12 +84,30 @@ public class APICustomerOrderController extends APIController {
                     errorResponse( "Order with the name " + order.getCustomerUsername() + " already exists" ),
                     HttpStatus.CONFLICT );
         }
-
         service.save( order );
         return new ResponseEntity( successResponse( order.getCustomerUsername() + " successfully created" ),
                 HttpStatus.OK );
-
     }
+
+    // /**
+    // * @PutMapping ( BASE_PATH + "/orders" ) public ResponseEntity editOrder
+    // * ( @RequestBody final CustomerOrder o, final Inventory inv ) {
+    // * if ( o == null || o.getName() == null ) { return new
+    // * ResponseEntity( errorResponse( "Order name is null" ),
+    // * HttpStatus.BAD_REQUEST ); } final CustomerOrder order =
+    // * service.findByName( o.getName() ); if ( null == order ) {
+    // * return new ResponseEntity( errorResponse( "No order found
+    // * with name " + o.getCustomerUsername() ), HttpStatus.NOT_FOUND
+    // * ); } try { order.fulfillOrder( inv ); service.save( order );
+    // * } catch ( final IllegalArgumentException e ) { return new
+    // * ResponseEntity( errorResponse( e.getMessage() ),
+    // * HttpStatus.BAD_REQUEST ); } return new ResponseEntity(
+    // * successResponse( order.getCustomerUsername() + " successfully
+    // * updated" ), HttpStatus.OK ); }
+    // */
+    // * @param inv
+    // * Inventory that will be looked at to make sure the recipes can
+    // * be fulfilled with the amount of ingredients in Inventory
 
     /**
      * REST API method to provide PUT access to a specific recipe, as indicated
@@ -94,13 +117,10 @@ public class APICustomerOrderController extends APIController {
      * @param o
      *            represents o object with updated price and ingredients should
      *            have
-     * @param inv
-     *            Inventory that will be looked at to make sure the recipes can
-     *            be fulfilled with the amount of ingredients in Inventory
      * @return response to the request
      */
     @PutMapping ( BASE_PATH + "/orders" )
-    public ResponseEntity editOrder ( @RequestBody final CustomerOrder o, final Inventory inv ) {
+    public ResponseEntity editOrder ( @RequestBody final CustomerOrder o ) {
         if ( o == null || o.getName() == null ) {
             return new ResponseEntity( errorResponse( "Order name is null" ), HttpStatus.BAD_REQUEST );
         }
@@ -110,14 +130,12 @@ public class APICustomerOrderController extends APIController {
                     HttpStatus.NOT_FOUND );
         }
         try {
-            order.fulfillOrder( inv );
+            order.fulfillOrder( inventoryService.getInventory() );
             service.save( order );
         }
         catch ( final IllegalArgumentException e ) {
             return new ResponseEntity( errorResponse( e.getMessage() ), HttpStatus.BAD_REQUEST );
         }
-        return new ResponseEntity( successResponse( order.getCustomerUsername() + " successfully updated" ),
-                HttpStatus.OK );
+        return new ResponseEntity( successResponse( order.getName() + " successfully updated" ), HttpStatus.OK );
     }
-
 }

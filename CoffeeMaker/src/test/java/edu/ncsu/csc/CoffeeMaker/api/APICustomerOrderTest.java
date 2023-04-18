@@ -2,6 +2,7 @@ package edu.ncsu.csc.CoffeeMaker.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -95,13 +96,42 @@ public class APICustomerOrderTest {
         recipes.add( recipe2 );
         final CustomerOrder order2 = new CustomerOrder( "Order2", "Customer", recipes2 );
 
-        //
         mvc.perform( post( "/api/v1/orders" ).contentType( MediaType.APPLICATION_JSON )
                 .content( TestUtils.asJsonString( order2 ) ) ).andExpect( status().isOk() );
         assertEquals( 2, service.findAll().size(), "There should be one Order in CoffeeMaker" );
 
     }
 
-    
+    /**
+     * Tests adding Orders
+     *
+     * @throws Exception
+     *             if something is wrong
+     */
+    @Test
+    @Transactional
+    public void testEditOrder () throws Exception {
+
+        assertEquals( 0, service.findAll().size(), "There should be no Orders in the CoffeeMaker" );
+        final List<Recipe> recipes = new ArrayList<Recipe>();
+        final List<Ingredient> ingredients1 = new ArrayList<Ingredient>();
+        final Ingredient ingredient1 = new Ingredient( "Ingredient1", 12 );
+        ingredients1.add( ingredient1 );
+        final Recipe recipe1 = new Recipe( ingredients1, 12 );
+        recipes.add( recipe1 );
+        final CustomerOrder order3 = new CustomerOrder( "Order3", "Customer", recipes );
+
+        mvc.perform( post( "/api/v1/orders" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( order3 ) ) ).andExpect( status().isOk() );
+        assertEquals( 1, service.findAll().size(), "There should be one Order in CoffeeMaker" );
+
+        assertEquals( order3, service.findByName( "Order3" ) );
+
+        mvc.perform( put( String.format( "/api/v1/orders" ) ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( order3 ) ) ).andExpect( status().isOk() );
+
+        assertEquals( service.findByName( "Order3" ).isFulfilled(), true );
+
+    }
 
 }
