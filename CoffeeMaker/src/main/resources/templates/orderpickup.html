@@ -62,8 +62,24 @@
     </nav>
     <h1 style="margin: 50px 0 50px 15px">Order Pickup</h1>
     <span>
-        <!-- Form which handles the creation of an User object (sfatima3) -->
-      <h2 style="margin: 50px 0 50px 15px">My Orders</h2>    
+       <h2 style="margin: 0 0 20px 15px">My Orders</h2>
+		<div style="width: 25%; float: left">
+			<h3 style="margin: 0 0 0 15px">Name</h3>
+			<div ng-repeat="recipe in recipes track by $index">
+			<input type="checkbox"
+				ng-click="addToOrder(recipe)">
+			<tt> {{recipe.name}}</tt>  <!-- remove the extra spaces -->
+			</div>
+			
+		</div>
+		<div style="width: 75%; float: right">
+			<h3 style="margin: 0 0 0 15px">Status</h3>
+
+			<ul style="list-style-type: none">
+				<li ng-repeat="recipe in recipes"><label>${{recipe.price}}
+				</label></li>
+			</ul>
+		</div>   
      
       </span>
    
