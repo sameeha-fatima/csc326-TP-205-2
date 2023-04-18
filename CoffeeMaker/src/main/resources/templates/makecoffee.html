@@ -49,11 +49,15 @@ input.ng-dirty.ng-invalid-min {
 			
 			$scope.quantities = [];
 			$scope.total = 0;
-			
-			function changeTotal() {
-				$scope.total++;
-				console.log($scope.total);
-			}
+			$scope.calculateTotal = function calcTotal() {
+		    	  var total = 0;
+					for(let i = 0; i < $scope.order.length; i++){
+						total = total + ( $scope.quantities[i] * $scope.order[i].price );
+						console.log($scope.quantities[i]);
+					}
+					console.log(total);
+					$scope.total = total;
+		      };
 			
 			$scope.order = [];
 			  $scope.addToOrder = function addToOrder(recipe) {
@@ -68,16 +72,23 @@ input.ng-dirty.ng-invalid-min {
 				  console.log($scope.order);
 				  console.log($scope.quantities);
 			  }
-
-		      $scope.calculateTotal = function() {
-		    	  var total = 0;
-					for(let i = 0; i < $scope.quantities.length; i++){
-						total = total + $scope.quantities[i];
-						console.log($scope.quantities[i]);
-					}
-					console.log(total);
-					$scope.total = total;
-		      };
+			  
+			function createOrder(order) {
+			      $http.post("/api/v1/orders" + recipe)
+		            .then(
+		            function (response) {
+		            		console.log(response);
+		    				$scope.submissionSuccess=true;	
+		            },
+		            function(rejection){
+		                console.error('Error while placing order');
+		                console.log(rejection);
+		                
+						$scope.submissionSuccess=false;	
+		            }
+		        );
+			}
+			
 
 		});
 
@@ -147,10 +158,12 @@ input.ng-dirty.ng-invalid-min {
 				<div ng-repeat="recipe in order track by $index">
 					<label for="beverage"> {{recipe.name}}</label>             		
                		<input 
+               			type="number" 
                			id="beverage"
-               			type="text" 
+               			min="0"
+               			ng-model="quantities[$index]"
                			ng-change="calculateTotal()" 
-               			ng-model="quantities[order.indexOf(recipe)]" />
+               			 />
 				</div>
 			</div>
 			
@@ -162,6 +175,37 @@ input.ng-dirty.ng-invalid-min {
 		<div style="width: 25%; float: left">
 		<h3 style="margin: 0 0 0 15px">Total: {{total}}</h3>
 		</div>
+		
+		<div style="width: 25%; float: left">
+		  <label for="payment">Enter payment: </label>             		
+          <input 
+           type="number" 
+           step=".01"
+           id="payment"
+           min="0"
+           />
+        </div>
+        
+        <div ng-if="submissionSuccess">Order Successfully Place! Change: </div>
+			
+			<br>
+			<div class="row">
+              <button
+                  type="button"
+                  ng-click="createOrder()"
+                  class="btn btn-warning btn-sm"
+                  style="
+                    border-radius: 20px;
+                    background: #81d58a;
+                    border-color: transparent;
+                    padding: 10px 25px 10px 25px;
+                    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+                    color: black;
+                  "
+                >
+                  Order
+                </button>
+            </div>
 
 </body>
 </html>
