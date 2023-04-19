@@ -32,6 +32,19 @@
     		//console.log($scope.orders[parseInt(idx.substring(7))]);
         };
    
+        $scope.fulfillOrder = function fulfillOrder() {
+            $http.put("/api/v1/orders", $scope.selectedOrder).then(
+              function (response) {
+                //   console.log(response);
+                $scope.submissionSuccess = true;
+              },
+              function (rejection) {
+                console.error("Error while placing order");
+                console.log(rejection);
+                $scope.submissionSuccess = false;
+              }
+            );
+          };
         });
         /*]]>*/
     </script>
@@ -89,6 +102,27 @@
       </ul>
      </span>
    
+      <div ng-if="submissionSuccess">Order Fulfilled!</div>
+      <div class="row">
+        <div class="form-actions floatRight">
+          <button
+            type="button"
+            ng-disabled="nameForm.$pristine"
+            ng-click="fulfillOrder()"
+            class="btn btn-warning btn-sm"
+            style="
+              border-radius: 20px;
+              background: #81d58a;
+              border-color: transparent;
+              padding: 10px 25px 10px 25px;
+              box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+              color: black;
+            "
+          >
+            Fulfill
+          </button>
+        </div>
+      </div>
     </div>
   </body>
 </html>
