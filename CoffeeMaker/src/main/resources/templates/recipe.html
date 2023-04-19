@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+E<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Add a Recipe</title>
@@ -26,31 +26,30 @@
       /*<![CDATA[*/
       var app = angular.module("myApp", []);
       app.controller("addRecipeCtrl", function ($scope, $http, $q) {
-        console.log("Hit!");
         $scope.ingredients;
         function updateIngredients() {
           $http.get("/api/v1/ingredients").then(function (response) {
             $scope.ingredients = response.data;
-             //console.log(response.data);
-             //console.log($scope.ingredients.length);
-             //console.log(Array.isArray($scope.ingredients));
+            //console.log(response.data);
+            //console.log($scope.ingredients.length);
+            //console.log(Array.isArray($scope.ingredients));
           });
         }
         $scope.recipe = {
           name: "",
           price: "",
-          ingredients: []
+          ingredients: [],
         };
         updateIngredients();
-        
+
         // console.log($scope.ingredients);
         $scope.reset = function () {
           $scope.recipe = {
-        	  name: "",
-        	  price: "",
-          	  ingredients: []
+            name: "",
+            price: "",
+            ingredients: [],
           };
-          
+
           if (undefined != $scope.addRecipeForm) {
             $scope.addRecipeForm.$setPristine(); // reset Form
           }
@@ -63,7 +62,7 @@
           //console.log($scope.recipe.ingredients);
           console.log($scope.recipe);
           $scope.addRecipe();
-		  //console.log($scope.recipe);
+          //console.log($scope.recipe);
           $scope.reset();
         };
 
@@ -81,18 +80,18 @@
             }
           );
         };
-        
+
         //$scope.inventoryIngredients = [...$scope.ingredients];
         //https://stackoverflow.com/questions/14514461/how-do-i-bind-to-list-of-checkbox-values-with-angularjs
         $scope.selectedIngredients = [];
-		  $scope.toggleSelection = function toggleSelection(ingredient) {
-			  var idx = $scope.selectedIngredients.indexOf(ingredient);
-			  if(idx > -1){
-				  $scope.selectedIngredients.splice(idx,1);
-			  }else{
-				  $scope.selectedIngredients.push(ingredient);
-			  }
-		  }
+        $scope.toggleSelection = function toggleSelection(ingredient) {
+          var idx = $scope.selectedIngredients.indexOf(ingredient);
+          if (idx > -1) {
+            $scope.selectedIngredients.splice(idx, 1);
+          } else {
+            $scope.selectedIngredients.push(ingredient);
+          }
+        };
 
         $scope.reset();
       });
@@ -152,6 +151,7 @@
                     class="name form-control input-sm"
                     placeholder="Enter recipe name"
                     required="0"
+                    style="width: 200px"
                   />
                   <div class="has-error" ng-show="addRecipeForm.$dirty">
                     <span ng-show="addRecipeForm.name.$error.required"
@@ -177,6 +177,7 @@
                     placeholder="Enter recipe price"
                     required="0"
                     min="0"
+                    style="width: 200px"
                   />
                   <div class="has-error" ng-show="addRecipeForm.$dirty">
                     <span ng-show="addRecipeForm.price.$error.required"
@@ -194,24 +195,23 @@
             </div>
             <br />
             <br />
-            <div class="col-sm">
-		Select the ingredients to add:  <br />
-		<div ng-repeat="ingredient in ingredients track by $index">
-			<input type="checkbox"
-				ng-click="toggleSelection(ingredient)">
-			<tt> {{ingredient.name}}</tt>  <!-- remove the extra spaces -->
-		</div>
-		<!-- https://stackoverflow.com/questions/14514461/how-do-i-bind-to-list-of-checkbox-values-with-angularjs  -->
-		Selected Ingredients:
-		<div ng-repeat="ingredient in selectedIngredients track by $index">
-		<div>{{ingredient.name}}</div>
-			<input
-                    type="text"
-                    name="units"
-                    value="{{ingredient.name}}"
-                    ng-model="ingredient.amount"
-                  />
-		</div>
+            Select the ingredients to add: <br />
+            <div ng-repeat="ingredient in ingredients track by $index">
+              <input type="checkbox" ng-click="toggleSelection(ingredient)" />
+              <tt> {{ingredient.name}}</tt>
+              <!-- remove the extra spaces -->
+            </div>
+            <!-- https://stackoverflow.com/questions/14514461/how-do-i-bind-to-list-of-checkbox-values-with-angularjs  -->
+            Selected Ingredients:
+            <div ng-repeat="ingredient in selectedIngredients track by $index">
+              <div>{{ingredient.name}}</div>
+              <input
+                type="text"
+                name="units"
+                value="{{ingredient.name}}"
+                ng-model="ingredient.amount"
+              />
+            </div>
             <div class="row">
               <div class="form-actions floatRight">
                 <input
@@ -247,25 +247,6 @@
               </div>
             </div>
           </form>
-          <!-- Link will allow users to transfer to Add Ingredients page (evmurphy) -->
-          <a
-            href="/addingredients"
-            class="btn btn-warning btn-sm"
-            style="
-              border-radius: 20px;
-              background: #d5c0a8;
-              border-color: transparent;
-              padding: 10px 25px 10px 25px;
-              box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
-              color: black;
-              position: absolute;
-              right: 75px;
-              bottom: 325px;
-              width: 150px;
-            "
-          >
-            Add Ingredient
-          </a>
         </div>
         <!-- Message to appear if Recipe successfully added / created (evmurphy) -->
         <div ng-show="success">Recipe Created</div>

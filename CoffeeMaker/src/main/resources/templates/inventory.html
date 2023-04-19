@@ -31,13 +31,13 @@ input.ng-dirty.ng-invalid-min {
 		app.controller('inventoryCtrl', function($scope, $http) {
 		
 			// get list of ingredients added so far
-			$scope.ingredients;
+			$scope.ingredient;
 	        function updateIngredients() {
 	          $http.get("/api/v1/ingredients").then(function (response) {
-	            $scope.ingredients = response.data;
+	            $scope.ingredient = response.data;
 	             //console.log(response.data);
-	             //console.log($scope.ingredients.length);
-	             //console.log(Array.isArray($scope.ingredients));
+	             //console.log($scope.ingredient.length);
+	             //console.log(Array.isArray($scope.ingredient));
 	          });
 	        }
         
@@ -54,7 +54,7 @@ input.ng-dirty.ng-invalid-min {
 			}
 			
 			$scope.getInventory();
-			console.log($scope.ingredients);
+			console.log($scope.ingredient);
 			//console.log($scope.originalInventory.ingredients);
 			//getIngredients();
 			//$scope.newInventory = {ingredients: []};
@@ -65,7 +65,7 @@ input.ng-dirty.ng-invalid-min {
 				$scope.success = false;
 				$scope.failure = false;
 				//console.log($scope.inventoryOriginal.ingredients);
-				$scope.newInventory.ingredients = $scope.ingredients;
+				$scope.newInventory.ingredient = $scope.ingredient;
 				//console.log($scope.newInventory);
 				$http.put("/api/v1/inventory", $scope.newInventory).then(
 						function(response) {
@@ -134,7 +134,7 @@ input.ng-dirty.ng-invalid-min {
 		<div>
 			<h2 class="lead">View Inventory</h2>
 			
-			<div ng-repeat="ingredient in newInventory.ingredients track by $index" style="margin: 15px">
+			<div ng-repeat="ingredient in newInventory.ingredient track by $index" style="margin: 15px">
 				{{ingredient.name}}: <span id={{ingredient.name}} ng-bind={{ingredient.amount}}></span><br />
 			</div>
 			
@@ -145,7 +145,7 @@ input.ng-dirty.ng-invalid-min {
 				<form ng-submit="submit()" name="addInventoryForm"
 					class>
 					
-					<div ng-repeat="ingredient in ingredients track by $index">
+					<div ng-repeat="ingredient in ingredient track by $index">
 						<div class="row">
 							<label class="col-md-2 control-lable" for="file" style="margin-left: 15px">{{ingredient.name}}</label>
 							<div class="col-md-7">

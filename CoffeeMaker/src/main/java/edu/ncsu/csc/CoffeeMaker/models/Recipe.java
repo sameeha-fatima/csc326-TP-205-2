@@ -35,14 +35,14 @@ public class Recipe extends DomainObject {
 
     /** Represents the list of ingredients in a recipe */
     @OneToMany ( cascade = CascadeType.MERGE, fetch = FetchType.EAGER )
-    private final List<Ingredient> ingredients;
+    private final List<Ingredient> ingredient;
 
     /**
      * Creates a default recipe for the coffee maker.
      */
     public Recipe () {
         this.name = "";
-        ingredients = new ArrayList<Ingredient>();
+        ingredient = new ArrayList<Ingredient>();
     }
 
     /**
@@ -70,13 +70,13 @@ public class Recipe extends DomainObject {
      *            represents Ingredient object to add to Recipe
      */
     public void addIngredient ( final Ingredient i ) {
-        for ( final Ingredient curr : ingredients ) {
+        for ( final Ingredient curr : ingredient ) {
             if ( curr.isDuplicate( i ) ) {
                 throw new IllegalArgumentException( "Ingredient already exists." );
             }
         }
         if ( i.getAmount() > 0 ) {
-            ingredients.add( i );
+            ingredient.add( i );
         }
     }
 
@@ -119,7 +119,7 @@ public class Recipe extends DomainObject {
      * @return a list of Ingredients in Recipe
      */
     public List<Ingredient> getIngredients () {
-        return ingredients;
+        return ingredient;
     }
 
     /**
@@ -133,8 +133,8 @@ public class Recipe extends DomainObject {
      */
     public Integer getIngredient ( final String name ) {
         Integer amount = 0;
-        for ( int j = 0; j < ingredients.size(); j++ ) {
-            final Ingredient curr = ingredients.get( j );
+        for ( int j = 0; j < ingredient.size(); j++ ) {
+            final Ingredient curr = ingredient.get( j );
             if ( curr.getName().equalsIgnoreCase( name ) ) {
                 amount = curr.getAmount();
             }
@@ -160,9 +160,9 @@ public class Recipe extends DomainObject {
      *            represents updated amount for Ingredient
      */
     public void updateIngredient ( final String name, final Integer amount ) {
-        for ( int j = 0; j < ingredients.size(); j++ ) {
-            if ( ingredients.get( j ).getName().equalsIgnoreCase( name ) ) {
-                ingredients.get( j ).setAmount( amount );
+        for ( int j = 0; j < ingredient.size(); j++ ) {
+            if ( ingredient.get( j ).getName().equalsIgnoreCase( name ) ) {
+                ingredient.get( j ).setAmount( amount );
             }
         }
     }
@@ -173,7 +173,7 @@ public class Recipe extends DomainObject {
      * @return true if there are no ingredients, otherwise return false
      */
     public boolean checkRecipe () {
-        return ingredients.size() == 0;
+        return ingredient.size() == 0;
     }
 
     /**
@@ -245,7 +245,7 @@ public class Recipe extends DomainObject {
      *            with updated fields
      */
     public void updateRecipe ( final Recipe r ) {
-        this.ingredients.clear();
+        this.ingredient.clear();
         final List<Ingredient> newIngredients = r.getIngredients();
         // this.ingredients.addAll(newIngredients);
         for ( int i = 0; i < newIngredients.size(); i++ ) {

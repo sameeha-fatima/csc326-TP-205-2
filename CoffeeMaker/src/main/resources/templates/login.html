@@ -36,6 +36,7 @@
             console.log($scope.user.name);
             console.log($scope.user.password);
             console.log($scope.user.userType);
+            document.cookie = $scope.user.name;
             $scope.success = false;
             $scope.failure = false;
             $http.get("/api/v1/users/" + $scope.user.name).then( function (response) {

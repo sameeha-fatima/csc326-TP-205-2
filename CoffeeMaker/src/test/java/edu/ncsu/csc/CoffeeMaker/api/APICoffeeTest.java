@@ -56,10 +56,10 @@ public class APICoffeeTest {
 
 		final Inventory ivt = iService.getInventory();
 
-		ivt.addIngredients("Chocolate", 15);
-		ivt.addIngredients("Coffee", 15);
-		ivt.addIngredients("Milk", 15);
-		ivt.addIngredients("Sugar", 15);
+		ivt.addIngredient("Chocolate", 15);
+		ivt.addIngredient("Coffee", 15);
+		ivt.addIngredient("Milk", 15);
+		ivt.addIngredient("Sugar", 15);
 
 		iService.save(ivt);
 
@@ -119,10 +119,10 @@ public class APICoffeeTest {
 		/* Insufficient inventory */
 		iService.deleteAll();
 		final Inventory ivt = iService.getInventory();
-		ivt.addIngredients("coffee", 1);
-		ivt.addIngredients("Chocolate", 15);
-		ivt.addIngredients("Milk", 15);
-		ivt.addIngredients("Sugar", 15);
+		ivt.addIngredient("coffee", 1);
+		ivt.addIngredient("Chocolate", 15);
+		ivt.addIngredient("Milk", 15);
+		ivt.addIngredient("Sugar", 15);
 		iService.save(ivt);
 
 		final String name = "Coffee";

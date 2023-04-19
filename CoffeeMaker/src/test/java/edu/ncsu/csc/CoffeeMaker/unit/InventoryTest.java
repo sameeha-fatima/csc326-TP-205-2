@@ -49,10 +49,10 @@ public class InventoryTest {
 		final Ingredient milk = new Ingredient("Milk", 500);
 		final Ingredient sugar = new Ingredient("Sugar", 500);
 		final Ingredient chocolate = new Ingredient("Chocolate", 500);
-		ivt.addIngredients(coffee);
-		ivt.addIngredients(milk);
-		ivt.addIngredients(sugar);
-		ivt.addIngredients(chocolate);
+		ivt.addIngredient(coffee);
+		ivt.addIngredient(milk);
+		ivt.addIngredient(sugar);
+		ivt.addIngredient(chocolate);
 
 	}
 
@@ -68,10 +68,10 @@ public class InventoryTest {
 //		final Ingredient milk = new Ingredient("Milk", 500);
 //		final Ingredient sugar = new Ingredient("Sugar", 500);
 //		final Ingredient chocolate = new Ingredient("Chocolate", 500);
-//		i.addIngredients(coffee);
-//		i.addIngredients(milk);
-//		i.addIngredients(sugar);
-//		i.addIngredients(chocolate);
+//		i.addIngredient(coffee);
+//		i.addIngredient(milk);
+//		i.addIngredient(sugar);
+//		i.addIngredient(chocolate);
 
 		final Recipe recipe = new Recipe();
 		recipe.setName("Delicious Not-Coffee");
@@ -110,18 +110,18 @@ public class InventoryTest {
 	public void testAddInventory1() {
 		Inventory ivt = inventoryService.getInventory();
 
-		// ivt.addIngredients( "coffee", 5 );
-		// ivt.addIngredients( "milk", 3 );
-		// ivt.addIngredients( "sugar", 7 );
-		// ivt.addIngredients( "chocolate", 2 );
+		// ivt.addIngredient( "coffee", 5 );
+		// ivt.addIngredient( "milk", 3 );
+		// ivt.addIngredient( "sugar", 7 );
+		// ivt.addIngredient( "chocolate", 2 );
 		final Ingredient coffee = new Ingredient("Coffee", 5);
 		final Ingredient milk = new Ingredient("Milk", 3);
 		final Ingredient sugar = new Ingredient("Sugar", 7);
 		final Ingredient chocolate = new Ingredient("Chocolate", 2);
-		ivt.addIngredients(coffee);
-		ivt.addIngredients(milk);
-		ivt.addIngredients(sugar);
-		ivt.addIngredients(chocolate);
+		ivt.addIngredient(coffee);
+		ivt.addIngredient(milk);
+		ivt.addIngredient(sugar);
+		ivt.addIngredient(chocolate);
 
 		/* Save and retrieve again to update with DB */
 		inventoryService.save(ivt);
@@ -148,11 +148,11 @@ public class InventoryTest {
 		final Inventory ivt = inventoryService.getInventory();
 
 		try {
-			// ivt.addIngredients(-5, 3, 7, 2);
-			ivt.addIngredients("coffee", -5);
-			ivt.addIngredients("milk", 3);
-			ivt.addIngredients("sugar", 7);
-			ivt.addIngredients("chocolate", 2);
+			// ivt.addIngredient(-5, 3, 7, 2);
+			ivt.addIngredient("coffee", -5);
+			ivt.addIngredient("milk", 3);
+			ivt.addIngredient("sugar", 7);
+			ivt.addIngredient("chocolate", 2);
 		} catch (final IllegalArgumentException iae) {
 			Assertions.assertEquals(500, (int) ivt.getIngredientAmount("coffee"),
 					"Trying to update the Inventory with an invalid value for coffee should result in no changes -- coffee");
@@ -174,11 +174,11 @@ public class InventoryTest {
 		final Inventory ivt = inventoryService.getInventory();
 
 		try {
-			// ivt.addIngredients(5, -3, 7, 2);
-			ivt.addIngredients("coffee", 5);
-			ivt.addIngredients("milk", -3);
-			ivt.addIngredients("sugar", 7);
-			ivt.addIngredients("chocolate", 2);
+			// ivt.addIngredient(5, -3, 7, 2);
+			ivt.addIngredient("coffee", 5);
+			ivt.addIngredient("milk", -3);
+			ivt.addIngredient("sugar", 7);
+			ivt.addIngredient("chocolate", 2);
 		} catch (final IllegalArgumentException iae) {
 			Assertions.assertEquals(505, (int) ivt.getIngredientAmount("coffee"),
 					"Trying to update the Inventory with an invalid value for milk should result in no changes -- coffee");
@@ -202,11 +202,11 @@ public class InventoryTest {
 		final Inventory ivt = inventoryService.getInventory();
 
 		try {
-			// ivt.addIngredients(5, 3, -7, 2);
-			ivt.addIngredients("coffee", 5);
-			ivt.addIngredients("milk", 3);
-			ivt.addIngredients("sugar", -7);
-			ivt.addIngredients("chocolate", 2);
+			// ivt.addIngredient(5, 3, -7, 2);
+			ivt.addIngredient("coffee", 5);
+			ivt.addIngredient("milk", 3);
+			ivt.addIngredient("sugar", -7);
+			ivt.addIngredient("chocolate", 2);
 		} catch (final IllegalArgumentException iae) {
 			Assertions.assertEquals(505, (int) ivt.getIngredientAmount("coffee"),
 					"Trying to update the Inventory with an invalid value for sugar should result in no changes -- coffee");
@@ -230,11 +230,11 @@ public class InventoryTest {
 		final Inventory ivt = inventoryService.getInventory();
 
 		try {
-			// ivt.addIngredients(5, 3, 7, -2);
-			ivt.addIngredients("coffee", 5);
-			ivt.addIngredients("milk", 3);
-			ivt.addIngredients("sugar", 7);
-			ivt.addIngredients("chocolate", -2);
+			// ivt.addIngredient(5, 3, 7, -2);
+			ivt.addIngredient("coffee", 5);
+			ivt.addIngredient("milk", 3);
+			ivt.addIngredient("sugar", 7);
+			ivt.addIngredient("chocolate", -2);
 		} catch (final IllegalArgumentException iae) {
 			Assertions.assertEquals(505, (int) ivt.getIngredientAmount("coffee"),
 					"Trying to update the Inventory with an invalid value for chocolate should result in no changes -- coffee");
@@ -261,10 +261,10 @@ public class InventoryTest {
 //		final Ingredient milk = new Ingredient("Milk", 10);
 //		final Ingredient sugar = new Ingredient("Sugar", 10);
 //		final Ingredient chocolate = new Ingredient("Chocolate", 10);
-//		ivt.addIngredients(coffee);
-//		ivt.addIngredients(milk);
-//		ivt.addIngredients(sugar);
-//		ivt.addIngredients(chocolate);
+//		ivt.addIngredient(coffee);
+//		ivt.addIngredient(milk);
+//		ivt.addIngredient(sugar);
+//		ivt.addIngredient(chocolate);
 
 		assertEquals(500, ivt.getIngredientAmount("Chocolate"));
 		assertEquals(500, ivt.getIngredientAmount("Sugar"));
