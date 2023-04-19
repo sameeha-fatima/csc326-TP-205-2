@@ -16,10 +16,21 @@
     	/*<![CDATA[*/
         var app = angular.module("myApp", []);
         app.controller("orderPickupCtrl", function ($scope, $http, $q) {
-
+        	$scope.orders = [];
+        	$http.get("/api/v1/orders").then(function (response) {
+                $scope.orders = response.data;
+                console.log($scope.orders);
+            });
         
-    
-        
+    	$scope.selectedOrder;
+    	$scope.selectOrder = function selectOrder() {
+    		var idx = document.getElementById("orderList").value;
+    		//console.log(idx);
+    		$scope.selectedOrder = $scope.orders[parseInt(idx.substring(7))];
+    		//console.log(parseInt(idx.substring(7)));
+    		console.log($scope.selectedOrder);
+    		//console.log($scope.orders[parseInt(idx.substring(7))]);
+        };
    
         });
         /*]]>*/
@@ -64,8 +75,19 @@
     <span>
       
       <h2 style="margin: 50px 0 50px 15px">Orders to Fulfill</h2>    
-     
-      </span>
+
+      <select id="orderList" size={{orders.length}} style="width:250px; padding:10px 10px" ng-change="selectOrder()" ng-model="myValue">
+      	<option 
+      	ng-repeat="order in orders track by $index"
+      	ng-value="$index"
+      	>{{order.name}}</option>
+      </select>
+      
+      <h3>Order Details</h3>
+      <ul>
+     	<li ng-repeat="beverage in selectedOrder.beverages track by $index">{{beverage.name}}</li>
+      </ul>
+     </span>
    
     </div>
   </body>
