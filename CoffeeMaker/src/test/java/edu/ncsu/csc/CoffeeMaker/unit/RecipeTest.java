@@ -506,6 +506,8 @@ public class RecipeTest {
 		r1.setName("Mocha");
 		r1.setPrice(5);
 		r1.updateIngredient("sugar", 10);
-		Assertions.assertEquals("Mocha", r1.toString());
+		Assertions.assertEquals(
+				"Mocha: [Ingredient [id=null, name=Coffee, amount=10], Ingredient [id=null, name=Milk, amount=10], Ingredient [id=null, name=Sugar, amount=10]]",
+				r1.toString());
 	}
 }
