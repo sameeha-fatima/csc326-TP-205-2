@@ -53,10 +53,10 @@ public class TestDatabaseInteraction {
 		/* set fields here */
 		r.setName("Mocha");
 		r.setPrice(350);
-		r.addIngredient(new Ingredient("Coffee", 2));
-		r.addIngredient(new Ingredient("Sugar", 1));
-		r.addIngredient(new Ingredient("Milk", 1));
-		r.addIngredient(new Ingredient("Chocolate", 1));
+		r.addIngredients(new Ingredient("Coffee", 2));
+		r.addIngredients(new Ingredient("Sugar", 1));
+		r.addIngredients(new Ingredient("Milk", 1));
+		r.addIngredients(new Ingredient("Chocolate", 1));
 
 		recipeService.save(r);
 
@@ -68,10 +68,10 @@ public class TestDatabaseInteraction {
 
 		assertEquals(r.getName(), dbRecipe.getName());
 		/* Test all of final the fields! final You can also us assertAll. */
-		assertEquals(r.getIngredient("Coffee"), dbRecipe.getIngredient("Coffee"));
-		assertEquals(r.getIngredient("Sugar"), dbRecipe.getIngredient("Sugar"));
-		assertEquals(r.getIngredient("Milk"), dbRecipe.getIngredient("Milk"));
-		assertEquals(r.getIngredient("Chocolate"), dbRecipe.getIngredient("Chocolate"));
+		assertEquals(r.getIngredients("Coffee"), dbRecipe.getIngredients("Coffee"));
+		assertEquals(r.getIngredients("Sugar"), dbRecipe.getIngredients("Sugar"));
+		assertEquals(r.getIngredients("Milk"), dbRecipe.getIngredients("Milk"));
+		assertEquals(r.getIngredients("Chocolate"), dbRecipe.getIngredients("Chocolate"));
 	}
 
 	/**
@@ -86,10 +86,10 @@ public class TestDatabaseInteraction {
 		/* set fields here */
 		r.setName("Mocha");
 		r.setPrice(350);
-		r.addIngredient(new Ingredient("Coffee", 2));
-		r.addIngredient(new Ingredient("Sugar", 1));
-		r.addIngredient(new Ingredient("Milk", 1));
-		r.addIngredient(new Ingredient("Chocolate", 1));
+		r.addIngredients(new Ingredient("Coffee", 2));
+		r.addIngredients(new Ingredient("Sugar", 1));
+		r.addIngredients(new Ingredient("Milk", 1));
+		r.addIngredients(new Ingredient("Chocolate", 1));
 
 		recipeService.save(r);
 
@@ -108,10 +108,10 @@ public class TestDatabaseInteraction {
 		/* set fields here */
 		r.setName("Mocha");
 		r.setPrice(350);
-		r.addIngredient(new Ingredient("Coffee", 2));
-		r.addIngredient(new Ingredient("Sugar", 1));
-		r.addIngredient(new Ingredient("Milk", 1));
-		r.addIngredient(new Ingredient("Chocolate", 1));
+		r.addIngredients(new Ingredient("Coffee", 2));
+		r.addIngredients(new Ingredient("Sugar", 1));
+		r.addIngredients(new Ingredient("Milk", 1));
+		r.addIngredients(new Ingredient("Chocolate", 1));
 		recipeService.save(r);
 
 		final List<Recipe> dbRecipes = recipeService.findAll();
@@ -121,15 +121,15 @@ public class TestDatabaseInteraction {
 		final Recipe dbRecipe = recipeService.findByName("Mocha");
 
 		/* Test all of final the fields! final You can also us assertAll. */
-		assertEquals(r.getIngredient("Coffee"), dbRecipe.getIngredient("Coffee"));
-		assertEquals(r.getIngredient("Sugar"), dbRecipe.getIngredient("Sugar"));
-		assertEquals(r.getIngredient("Milk"), dbRecipe.getIngredient("Milk"));
-		assertEquals(r.getIngredient("Chocolate"), dbRecipe.getIngredient("Chocolate"));
+		assertEquals(r.getIngredients("Coffee"), dbRecipe.getIngredients("Coffee"));
+		assertEquals(r.getIngredients("Sugar"), dbRecipe.getIngredients("Sugar"));
+		assertEquals(r.getIngredients("Milk"), dbRecipe.getIngredients("Milk"));
+		assertEquals(r.getIngredients("Chocolate"), dbRecipe.getIngredients("Chocolate"));
 
 		r.setPrice(15);
 		r.updateIngredient("Sugar", 12);
 		recipeService.save(r);
 		assertEquals(r.getPrice(), dbRecipe.getPrice());
-		assertEquals(r.getIngredient("Sugar"), dbRecipe.getIngredient("Sugar"));
+		assertEquals(r.getIngredients("Sugar"), dbRecipe.getIngredients("Sugar"));
 	}
 }

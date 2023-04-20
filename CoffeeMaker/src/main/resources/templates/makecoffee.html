@@ -1,68 +1,265 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<title>View Recipes</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="css/bootstrap.css" />
-<link rel="stylesheet" href="css/app.css" />
-</head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-<body>
-	<script th:inline="javascript">
-		/*<![CDATA[*/
+  <head>
+    <title>Place Order</title>
+    <style>
+      input.ng-valid {
+        background-color: lightgreen;
+      }
 
-		var app = angular.module('myApp', []);
-		app.controller('recipesCtrl', function($scope, $http, $q) {
-			$http.get("/api/v1/recipes").then(function(response) {
-				$scope.recipes = response.data;
-			});
+      input.ng-dirty.ng-invalid-required,
+      input.ng-dirty.ng-invalid-number {
+        background-color: red;
+      }
 
-			$scope.make = function() {
-				var amtPaid = $scope.amtPaid;
-				var name = $scope.name;
-				$scope.submissionFailure = false;
-				$scope.submissionSuccess = false;
-				$http.post("/api/v1/makecoffee/" + name, amtPaid).then(
-						function(response) {
-							$scope.change = response.data.message;
-							$scope.submissionSuccess = true;
-						}, function(errResponse) {
-							console.log(errResponse);
-							$scope.submissionFailure = true;
-							$scope.error = "Error while making recipe";
-						});
+      input.ng-dirty.ng-invalid-min {
+        background-color: yellow;
+      }
+    </style>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
 
-			}
-		});
+      var app = angular.module("myApp", []);
+      app.controller("recipesCtrl", function ($scope, $http, $q) {
+        $http.get("/api/v1/recipes").then(function (response) {
+          $scope.recipes = response.data;
+        });
 
-		/*]]>*/
-	</script>
+        $scope.orderObj = {
+          name: "",
+          customerUsername: document.cookie.trim(),
+          beverages: [],
+        };
 
-	<div layout:fragment="content" class="generic-container ng-cloak"
-		ng-app="myApp" ng-controller="recipesCtrl">
-		<h1>Coffee Recipes</h1>
-		<div>
-			<ul>
-				<li ng-repeat="recipe in recipes"><label>{{recipe.name}}
-						<input type="radio" ng-model="$parent.name" name="name"
-						value="{{recipe.name}}" required="true" />
-				</label></li>
-			</ul>
-			<br /> <label for="amtPaid">Enter payment</label> <input type="text"
-				ng-model="amtPaid" name="amtPaid" required="true" /> <br /> <input
-				type="submit" ng-click="make()" value="Make Coffee"
-				class="btn btn-primary btn-sm" /> <br />
+        $scope.make = function () {
+          //   console.log(decodeURIComponent(document.cookie));
+          //   var amtPaid = $scope.amtPaid;
+          //   var name = $scope.name;
+          //   var customerUsername = $scope.customerUsername;
+          //   var beverages = $scope.beverages;
+          //   $scope.submissionFailure = false;
+          //   $scope.submissionSuccess = false;
+          //   $http.post("/api/v1/makecoffee/" + name, amtPaid).then(
+          //     function (response) {
+          //       $scope.change = response.data.message;
+          //       $scope.submissionSuccess = true;
+          //     },
+          //     function (errResponse) {
+          //       console.log(errResponse);
+          //       $scope.submissionFailure = true;
+          //       $scope.error = "Error while making recipe";
+          //     }
+          //   );
+        };
 
-			<div ng-show="submissionSuccess" class="success">Coffee was
-				made. Your change is {{change}}.</div>
+        $scope.quantities = [];
+        $scope.total = 0;
+        $scope.calculateTotal = function calcTotal() {
+          var total = 0;
+          for (let i = 0; i < $scope.order.length; i++) {
+            total = total + $scope.quantities[i] * $scope.order[i].price;
+          }
+          $scope.total = total;
+        };
 
-			<div ng-show="submissionFailure">An error occurred: {{error}}</div>
+        $scope.order = [];
+        $scope.addToOrder = function addToOrder(recipe) {
+          //   console.log("cookies: " + document.cookie);
+          var idx = $scope.order.indexOf(recipe);
+          if (idx > -1) {
+            $scope.order.splice(idx, 1);
+            $scope.quantities.splice(idx, 1, 0);
+          } else {
+            $scope.order.push(recipe);
+            $scope.quantities.push(0);
+          }
+        };
 
-			<br /> <a href="/index">Home</a>
-		</div>
+        $scope.createOrder = function createOrder() {
+          $scope.orderObj.beverages = [...$scope.order];
+          console.log($scope.orderObj);
+          $http.post("/api/v1/orders", $scope.orderObj).then(
+            function (response) {
+              //   console.log(response);
+              $scope.submissionSuccess = true;
+            },
+            function (rejection) {
+              console.error("Error while placing order");
+              console.log(rejection);
+              $scope.submissionSuccess = false;
+            }
+          );
+        };
+      });
 
-	</div>
+      /*]]>*/
+    </script>
 
-</body>
+    <div
+      class="generic-container ng-cloak"
+      ng-app="myApp"
+      ng-controller="recipesCtrl as ctrl"
+      style="
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 15px;
+        position: relative;
+        height: 60%;
+        max-height: 60%;
+      "
+    >
+      <!-- Navigation header which contains the menu button to return to home page (evmurphy) -->
+      <nav
+        style="
+          background-color: #b9a184;
+          padding: 10px;
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+        "
+      >
+        <a href="customerview.html"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="black"
+            class="bi bi-list"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+            /></svg
+        ></a>
+      </nav>
+      <h1 style="margin: 50px 0 10px 15px">Place Order</h1>
+
+      <div class="row" style="margin-left: 5px">
+        <div id="titlecontainer" class="row">
+          <div class="col-md-6"><h3>Menu Items</h3></div>
+          <div class="col-md-6">
+            <h3>Order</h3>
+          </div>
+        </div>
+        <div id="infocontainer" class="row">
+          <div id="menuinfocontainer" class="col-md-6">
+            <!-- Row containing 'Name' and 'Price' labels -->
+            <div class="row">
+              <div class="form-group col-md-2">
+                <div>
+                  <label
+                    style="padding: 0"
+                    class="col-md-2 control-lable"
+                    for="name"
+                    >Name</label
+                  >
+                </div>
+              </div>
+              <div class="form-group col-md-2">
+                <label class="col-md-2 control-lable" for="price">Price</label>
+              </div>
+            </div>
+            <!-- Row containing list of menu items and list of prices labels -->
+            <div class="row">
+              <div class="form-group col-md-2">
+                <div ng-repeat="recipe in recipes track by $index">
+                  <input type="checkbox" ng-click="addToOrder(recipe)" />
+                  <tt> {{recipe.name}}</tt>
+                  <!-- remove the extra spaces -->
+                </div>
+              </div>
+              <div class="form-group col-md-2">
+                <ul style="list-style-type: none">
+                  <li ng-repeat="recipe in recipes">
+                    <label>${{recipe.price}} </label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="orderinfocontainer" class="col-md-6">
+            <div id="orderDetails">
+              <div style="width: 25%; float: left">
+                <h4>Name</h4>
+                <div ng-repeat="recipe in order track by $index">
+                  <label for="beverage"> {{recipe.name}}</label>
+                  <input
+                    type="number"
+                    id="beverage"
+                    min="0"
+                    ng-model="quantities[$index]"
+                    ng-change="calculateTotal()"
+                  />
+                </div>
+              </div>
+
+              <div style="width: 75%; float: right">
+                <h4>Quantity</h4>
+              </div>
+            </div>
+            <br />
+          </div>
+        </div>
+        <div id="totalcontainer" class="row">
+          <div class="col-md-6">
+            <div>
+              <label for="total" style="font-size: large"
+                >Total: ${{total}}</label
+              >
+              <br />
+              <br />
+              <form name="nameForm">
+                <input
+                  type="text"
+                  max="20"
+                  placeholder="Enter a name for the order"
+                  ng-model="orderObj.name"
+                />
+              </form>
+            </div>
+          </div>
+
+          <!-- <div>
+            <label for="payment">Enter payment: </label>
+            <input
+              type="number"
+              step=".01"
+              id="payment"
+              min="0"
+              style="width: 200px"
+            />
+          </div> -->
+        </div>
+      </div>
+
+      <div ng-if="submissionSuccess">Order Successfully Placed!</div>
+      <br />
+      <div class="row">
+        <div class="form-actions floatRight">
+          <button
+            type="button"
+            ng-disabled="nameForm.$pristine"
+            ng-click="createOrder()"
+            class="btn btn-warning btn-sm"
+            style="
+              border-radius: 20px;
+              background: #81d58a;
+              border-color: transparent;
+              padding: 10px 25px 10px 25px;
+              box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+              color: black;
+            "
+          >
+            Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

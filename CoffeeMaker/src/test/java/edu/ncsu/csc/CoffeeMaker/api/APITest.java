@@ -87,10 +87,10 @@ public class APITest {
 			final Recipe r = new Recipe();
 			r.setName("Mocha");
 			r.setPrice(10);
-			r.addIngredient(new Ingredient("Coffee", 2));
-			r.addIngredient(new Ingredient("Sugar", 1));
-			r.addIngredient(new Ingredient("Milk", 3));
-			r.addIngredient(new Ingredient("Chocolate", 2));
+			r.addIngredients(new Ingredient("Coffee", 2));
+			r.addIngredients(new Ingredient("Sugar", 1));
+			r.addIngredients(new Ingredient("Milk", 3));
+			r.addIngredients(new Ingredient("Chocolate", 2));
 
 			mvc.perform(
 					post("/api/v1/recipes").contentType(MediaType.APPLICATION_JSON).content(TestUtils.asJsonString(r)))

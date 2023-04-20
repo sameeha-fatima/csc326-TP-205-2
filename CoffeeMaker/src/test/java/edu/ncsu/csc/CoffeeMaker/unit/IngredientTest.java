@@ -74,17 +74,17 @@ public class IngredientTest {
 	public void testToString() {
 
 		final Ingredient i = new Ingredient("Latte", 10);
-		String s = "Ingredient [id=" + i.getId() + ", ingredient=" + i.getName() + ", amount=" + i.getAmount() + "]";
+		String s = "Ingredient [id=" + i.getId() + ", name=" + i.getName() + ", amount=" + i.getAmount() + "]";
 		assertEquals(s, i.toString());
 		i.setName("Mocha");
-		s = "Ingredient [id=" + i.getId() + ", ingredient=" + i.getName() + ", amount=" + i.getAmount() + "]";
+		s = "Ingredient [id=" + i.getId() + ", name=" + i.getName() + ", amount=" + i.getAmount() + "]";
 		assertEquals(s, i.toString());
 		i.setAmount(2);
-		s = "Ingredient [id=" + i.getId() + ", ingredient=" + i.getName() + ", amount=" + i.getAmount() + "]";
+		s = "Ingredient [id=" + i.getId() + ", name=" + i.getName() + ", amount=" + i.getAmount() + "]";
 		assertEquals(s, i.toString());
 
 		final Ingredient i2 = new Ingredient("", 10);
-		s = "Ingredient [id=" + i2.getId() + ", ingredient=" + i2.getName() + ", amount=" + i2.getAmount() + "]";
+		s = "Ingredient [id=" + i2.getId() + ", name=" + i2.getName() + ", amount=" + i2.getAmount() + "]";
 		assertEquals(s, i2.toString());
 	}
 }

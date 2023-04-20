@@ -68,10 +68,10 @@ public class InventoryTest {
 //		final Ingredient milk = new Ingredient("Milk", 500);
 //		final Ingredient sugar = new Ingredient("Sugar", 500);
 //		final Ingredient chocolate = new Ingredient("Chocolate", 500);
-//		i.addIngredients(coffee);
-//		i.addIngredients(milk);
-//		i.addIngredients(sugar);
-//		i.addIngredients(chocolate);
+//		i.addIngredient(coffee);
+//		i.addIngredient(milk);
+//		i.addIngredient(sugar);
+//		i.addIngredient(chocolate);
 
 		final Recipe recipe = new Recipe();
 		recipe.setName("Delicious Not-Coffee");
@@ -83,10 +83,10 @@ public class InventoryTest {
 		final Ingredient milk = new Ingredient("Milk", 20);
 		final Ingredient sugar = new Ingredient("Sugar", 5);
 		final Ingredient chocolate = new Ingredient("Chocolate", 10);
-		recipe.addIngredient(coffee);
-		recipe.addIngredient(milk);
-		recipe.addIngredient(sugar);
-		recipe.addIngredient(chocolate);
+		recipe.addIngredients(coffee);
+		recipe.addIngredients(milk);
+		recipe.addIngredients(sugar);
+		recipe.addIngredients(chocolate);
 
 		recipe.setPrice(5);
 
@@ -110,10 +110,10 @@ public class InventoryTest {
 	public void testAddInventory1() {
 		Inventory ivt = inventoryService.getInventory();
 
-		// ivt.addIngredients( "coffee", 5 );
-		// ivt.addIngredients( "milk", 3 );
-		// ivt.addIngredients( "sugar", 7 );
-		// ivt.addIngredients( "chocolate", 2 );
+		// ivt.addIngredient( "coffee", 5 );
+		// ivt.addIngredient( "milk", 3 );
+		// ivt.addIngredient( "sugar", 7 );
+		// ivt.addIngredient( "chocolate", 2 );
 		final Ingredient coffee = new Ingredient("Coffee", 5);
 		final Ingredient milk = new Ingredient("Milk", 3);
 		final Ingredient sugar = new Ingredient("Sugar", 7);
@@ -148,7 +148,7 @@ public class InventoryTest {
 		final Inventory ivt = inventoryService.getInventory();
 
 		try {
-			// ivt.addIngredients(-5, 3, 7, 2);
+			// ivt.addIngredient(-5, 3, 7, 2);
 			ivt.addIngredients("coffee", -5);
 			ivt.addIngredients("milk", 3);
 			ivt.addIngredients("sugar", 7);
@@ -174,7 +174,7 @@ public class InventoryTest {
 		final Inventory ivt = inventoryService.getInventory();
 
 		try {
-			// ivt.addIngredients(5, -3, 7, 2);
+			// ivt.addIngredient(5, -3, 7, 2);
 			ivt.addIngredients("coffee", 5);
 			ivt.addIngredients("milk", -3);
 			ivt.addIngredients("sugar", 7);
@@ -202,7 +202,7 @@ public class InventoryTest {
 		final Inventory ivt = inventoryService.getInventory();
 
 		try {
-			// ivt.addIngredients(5, 3, -7, 2);
+			// ivt.addIngredient(5, 3, -7, 2);
 			ivt.addIngredients("coffee", 5);
 			ivt.addIngredients("milk", 3);
 			ivt.addIngredients("sugar", -7);
@@ -230,7 +230,7 @@ public class InventoryTest {
 		final Inventory ivt = inventoryService.getInventory();
 
 		try {
-			// ivt.addIngredients(5, 3, 7, -2);
+			// ivt.addIngredient(5, 3, 7, -2);
 			ivt.addIngredients("coffee", 5);
 			ivt.addIngredients("milk", 3);
 			ivt.addIngredients("sugar", 7);
@@ -261,10 +261,10 @@ public class InventoryTest {
 //		final Ingredient milk = new Ingredient("Milk", 10);
 //		final Ingredient sugar = new Ingredient("Sugar", 10);
 //		final Ingredient chocolate = new Ingredient("Chocolate", 10);
-//		ivt.addIngredients(coffee);
-//		ivt.addIngredients(milk);
-//		ivt.addIngredients(sugar);
-//		ivt.addIngredients(chocolate);
+//		ivt.addIngredient(coffee);
+//		ivt.addIngredient(milk);
+//		ivt.addIngredient(sugar);
+//		ivt.addIngredient(chocolate);
 
 		assertEquals(500, ivt.getIngredientAmount("Chocolate"));
 		assertEquals(500, ivt.getIngredientAmount("Sugar"));
@@ -307,10 +307,10 @@ public class InventoryTest {
 		final Ingredient milk = new Ingredient("Milk", 501);
 		final Ingredient sugar = new Ingredient("Sugar", 501);
 		final Ingredient chocolate = new Ingredient("Chocolate", 501);
-		r.addIngredient(coffee);
-		r.addIngredient(milk);
-		r.addIngredient(sugar);
-		r.addIngredient(chocolate);
+		r.addIngredients(coffee);
+		r.addIngredients(milk);
+		r.addIngredients(sugar);
+		r.addIngredients(chocolate);
 		// r.setCoffee(501);
 		// r.setChocolate(501);
 		// r.setSugar(501);

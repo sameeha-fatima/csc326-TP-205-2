@@ -115,7 +115,7 @@ public class Ingredient extends DomainObject {
 
 	@Override
 	public String toString() {
-		return "Ingredient [id=" + id + ", ingredient=" + name + ", amount=" + amount + "]";
+		return "Ingredient [id=" + id + ", name=" + name + ", amount=" + amount + "]";
 	}
 
 	/**
