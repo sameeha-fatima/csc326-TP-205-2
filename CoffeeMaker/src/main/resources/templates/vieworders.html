@@ -16,9 +16,18 @@
     	/*<![CDATA[*/
         var app = angular.module("myApp", []);
         app.controller("orderPickupCtrl", function ($scope, $http, $q) {
+        	$scope.allOrders = [];
         	$scope.orders = [];
         	$http.get("/api/v1/orders").then(function (response) {
-                $scope.orders = response.data;
+                $scope.allOrders = response.data;
+                //console.log($scope.orders.length);
+                for(var i = 0; i < $scope.allOrders.length; i++){
+                	//console.log($scope.orders[i]);
+                	if(!($scope.allOrders[i].fulfilled)){
+                		$scope.orders.push($scope.allOrders[i]);
+                	}
+                }
+                
                 console.log($scope.orders);
             });
         
@@ -37,6 +46,7 @@
               function (response) {
                 //   console.log(response);
                 $scope.submissionSuccess = true;
+                $scope.orders.splice($scope.orders.indexOf($scope.selectedOrder), 1);
               },
               function (rejection) {
                 console.error("Error while placing order");
