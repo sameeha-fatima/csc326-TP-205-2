@@ -66,10 +66,10 @@ public class APICoffeeTest {
 		final Recipe recipe = new Recipe();
 		recipe.setName("Coffee");
 		recipe.setPrice(50);
-		recipe.addIngredient(new Ingredient("Coffee", 3));
-		recipe.addIngredient(new Ingredient("Sugar", 1));
-		recipe.addIngredient(new Ingredient("Milk", 1));
-		recipe.addIngredient(new Ingredient("Chocolate", 0));
+		recipe.addIngredients(new Ingredient("Coffee", 3));
+		recipe.addIngredients(new Ingredient("Sugar", 1));
+		recipe.addIngredients(new Ingredient("Milk", 1));
+		recipe.addIngredients(new Ingredient("Chocolate", 0));
 		service.save(recipe);
 	}
 

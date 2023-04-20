@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Orders</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+  <div layout:fragment="content">
+  	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+
+    <script>
+    	/*<![CDATA[*/
+        var app = angular.module("myApp", []);
+        app.controller("orderPickupCtrl", function ($scope, $http, $q) {
+        	$scope.allOrders = [];
+        	$scope.orders = [];
+        	$http.get("/api/v1/orders").then(function (response) {
+                $scope.allOrders = response.data;
+                //console.log($scope.orders.length);
+                for(var i = 0; i < $scope.allOrders.length; i++){
+                	//console.log($scope.orders[i]);
+                	if(!($scope.allOrders[i].fulfilled)){
+                		$scope.orders.push($scope.allOrders[i]);
+                	}
+                }
+                
+                console.log($scope.orders);
+            });
+        
+    	$scope.selectedOrder;
+    	$scope.selectOrder = function selectOrder() {
+    		var idx = document.getElementById("orderList").value;
+    		//console.log(idx);
+    		$scope.selectedOrder = $scope.orders[parseInt(idx.substring(7))];
+    		//console.log(parseInt(idx.substring(7)));
+    		console.log($scope.selectedOrder);
+    		//console.log($scope.orders[parseInt(idx.substring(7))]);
+        };
+   
+        $scope.fulfillOrder = function fulfillOrder() {
+            $http.put("/api/v1/orders", $scope.selectedOrder).then(
+              function (response) {
+                //   console.log(response);
+                $scope.submissionSuccess = true;
+                $scope.orders.splice($scope.orders.indexOf($scope.selectedOrder), 1);
+              },
+              function (rejection) {
+                console.error("Error while placing order");
+                console.log(rejection);
+                $scope.submissionSuccess = false;
+              }
+            );
+          };
+        });
+        /*]]>*/
+    </script>
+    <div class="generic-container ng-cloak"
+        ng-app="myApp"
+        ng-controller="orderPickupCtrl as ctrl"
+        style="
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 15px;
+            position: relative;
+            padding-bottom: 150px;
+        "
+    >
+  
+    <nav
+      style="
+        background-color: #b9a184;
+        padding: 10px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+      "
+    >
+      <a href="staffview.html"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          fill="black"
+          class="bi bi-list"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+          /></svg
+      ></a>
+    </nav>
+    <h1 style="margin: 50px 0 50px 15px">View Orders</h1>
+    <span>
+      
+      <h2 style="margin: 50px 0 50px 15px">Orders to Fulfill</h2>    
+
+      <select id="orderList" size={{orders.length}} style="width:250px; padding:10px 10px" ng-change="selectOrder()" ng-model="myValue">
+      	<option 
+      	ng-repeat="order in orders track by $index"
+      	ng-value="$index"
+      	>{{order.name}}</option>
+      </select>
+      
+      <h3>Order Details</h3>
+      <ul>
+     	<li ng-repeat="beverage in selectedOrder.beverages track by $index">{{beverage.name}}</li>
+      </ul>
+     </span>
+   
+      <div ng-if="submissionSuccess">Order Fulfilled!</div>
+      <div class="row">
+        <div class="form-actions floatRight">
+          <button
+            type="button"
+            ng-disabled="nameForm.$pristine"
+            ng-click="fulfillOrder()"
+            class="btn btn-warning btn-sm"
+            style="
+              border-radius: 20px;
+              background: #81d58a;
+              border-color: transparent;
+              padding: 10px 25px 10px 25px;
+              box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+              color: black;
+            "
+          >
+            Fulfill
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

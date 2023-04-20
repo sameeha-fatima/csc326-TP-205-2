@@ -1,171 +1,245 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
   <head>
-    <title>Welcome to the CSC326 CoffeeMaker</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
+  <body style="background: #8e5f39">
+    <div layout:fragment="content">
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
 
-  <link rel="stylesheet" href="css/bootstrap.css" />
-  <link rel="stylesheet" href="css/app.css" />
-  <body>
-    <div
-      layout:fragment="content"
-      class="generic-container ng-cloak"
-      style="
-        font-family: 'Times New Roman', Times, serif;
-        font-size: 15px;
-        position: relative;
-        padding-bottom: 150px;
-      "
-    >
-      <!-- Header bar for home page, main purpose is aesthetics (evmurphy) -->
-      <nav
-        style="
-          background-color: #b9a184;
-          padding: 25px;
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: 0;
-        "
-      ></nav>
-      <!-- Headings with title of application and prompt to select and an action (evmurphy) -->
-      <h1 style="margin: 50px 0 50px 15px">Coffee Maker</h1>
-      <h2 style="margin: 30px 0 30px 0; text-align: center; font-size: 25px">
-        Select An Action:
-      </h2>
-      <!-- Grid which contains all the possible actions in Coffee Maker (evmurphy) -->
-      <div class="gridContainer" style="position: relative; left: 13%">
-        <!-- First row containing Add Recipe, Edit Recipe, and Order Beverage actions (evmurphy) -->
-        <div class="row" style="margin-bottom: 10px">
-          <div class="col-md-3">
-            <span style="background-color: #d5c0a8">
-              <a
-                href="recipe.html"
+      <script>
+        /*<![CDATA[*/
+        var app = angular.module("myApp", []);
+        app.controller("loginCtrl", function ($scope, $http, $q) {
+          // represents the menu that should display when you login
+          $scope.userMenu = "index.html";
+          // represents the user object that will be used in call to GET on submit
+          $scope.user = {
+            name: "",
+            password: "",
+            userType: "",
+          };
+
+          $scope.reset = function () {
+            $scope.user.name = "";
+            $scope.user.password = "";
+            $scope.user.userType = "";
+            if (undefined != $scope.loginForm) {
+              $scope.loginForm.$setPristine(); // reset Form
+            }
+          };
+
+          $scope.submit = function () {
+            console.log($scope.user.name);
+            console.log($scope.user.password);
+
+            //console.log($scope.user.userType);
+            $scope.success = false;
+            $scope.failure = false;
+            $http
+              .get("/api/v1/users/" + $scope.user.name)
+              .then(function (response) {
+                $scope.databaseUser = response.data;
+                if ($scope.databaseUser.name == $scope.user.name) {
+                  if ($scope.databaseUser.password == $scope.user.password) {
+                    document.cookie = $scope.user.name;
+                    console.log("cookies: " + document.cookie);
+                    $scope.success = true;
+                    console.log($scope.databaseUser);
+                    // set userType of our local user to the one from the database
+                    $scope.user.userType = $scope.databaseUser.userType;
+                    // console.log($scope.user.userType);
+                    // then, update the href we'll re-route to after pressing continue
+                    $scope.userMenu =
+                      $scope.user.userType == "CUSTOMER"
+                        ? "customerview.html"
+                        : "staffview.html";
+                    document.location = $scope.userMenu;
+                  } else {
+                    $scope.success = false;
+                    $scope.failure = true;
+                  }
+                } else {
+                  $scope.success = false;
+                  $scope.failure = true;
+                }
+
+                $scope.url = "";
+
+                if ($scope.userType == "staff") {
+                  $scope.url = "/staffview.html";
+                } else {
+                  $scope.url = "/customerview.html";
+                }
+              });
+          };
+        });
+        /*]]>*/
+      </script>
+      <div
+        class="container-fluid ng-cloak"
+        ng-app="myApp"
+        ng-controller="loginCtrl as ctrl"
+      >
+        <!-- <div class="h1" style="font-family: 'Comfortaa', cursive">
+          Bean Dependency
+        </div> -->
+        <div
+          class="container"
+          style="
+            position: absolute;
+            top: 20%;
+            border-radius: 30px;
+            left: 20%;
+            padding-bottom: 150px;
+            width: 900px;
+            height: 450px;
+            background: #cfa180;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+            font-family: 'Comfortaa', cursive;
+            font-weight: 700;
+          "
+        >
+          <div class="row">
+            <div class="col-md-6">
+              <img
+                src="https://i.pinimg.com/564x/fb/9b/e9/fb9be92f8f783dc2b69f73c486a1f00d.jpg"
+                alt="coffee"
+                class="img-fluid"
                 style="
-                  color: black;
-                  background-color: #d5c0a8;
-                  display: block;
-                  padding: 15px 20px;
-                  text-align: center;
+                  object-fit: contain;
+                  border-radius: 30px;
+                  position: absolute;
+                  left: 0;
+                  width: 450px;
+                  height: 450px;
+                  object-fit: cover;
                 "
-                >Add a Recipe</a
-              ></span
-            >
-          </div>
-          <div class="col-md-3">
-            <span style="background-color: #b9a184">
-              <a
-                href="editrecipe.html"
-                style="
-                  color: black;
-                  background-color: #b9a184;
-                  display: block;
-                  padding: 15px 20px;
-                  text-align: center;
-                "
-                >Edit Recipe</a
-              ></span
-            >
-          </div>
-          <div class="col-md-3">
-            <span style="background-color: #d5c0a8">
-              <a
-                href="makecoffee.html"
-                style="
-                  color: black;
-                  background-color: #d5c0a8;
-                  display: block;
-                  padding: 15px 20px;
-                  text-align: center;
-                "
-                >Order Beverage</a
-              ></span
-            >
-          </div>
-        </div>
-        <!-- Second row containing Delete Recipe, Update Inventory, and Add Ingredients actions (evmurphy) -->
-        <div class="row" style="margin-top: 20px">
-          <div class="col-md-3">
-            <span class="labelIndicators" style="background-color: #b9a184">
-              <a
-                href="deleterecipe.html"
-                style="
-                  color: black;
-                  background-color: #b9a184;
-                  padding: 15px 20px;
-                  display: block;
-                  text-align: center;
-                "
-                >Delete Recipe</a
-              >
-            </span>
-          </div>
-          <div class="col-md-3">
-            <span class="labelIndicators" style="background-color: #d5c0a8">
-              <a
-                href="inventory.html"
-                style="
-                  color: black;
-                  background-color: #d5c0a8;
-                  padding: 15px 20px;
-                  display: block;
-                  text-align: center;
-                "
-                >Update Inventory</a
-              >
-            </span>
-          </div>
-          <div class="col-md-3">
-            <span class="labelIndicators" style="background-color: #b9a184"
-              ><a
-                href="addingredients.html"
-                style="
-                  color: black;
-                  background-color: #b9a184;
-                  padding: 15px 20px;
-                  display: block;
-                  text-align: center;
-                "
-                >Add Ingredient</a
-              ></span
-            >
-          </div>
-        </div>
-        <!-- Third row containing Signup (temporary) -->
-        <div class="row" style="margin-top: 20px">
-          <div class="col-md-3">
-            <span class="labelIndicators" style="background-color: #d5c0a8"
-              ><a
-                href="login.html"
-                style="
-                  color: black;
-                  background-color: #d5c0a8;
-                  padding: 15px 20px;
-                  display: block;
-                  text-align: center;
-                "
-                >Login</a
-              ></span
-            >
-          </div>
-        </div>
-        <!-- Third row containing Signup (temporary) -->
-        <div class="row" style="margin-top: 20px">
-          <div class="col-md-3">
-            <span class="labelIndicators" style="background-color: #d5c0a8"
-              ><a
-                href="signup.html"
-                style="
-                  color: black;
-                  background-color: #d5c0a8;
-                  padding: 15px 20px;
-                  display: block;
-                  text-align: center;
-                "
-                >Sign Up</a
-              ></span
-            >
+              />
+            </div>
+            <div class="col-md-6">
+              <div class="login-container container-fluid">
+                <h1
+                  style="
+                    font-weight: bold;
+                    font-size: 50px;
+                    text-align: center;
+                    margin-top: 25%;
+                  "
+                >
+                  Login
+                </h1>
+                <div align="center">
+                  <!-- Form which handles the creation of an User object (sfatima3) -->
+                  <form
+                    style="margin: 10px 10px 10px 0px"
+                    ng-submit="submit()"
+                    name="loginForm"
+                    class="form-horizontal"
+                  >
+                    <label
+                      for="user_name"
+                      style="
+                        display: inline-block;
+                        width: 150px;
+                        margin-right: 30px;
+                        margin-left: 15px;
+                        text-align: left;
+                      "
+                      >Username:</label
+                    >
+
+                    <input
+                      type="text"
+                      id="user_name"
+                      ng-model="user.name"
+                      placeholder="Enter username"
+                      style="
+                        margin: 10px 10px 10px 0px;
+                        display: inline;
+                        vertical-align: middle;
+                        border-radius: 5px;
+                        border-width: 1px;
+                      "
+                      required="true"
+                    />
+                    <br />
+                    <label
+                      for="password"
+                      style="
+                        display: inline-block;
+                        width: 150px;
+                        margin-right: 30px;
+                        margin-left: 15px;
+                        text-align: left;
+                      "
+                      >Password:</label
+                    >
+
+                    <input
+                      type="password"
+                      id="password"
+                      ng-model="user.password"
+                      placeholder="Enter password"
+                      style="
+                        margin: 10px 10px 20px 0px;
+                        display: inline;
+                        vertical-align: middle;
+                        border-radius: 5px;
+                        border-width: 1px;
+                      "
+                      required="true"
+                    />
+                    <br />
+
+                    <button
+                      type="button"
+                      ng-click="submit()"
+                      class="btn btn-primary btn-md"
+                      ng-disabled="loginForm.$pristine"
+                      style="
+                        border-radius: 20px;
+                        background: #4d3737;
+                        border-color: transparent;
+                        padding: 10px 180px 10px 180px;
+                        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+                        color: white;
+                      "
+                    >
+                      Login
+                    </button>
+                    <br />
+                    <br />
+                    <span
+                      >Don't Have An Account?
+                      <a href="signup.html">Sign Up</a></span
+                    >
+                  </form>
+                </div>
+                <div
+                  ng-show="success"
+                  style="
+                    border-radius: 20px;
+                    background: #81d58a;
+                    border-color: transparent;
+                    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
+                  "
+                >
+                  <!-- <a href="{{userMenu}}">Continue</a> -->
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

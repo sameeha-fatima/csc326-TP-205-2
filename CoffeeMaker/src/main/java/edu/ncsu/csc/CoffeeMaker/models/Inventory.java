@@ -178,7 +178,7 @@ public class Inventory extends DomainObject {
 		if (amount < 0) {
 			return false;
 		}
-		final boolean found = setIngredient(name, amount);
+		final boolean found = setIngredients(name, amount);
 		if (!found) {
 			ingredients.add(new Ingredient(name, amount));
 		}
@@ -196,7 +196,7 @@ public class Inventory extends DomainObject {
 		if (i.getAmount() < 0) {
 			return false;
 		}
-		final boolean found = setIngredient(i.getName(), i.getAmount());
+		final boolean found = setIngredients(i.getName(), i.getAmount());
 		if (!found) {
 			ingredients.add(i);
 		}
@@ -212,7 +212,7 @@ public class Inventory extends DomainObject {
 	 * @param amount represents the amount to update the ingredient to
 	 * @return boolean representing whether the ingredient was successfully updated
 	 */
-	private boolean setIngredient(final String name, final Integer amount) {
+	private boolean setIngredients(final String name, final Integer amount) {
 		for (final Ingredient i : ingredients) {
 			if (i.getName().equalsIgnoreCase(name)) {
 				i.setAmount(amount + i.getAmount());

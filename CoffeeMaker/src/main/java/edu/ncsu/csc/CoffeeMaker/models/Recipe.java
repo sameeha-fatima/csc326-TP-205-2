@@ -56,7 +56,7 @@ public class Recipe extends DomainObject {
 	public Recipe(final List<Ingredient> ingredients, final Integer price) {
 		this();
 		for (final Ingredient i : ingredients) {
-			this.addIngredient(i);
+			this.addIngredients(i);
 		}
 		setPrice(price);
 	}
@@ -66,7 +66,7 @@ public class Recipe extends DomainObject {
 	 *
 	 * @param i represents Ingredient object to add to Recipe
 	 */
-	public void addIngredient(final Ingredient i) {
+	public void addIngredients(final Ingredient i) {
 		for (final Ingredient curr : ingredients) {
 			if (curr.isDuplicate(i)) {
 				throw new IllegalArgumentException("Ingredient already exists.");
@@ -123,7 +123,7 @@ public class Recipe extends DomainObject {
 	 * @return Ingredient amount from Recipe based on provided Ingredient name or 0
 	 *         if Ingredient doesn't exist
 	 */
-	public Integer getIngredient(final String name) {
+	public Integer getIngredients(final String name) {
 		Integer amount = 0;
 		for (int j = 0; j < ingredients.size(); j++) {
 			final Ingredient curr = ingredients.get(j);
@@ -235,7 +235,7 @@ public class Recipe extends DomainObject {
 		final List<Ingredient> newIngredients = r.getIngredients();
 //		this.ingredients.addAll(newIngredients);
 		for (int i = 0; i < newIngredients.size(); i++) {
-			addIngredient(newIngredients.get(i));
+			addIngredients(newIngredients.get(i));
 		}
 		setPrice(r.getPrice());
 	}
@@ -247,7 +247,7 @@ public class Recipe extends DomainObject {
 	 */
 	@Override
 	public String toString() {
-		return name;
+		return "" + name + ": " + ingredients.toString();
 	}
 
 	@Override
