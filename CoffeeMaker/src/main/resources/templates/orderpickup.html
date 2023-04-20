@@ -16,13 +16,54 @@
     	/*<![CDATA[*/
         var app = angular.module("myApp", []);
         app.controller("orderPickupCtrl", function ($scope, $http, $q) {
-        	$http.get("/api/v1/orders").then(function(response) {
-				$scope.orders = response.data;
-				console.log(response.data);
-	            console.log($scope.orders.length);
-	            //console.log(Array.isArray($scope.orders));
-			}); 
-   
+        	$scope.orders;
+        	function getOrders() {
+        		$http.get("/api/v1/orders").then(function(response) {
+					$scope.orders = response.data;
+					console.log(response.data);
+	            	console.log($scope.orders.length);
+	            	//console.log(Array.isArray($scope.orders));
+				}); 
+        	}
+        	
+        	
+        	$scope.order = {
+        			  id: "",
+        	          name: "",
+        	          customerUsername: "",
+        	          beverages: [],
+        	          fulfilled: "",
+        	 };
+        	 getOrders();
+
+            
+        	 $scope.retStatus = function retStatus(order) {
+         		if (order.fulfilled == "true") {
+         			//order.fulfilled = "Ready for Pickup"
+         			//console.log(order.fulfilled);
+         			return "Ready for pickup"
+         		}
+         		else {
+         			//order.fulfilled = "In Progress"
+         			//console.log(order.fulfilled);
+         			return "In progress"
+         		}
+         		
+         	 }  
+        	 
+        	 $scope.reset = function () {
+        	 	$scope.order = {
+        	 		  id: "",
+        	 		  name: "",
+          	          customerUsername: "",
+          	          beverages: [],
+          	          fulfilled: "",
+        	     };
+
+        	    if (undefined != $scope.orderPickupForm) {
+        	    	$scope.orderPickupForm.$setPristine(); // reset Form
+        	    }
+        	};
         });
         /*]]>*/
     </script>
@@ -62,28 +103,37 @@
           /></svg
       ></a>
     </nav>
-    <h1 style="margin: 50px 0 50px 15px">Order Pickup</h1>
-    <span>
-       <h2 style="margin: 0 0 20px 15px">My Orders</h2>
-		<div style="width: 25%; float: left">
-			<h3 style="margin: 0 0 0 15px">Name</h3>
-			<option  ng-repeat="order in orders" 
-			value="{{order.name}}" 
-			ng-click="displayInfo(order)">{{order.name}}
-			</option>
-			
-		</div>
-		<div style="width: 75%; float: right">
-			<h3 style="margin: 0 0 0 15px">Status</h3>
+    <h1 style="margin: 50px 0 30px 15px">Order Pickup</h1>
+       	<h2 style="margin: 0 0 20px 15px">My Orders</h2>	
 
-			<ul style="list-style-type: none">
-				<li ng-repeat="recipe in recipes"><label>${{recipe.price}}
-				</label></li>
-			</ul>
-		</div>   
-     
-      </span>
-   
+       <div class="gridContainer" style="position: relative; margin-left: 20px">
+
+        <div class="row" style="margin-bottom: 10px">
+          <div class="col-md-2">
+            <h4>Name On Order</h4>
+            <br/>
+            <option ng-repeat="order in orders" 
+			value="{{order.name}}" 
+			>{{order.name}}
+			</option>
+          </div>
+          <div class="col-md-2">
+            <h4>Order ID</h4>
+            <br/>
+            <option ng-repeat="order in orders" 
+			value="{{order.id}}" 
+			>{{order.id}}
+			</option>
+          </div>
+          <div class="col-md-2">
+            <h4>Status</h4>
+            <br/>
+           <option ng-repeat = "order in orders" 
+           <div ngIf="!order.fulfilled">In Progress</div>
+           >{{order.fulfilled}}</option>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
