@@ -36,17 +36,20 @@
         	 };
         	 getOrders();
 
-            
+            //$scope.status = "";
         	 $scope.retStatus = function retStatus(order) {
-         		if (order.fulfilled == "true") {
+        		//console.log("THIS FUNCTION IS WORKING");
+         		if (order.fulfilled) {
          			//order.fulfilled = "Ready for Pickup"
          			//console.log(order.fulfilled);
-         			return "Ready for pickup"
+         			//$scope.status = "Ready for pickup";
+         			return "Ready for pickup";
          		}
          		else {
          			//order.fulfilled = "In Progress"
          			//console.log(order.fulfilled);
-         			return "In progress"
+         			//$scope.status = "In progress";
+         			return "In progress";
          		}
          		
          	 }  
@@ -128,9 +131,8 @@
           <div class="col-md-2">
             <h4>Status</h4>
             <br/>
-           <option ng-repeat = "order in orders" 
-           <div ngIf="!order.fulfilled">In Progress</div>
-           >{{order.fulfilled}}</option>
+           <option ng-repeat= "order in orders" 
+           >{{ retStatus(order) }}</option>
           </div>
         </div>
       </div>
