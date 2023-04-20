@@ -54,6 +54,10 @@
          		
          	 }  
         	 
+        	 $scope.printBeverage = function printBeverage(order) {
+        		 return order.beverages.name;
+        	 }
+        	 
         	 $scope.reset = function () {
         	 	$scope.order = {
         	 		  id: "",
@@ -132,7 +136,7 @@
             <h4>Status</h4>
             <br/>
            <option ng-repeat= "order in orders" 
-           >{{ retStatus(order) }}</option>
+           >{{retStatus(order)}}</option>
           </div>
         </div>
       </div>
