@@ -79,6 +79,7 @@ public class APIRecipeController extends APIController {
 					HttpStatus.CONFLICT);
 		}
 		if (service.findAll().size() < 3) {
+			System.out.println(recipe.toString());
 			service.save(recipe);
 			return new ResponseEntity(successResponse(recipe.getName() + " successfully created"), HttpStatus.OK);
 		} else {

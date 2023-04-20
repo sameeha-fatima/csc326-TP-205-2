@@ -43,7 +43,7 @@ public class Inventory extends DomainObject {
 
 	/** list of ingredients currently in inventory */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Ingredient> ingredient;
+	private List<Ingredient> ingredients;
 
 	// /** amount of ant ingredient */
 	// @OneToOne ( fetch = FetchType.EAGER )
@@ -63,9 +63,9 @@ public class Inventory extends DomainObject {
 	 * @param ingredients represents the user-defined list of ingredients to add
 	 */
 	public Inventory(final List<Ingredient> ingredients) {
-		this.ingredient = new ArrayList<Ingredient>();
+		this.ingredients = new ArrayList<Ingredient>();
 		for (int i = 0; i < ingredients.size(); i++) {
-			this.ingredient.add(ingredients.get(i));
+			this.ingredients.add(ingredients.get(i));
 		}
 	}
 
@@ -78,9 +78,9 @@ public class Inventory extends DomainObject {
 	 */
 	public Integer getIngredientAmount(final String name) {
 		Integer a = 0;
-		for (int j = 0; j < ingredient.size(); j++) {
-			if (name.equalsIgnoreCase(ingredient.get(j).getName())) {
-				a = ingredient.get(j).getAmount();
+		for (int j = 0; j < ingredients.size(); j++) {
+			if (name.equalsIgnoreCase(ingredients.get(j).getName())) {
+				a = ingredients.get(j).getAmount();
 			}
 
 		}
@@ -93,8 +93,8 @@ public class Inventory extends DomainObject {
 	 *
 	 * @return the ingredients in the inventory
 	 */
-	public List<Ingredient> getIngredient() {
-		return ingredient;
+	public List<Ingredient> getIngredients() {
+		return ingredients;
 	}
 
 	/**
@@ -128,8 +128,8 @@ public class Inventory extends DomainObject {
 		final boolean isEnough = true;
 		for (int i = 0; i < r.getIngredients().size(); i++) {
 			final Ingredient currentIngredient = r.getIngredients().get(i);
-			for (int j = 0; j < ingredient.size(); j++) {
-				final Ingredient inInventory = ingredient.get(j);
+			for (int j = 0; j < ingredients.size(); j++) {
+				final Ingredient inInventory = ingredients.get(j);
 				if (currentIngredient.getName().equalsIgnoreCase(inInventory.getName())) {
 					if (currentIngredient.getAmount() > inInventory.getAmount()) {
 						return false;
@@ -153,7 +153,7 @@ public class Inventory extends DomainObject {
 		if (enoughIngredients(r)) {
 			for (final Ingredient i : r.getIngredients()) { // iterate through ingredients in recipe
 				final String name = i.getName();
-				for (final Ingredient invI : ingredient) { // iterate through inventory
+				for (final Ingredient invI : ingredients) { // iterate through inventory
 					if (name.equalsIgnoreCase(invI.getName())) {
 						invI.setAmount(invI.getAmount() - i.getAmount());
 					}
@@ -174,13 +174,13 @@ public class Inventory extends DomainObject {
 	 * @return true if successfully able to add ingredient to inventory, false if
 	 *         not
 	 */
-	public boolean addIngredient(final String name, final Integer amount) {
+	public boolean addIngredients(final String name, final Integer amount) {
 		if (amount < 0) {
 			return false;
 		}
-		final boolean found = setIngredient(name, amount);
+		final boolean found = setIngredients(name, amount);
 		if (!found) {
-			ingredient.add(new Ingredient(name, amount));
+			ingredients.add(new Ingredient(name, amount));
 		}
 		return true;
 	}
@@ -191,14 +191,14 @@ public class Inventory extends DomainObject {
 	 * @param i represents Ingredient object to add to inventory
 	 * @return true if successful, false if not
 	 */
-	public boolean addIngredient(final Ingredient i) {
+	public boolean addIngredients(final Ingredient i) {
 //		ingredients.add(i);
 		if (i.getAmount() < 0) {
 			return false;
 		}
-		final boolean found = setIngredient(i.getName(), i.getAmount());
+		final boolean found = setIngredients(i.getName(), i.getAmount());
 		if (!found) {
-			ingredient.add(i);
+			ingredients.add(i);
 		}
 		return true;
 	}
@@ -212,8 +212,8 @@ public class Inventory extends DomainObject {
 	 * @param amount represents the amount to update the ingredient to
 	 * @return boolean representing whether the ingredient was successfully updated
 	 */
-	private boolean setIngredient(final String name, final Integer amount) {
-		for (final Ingredient i : ingredient) {
+	private boolean setIngredients(final String name, final Integer amount) {
+		for (final Ingredient i : ingredients) {
 			if (i.getName().equalsIgnoreCase(name)) {
 				i.setAmount(amount + i.getAmount());
 				return true;
@@ -230,7 +230,7 @@ public class Inventory extends DomainObject {
 	@Override
 	public String toString() {
 		final StringBuffer buf = new StringBuffer();
-		for (final Ingredient curr : ingredient) {
+		for (final Ingredient curr : ingredients) {
 			buf.append("" + curr.getName() + ": " + curr.getAmount() + "\n");
 		}
 		return buf.toString();

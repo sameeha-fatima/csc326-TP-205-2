@@ -79,10 +79,10 @@ public class APIRecipeTest {
         service.deleteAll();
 
         final Recipe r = new Recipe();
-        r.addIngredient( new Ingredient( "Coffee", 3 ) );
-        r.addIngredient( new Ingredient( "Sugar", 8 ) );
-        r.addIngredient( new Ingredient( "Milk", 4 ) );
-        r.addIngredient( new Ingredient( "Chocolate", 5 ) );
+        r.addIngredients( new Ingredient( "Coffee", 3 ) );
+        r.addIngredients( new Ingredient( "Sugar", 8 ) );
+        r.addIngredients( new Ingredient( "Milk", 4 ) );
+        r.addIngredients( new Ingredient( "Chocolate", 5 ) );
 
         r.setPrice( 10 );
         r.setName( "Mocha" );
@@ -106,10 +106,10 @@ public class APIRecipeTest {
 
         final Recipe recipe = new Recipe();
         recipe.setName( "Delicious Not-Coffee" );
-        recipe.addIngredient( new Ingredient( "Coffee", 1 ) );
-        recipe.addIngredient( new Ingredient( "Sugar", 5 ) );
-        recipe.addIngredient( new Ingredient( "Milk", 20 ) );
-        recipe.addIngredient( new Ingredient( "Chocolate", 10 ) );
+        recipe.addIngredients( new Ingredient( "Coffee", 1 ) );
+        recipe.addIngredients( new Ingredient( "Sugar", 5 ) );
+        recipe.addIngredients( new Ingredient( "Milk", 20 ) );
+        recipe.addIngredients( new Ingredient( "Chocolate", 10 ) );
 
         recipe.setPrice( 5 );
 
@@ -194,10 +194,10 @@ public class APIRecipeTest {
         final Recipe recipe = new Recipe();
         recipe.setName( name );
         recipe.setPrice( price );
-        recipe.addIngredient( new Ingredient( "Coffee", coffee ) );
-        recipe.addIngredient( new Ingredient( "Sugar", sugar ) );
-        recipe.addIngredient( new Ingredient( "Milk", milk ) );
-        recipe.addIngredient( new Ingredient( "Chocolate", chocolate ) );
+        recipe.addIngredients( new Ingredient( "Coffee", coffee ) );
+        recipe.addIngredients( new Ingredient( "Sugar", sugar ) );
+        recipe.addIngredients( new Ingredient( "Milk", milk ) );
+        recipe.addIngredients( new Ingredient( "Chocolate", chocolate ) );
 
         return recipe;
     }

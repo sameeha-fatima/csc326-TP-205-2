@@ -49,10 +49,10 @@ public class InventoryTest {
 		final Ingredient milk = new Ingredient("Milk", 500);
 		final Ingredient sugar = new Ingredient("Sugar", 500);
 		final Ingredient chocolate = new Ingredient("Chocolate", 500);
-		ivt.addIngredient(coffee);
-		ivt.addIngredient(milk);
-		ivt.addIngredient(sugar);
-		ivt.addIngredient(chocolate);
+		ivt.addIngredients(coffee);
+		ivt.addIngredients(milk);
+		ivt.addIngredients(sugar);
+		ivt.addIngredients(chocolate);
 
 	}
 
@@ -83,10 +83,10 @@ public class InventoryTest {
 		final Ingredient milk = new Ingredient("Milk", 20);
 		final Ingredient sugar = new Ingredient("Sugar", 5);
 		final Ingredient chocolate = new Ingredient("Chocolate", 10);
-		recipe.addIngredient(coffee);
-		recipe.addIngredient(milk);
-		recipe.addIngredient(sugar);
-		recipe.addIngredient(chocolate);
+		recipe.addIngredients(coffee);
+		recipe.addIngredients(milk);
+		recipe.addIngredients(sugar);
+		recipe.addIngredients(chocolate);
 
 		recipe.setPrice(5);
 
@@ -118,10 +118,10 @@ public class InventoryTest {
 		final Ingredient milk = new Ingredient("Milk", 3);
 		final Ingredient sugar = new Ingredient("Sugar", 7);
 		final Ingredient chocolate = new Ingredient("Chocolate", 2);
-		ivt.addIngredient(coffee);
-		ivt.addIngredient(milk);
-		ivt.addIngredient(sugar);
-		ivt.addIngredient(chocolate);
+		ivt.addIngredients(coffee);
+		ivt.addIngredients(milk);
+		ivt.addIngredients(sugar);
+		ivt.addIngredients(chocolate);
 
 		/* Save and retrieve again to update with DB */
 		inventoryService.save(ivt);
@@ -149,10 +149,10 @@ public class InventoryTest {
 
 		try {
 			// ivt.addIngredient(-5, 3, 7, 2);
-			ivt.addIngredient("coffee", -5);
-			ivt.addIngredient("milk", 3);
-			ivt.addIngredient("sugar", 7);
-			ivt.addIngredient("chocolate", 2);
+			ivt.addIngredients("coffee", -5);
+			ivt.addIngredients("milk", 3);
+			ivt.addIngredients("sugar", 7);
+			ivt.addIngredients("chocolate", 2);
 		} catch (final IllegalArgumentException iae) {
 			Assertions.assertEquals(500, (int) ivt.getIngredientAmount("coffee"),
 					"Trying to update the Inventory with an invalid value for coffee should result in no changes -- coffee");
@@ -175,10 +175,10 @@ public class InventoryTest {
 
 		try {
 			// ivt.addIngredient(5, -3, 7, 2);
-			ivt.addIngredient("coffee", 5);
-			ivt.addIngredient("milk", -3);
-			ivt.addIngredient("sugar", 7);
-			ivt.addIngredient("chocolate", 2);
+			ivt.addIngredients("coffee", 5);
+			ivt.addIngredients("milk", -3);
+			ivt.addIngredients("sugar", 7);
+			ivt.addIngredients("chocolate", 2);
 		} catch (final IllegalArgumentException iae) {
 			Assertions.assertEquals(505, (int) ivt.getIngredientAmount("coffee"),
 					"Trying to update the Inventory with an invalid value for milk should result in no changes -- coffee");
@@ -203,10 +203,10 @@ public class InventoryTest {
 
 		try {
 			// ivt.addIngredient(5, 3, -7, 2);
-			ivt.addIngredient("coffee", 5);
-			ivt.addIngredient("milk", 3);
-			ivt.addIngredient("sugar", -7);
-			ivt.addIngredient("chocolate", 2);
+			ivt.addIngredients("coffee", 5);
+			ivt.addIngredients("milk", 3);
+			ivt.addIngredients("sugar", -7);
+			ivt.addIngredients("chocolate", 2);
 		} catch (final IllegalArgumentException iae) {
 			Assertions.assertEquals(505, (int) ivt.getIngredientAmount("coffee"),
 					"Trying to update the Inventory with an invalid value for sugar should result in no changes -- coffee");
@@ -231,10 +231,10 @@ public class InventoryTest {
 
 		try {
 			// ivt.addIngredient(5, 3, 7, -2);
-			ivt.addIngredient("coffee", 5);
-			ivt.addIngredient("milk", 3);
-			ivt.addIngredient("sugar", 7);
-			ivt.addIngredient("chocolate", -2);
+			ivt.addIngredients("coffee", 5);
+			ivt.addIngredients("milk", 3);
+			ivt.addIngredients("sugar", 7);
+			ivt.addIngredients("chocolate", -2);
 		} catch (final IllegalArgumentException iae) {
 			Assertions.assertEquals(505, (int) ivt.getIngredientAmount("coffee"),
 					"Trying to update the Inventory with an invalid value for chocolate should result in no changes -- coffee");
@@ -307,10 +307,10 @@ public class InventoryTest {
 		final Ingredient milk = new Ingredient("Milk", 501);
 		final Ingredient sugar = new Ingredient("Sugar", 501);
 		final Ingredient chocolate = new Ingredient("Chocolate", 501);
-		r.addIngredient(coffee);
-		r.addIngredient(milk);
-		r.addIngredient(sugar);
-		r.addIngredient(chocolate);
+		r.addIngredients(coffee);
+		r.addIngredients(milk);
+		r.addIngredients(sugar);
+		r.addIngredients(chocolate);
 		// r.setCoffee(501);
 		// r.setChocolate(501);
 		// r.setSugar(501);

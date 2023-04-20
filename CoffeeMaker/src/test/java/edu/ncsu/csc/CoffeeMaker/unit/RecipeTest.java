@@ -56,17 +56,17 @@ public class RecipeTest {
 		final Recipe r1 = new Recipe();
 		r1.setName("Black Coffee");
 		r1.setPrice(1);
-		r1.addIngredient(new Ingredient("Coffee", 1));
+		r1.addIngredients(new Ingredient("Coffee", 1));
 		assertEquals(1, r1.getIngredients().size());
 		service.save(r1);
 
 		final Recipe r2 = new Recipe();
 		r2.setName("Mocha");
 		r2.setPrice(1);
-		r2.addIngredient(new Ingredient("Coffee", 1));
-		r2.addIngredient(new Ingredient("Milk", 1));
-		r2.addIngredient(new Ingredient("Sugar", 1));
-		r2.addIngredient(new Ingredient("Chocolate", 1));
+		r2.addIngredients(new Ingredient("Coffee", 1));
+		r2.addIngredients(new Ingredient("Milk", 1));
+		r2.addIngredients(new Ingredient("Sugar", 1));
+		r2.addIngredients(new Ingredient("Chocolate", 1));
 
 		assertEquals(4, r2.getIngredients().size());
 		service.save(r2);
@@ -89,10 +89,10 @@ public class RecipeTest {
 		r1.setName("Tasty Drink");
 		r1.setPrice(12);
 		try {
-			r1.addIngredient(new Ingredient("Coffee", -12));
-			r1.addIngredient(new Ingredient("Milk", 0));
-			r1.addIngredient(new Ingredient("Sugar", 0));
-			r1.addIngredient(new Ingredient("Chocolate", 0));
+			r1.addIngredients(new Ingredient("Coffee", -12));
+			r1.addIngredients(new Ingredient("Milk", 0));
+			r1.addIngredients(new Ingredient("Sugar", 0));
+			r1.addIngredients(new Ingredient("Chocolate", 0));
 			fail();
 		} catch (final IllegalArgumentException e) {
 			Assertions.assertEquals("Invalid Ingredient amount.", e.getMessage());
@@ -105,10 +105,10 @@ public class RecipeTest {
 		final Recipe r2 = new Recipe();
 		r2.setName("Mocha");
 		r2.setPrice(1);
-		r2.addIngredient(new Ingredient("Coffee", 1));
-		r2.addIngredient(new Ingredient("Milk", 1));
-		r2.addIngredient(new Ingredient("Sugar", 1));
-		r2.addIngredient(new Ingredient("Chocolate", 1));
+		r2.addIngredients(new Ingredient("Coffee", 1));
+		r2.addIngredients(new Ingredient("Milk", 1));
+		r2.addIngredients(new Ingredient("Sugar", 1));
+		r2.addIngredients(new Ingredient("Chocolate", 1));
 
 //		final List<Recipe> recipes = List.of(r1, r2);
 //
@@ -392,10 +392,10 @@ public class RecipeTest {
 		final Recipe retrieved = service.findByName("Coffee");
 
 		Assertions.assertEquals(70, (int) retrieved.getPrice());
-		Assertions.assertEquals(3, (int) retrieved.getIngredient("Coffee"));
-		Assertions.assertEquals(1, (int) retrieved.getIngredient("Milk"));
-		Assertions.assertEquals(1, (int) retrieved.getIngredient("Sugar"));
-		Assertions.assertEquals(0, (int) retrieved.getIngredient("Chocolate"));
+		Assertions.assertEquals(3, (int) retrieved.getIngredients("Coffee"));
+		Assertions.assertEquals(1, (int) retrieved.getIngredients("Milk"));
+		Assertions.assertEquals(1, (int) retrieved.getIngredients("Sugar"));
+		Assertions.assertEquals(0, (int) retrieved.getIngredients("Chocolate"));
 
 		Assertions.assertEquals(1, service.count(), "Editing a recipe shouldn't duplicate it");
 
@@ -406,10 +406,10 @@ public class RecipeTest {
 		final Recipe recipe = new Recipe();
 		recipe.setName(name);
 		recipe.setPrice(price);
-		recipe.addIngredient(new Ingredient("Coffee", coffee));
-		recipe.addIngredient(new Ingredient("Milk", milk));
-		recipe.addIngredient(new Ingredient("Sugar", sugar));
-		recipe.addIngredient(new Ingredient("Chocolate", chocolate));
+		recipe.addIngredients(new Ingredient("Coffee", coffee));
+		recipe.addIngredients(new Ingredient("Milk", milk));
+		recipe.addIngredients(new Ingredient("Sugar", sugar));
+		recipe.addIngredients(new Ingredient("Chocolate", chocolate));
 
 		return recipe;
 	}
@@ -430,18 +430,18 @@ public class RecipeTest {
 
 		Assertions.assertEquals("Coffee", r1.getName());
 		assertEquals(50, r1.getPrice());
-		assertEquals(3, r1.getIngredient("Coffee"));
-		assertEquals(1, r1.getIngredient("Milk"));
-		assertEquals(1, r1.getIngredient("Sugar"));
-		assertEquals(0, r1.getIngredient("Chocolate"));
+		assertEquals(3, r1.getIngredients("Coffee"));
+		assertEquals(1, r1.getIngredients("Milk"));
+		assertEquals(1, r1.getIngredients("Sugar"));
+		assertEquals(0, r1.getIngredients("Chocolate"));
 
 		r1.updateRecipe(r2);
 
 		Assertions.assertEquals("Coffee", r1.getName());
-		assertEquals(5, r1.getIngredient("Coffee"));
-		assertEquals(6, r1.getIngredient("Milk"));
-		assertEquals(7, r1.getIngredient("Sugar"));
-		assertEquals(8, r1.getIngredient("Chocolate"));
+		assertEquals(5, r1.getIngredients("Coffee"));
+		assertEquals(6, r1.getIngredients("Milk"));
+		assertEquals(7, r1.getIngredients("Sugar"));
+		assertEquals(8, r1.getIngredients("Chocolate"));
 		assertEquals(45, r1.getPrice());
 	}
 

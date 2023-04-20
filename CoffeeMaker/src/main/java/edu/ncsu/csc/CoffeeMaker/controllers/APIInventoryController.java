@@ -59,8 +59,8 @@ public class APIInventoryController extends APIController {
 		final Inventory inventoryRemote = service.getInventory();
 //        inventoryCurrent.addIngredients( inventory.getCoffee(), inventory.getMilk(), inventory.getSugar(),
 //                inventory.getChocolate() );
-		for (final Ingredient i : inventory.getIngredient()) {
-			inventoryRemote.addIngredient(i);
+		for (final Ingredient i : inventory.getIngredients()) {
+			inventoryRemote.addIngredients(i);
 		}
 		service.save(inventoryRemote);
 		return new ResponseEntity(inventoryRemote, HttpStatus.OK);

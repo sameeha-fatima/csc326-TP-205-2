@@ -56,20 +56,20 @@ public class APICoffeeTest {
 
 		final Inventory ivt = iService.getInventory();
 
-		ivt.addIngredient("Chocolate", 15);
-		ivt.addIngredient("Coffee", 15);
-		ivt.addIngredient("Milk", 15);
-		ivt.addIngredient("Sugar", 15);
+		ivt.addIngredients("Chocolate", 15);
+		ivt.addIngredients("Coffee", 15);
+		ivt.addIngredients("Milk", 15);
+		ivt.addIngredients("Sugar", 15);
 
 		iService.save(ivt);
 
 		final Recipe recipe = new Recipe();
 		recipe.setName("Coffee");
 		recipe.setPrice(50);
-		recipe.addIngredient(new Ingredient("Coffee", 3));
-		recipe.addIngredient(new Ingredient("Sugar", 1));
-		recipe.addIngredient(new Ingredient("Milk", 1));
-		recipe.addIngredient(new Ingredient("Chocolate", 0));
+		recipe.addIngredients(new Ingredient("Coffee", 3));
+		recipe.addIngredients(new Ingredient("Sugar", 1));
+		recipe.addIngredients(new Ingredient("Milk", 1));
+		recipe.addIngredients(new Ingredient("Chocolate", 0));
 		service.save(recipe);
 	}
 
@@ -119,10 +119,10 @@ public class APICoffeeTest {
 		/* Insufficient inventory */
 		iService.deleteAll();
 		final Inventory ivt = iService.getInventory();
-		ivt.addIngredient("coffee", 1);
-		ivt.addIngredient("Chocolate", 15);
-		ivt.addIngredient("Milk", 15);
-		ivt.addIngredient("Sugar", 15);
+		ivt.addIngredients("coffee", 1);
+		ivt.addIngredients("Chocolate", 15);
+		ivt.addIngredients("Milk", 15);
+		ivt.addIngredients("Sugar", 15);
 		iService.save(ivt);
 
 		final String name = "Coffee";

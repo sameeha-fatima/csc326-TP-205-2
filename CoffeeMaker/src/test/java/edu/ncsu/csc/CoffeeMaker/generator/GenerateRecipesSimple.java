@@ -39,7 +39,7 @@ public class GenerateRecipesSimple {
 
 		final Recipe r1 = new Recipe();
 //		r1.setIngredient("Chocolate", 0);
-		r1.addIngredient(new Ingredient("Coffee", 1));
+		r1.addIngredients(new Ingredient("Coffee", 1));
 //		r1.setMilk(0);
 		r1.setName("Black Coffee");
 		r1.setPrice(1);
@@ -47,11 +47,11 @@ public class GenerateRecipesSimple {
 
 		final Recipe r2 = new Recipe();
 //		r2.setChocolate(0);
-		r2.addIngredient(new Ingredient("Coffee", 1));
-		r2.addIngredient(new Ingredient("Milk", 1));
+		r2.addIngredients(new Ingredient("Coffee", 1));
+		r2.addIngredients(new Ingredient("Milk", 1));
 		r2.setName("Mocha");
 		r2.setPrice(3);
-		r2.addIngredient(new Ingredient("Sugar", 1));
+		r2.addIngredients(new Ingredient("Sugar", 1));
 
 		recipeService.save(r1);
 		recipeService.save(r2);
