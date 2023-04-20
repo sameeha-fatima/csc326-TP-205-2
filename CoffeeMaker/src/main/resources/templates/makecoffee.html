@@ -18,8 +18,14 @@
     </style>
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/app.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
+  <body style="background: #8e5f39">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script th:inline="javascript">
       /*<![CDATA[*/
@@ -104,23 +110,19 @@
       class="generic-container ng-cloak"
       ng-app="myApp"
       ng-controller="recipesCtrl as ctrl"
-      style="
-        font-family: 'Times New Roman', Times, serif;
-        font-size: 15px;
-        position: relative;
-        height: 60%;
-        max-height: 60%;
-      "
+      style="position: relative; border-radius: 30px; border-width: 0"
     >
       <!-- Navigation header which contains the menu button to return to home page (evmurphy) -->
       <nav
         style="
-          background-color: #b9a184;
+          background-color: #cfa180;
           padding: 10px;
           position: absolute;
           left: 0;
           right: 0;
           top: 0;
+          border-top-left-radius: inherit;
+          border-top-right-radius: inherit;
         "
       >
         <a href="customerview.html"
@@ -142,7 +144,9 @@
 
       <div class="row" style="margin-left: 5px">
         <div id="titlecontainer" class="row">
-          <div class="col-md-6"><h3>Menu Items</h3></div>
+          <div class="col-md-6">
+            <h3>Menu Items</h3>
+          </div>
           <div class="col-md-6">
             <h3>Order</h3>
           </div>
@@ -186,22 +190,25 @@
           <div id="orderinfocontainer" class="col-md-6">
             <div id="orderDetails">
               <div style="width: 25%; float: left">
-                <h4>Name</h4>
+                <!-- <h4>Name</h4> -->
                 <div ng-repeat="recipe in order track by $index">
-                  <label for="beverage"> {{recipe.name}}</label>
+                  <label for="beverage" style="font-size: medium">
+                    {{recipe.name}}</label
+                  >
                   <input
                     type="number"
                     id="beverage"
                     min="0"
                     ng-model="quantities[$index]"
                     ng-change="calculateTotal()"
+                    style="width: 50px; font-size: medium"
                   />
                 </div>
               </div>
 
-              <div style="width: 75%; float: right">
+              <!-- <div style="width: 75%; float: right">
                 <h4>Quantity</h4>
-              </div>
+              </div> -->
             </div>
             <br />
           </div>
@@ -249,11 +256,10 @@
             class="btn btn-warning btn-sm"
             style="
               border-radius: 20px;
-              background: #81d58a;
-              border-color: transparent;
+              background: #4d3737;
+              border-color: #4d3737;
               padding: 10px 25px 10px 25px;
               box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.281);
-              color: black;
             "
           >
             Order

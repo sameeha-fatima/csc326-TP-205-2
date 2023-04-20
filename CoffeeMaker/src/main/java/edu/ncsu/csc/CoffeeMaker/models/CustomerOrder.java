@@ -42,7 +42,7 @@ public class CustomerOrder extends DomainObject {
 	/**
 	 * Represents the recipe identifier for an Order object.
 	 */
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private final List<Recipe> beverages;
 
 	/**
